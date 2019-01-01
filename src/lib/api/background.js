@@ -611,6 +611,6 @@ const unsplashImages = [
   }
   ];
 
-  export function getRandomImage(number) {
+  export function getRandomImage() {
     return unsplashImages[Math.floor(Math.random() * unsplashImages.length)];
   }

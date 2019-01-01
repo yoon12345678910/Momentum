@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './lib/utils';
 // import Background from './component/background/Background';
 import Background from 'containers/Background/Background';
@@ -18,7 +18,7 @@ class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Fragment>
         <Background />
         <div id="widgets" 
           className="widgets show">
@@ -44,7 +44,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </Fragment>
     );
   }
 }

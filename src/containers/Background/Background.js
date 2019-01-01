@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Wrapper, Image, ImageLoader } from 'components/Background';
+import { LoadedImage, ImageLoader } from 'components/Background';
 import * as backgroundActions from 'redux/modules/background';
 
 
@@ -25,9 +25,9 @@ class Background extends Component {
     const imageUrl = currentImageJS.urls.regular;
 
     return (
-      <Wrapper>
+      <div>
         {loaded
-          ? <Image
+          ? <LoadedImage
               imageUrl={imageUrl}
             /> 
             : <ImageLoader
@@ -35,7 +35,7 @@ class Background extends Component {
                 onLoad={this.handleLoad}
               />
         }
-      </Wrapper>
+      </div>
     );
   }
 }

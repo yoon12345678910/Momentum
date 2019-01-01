@@ -7,13 +7,16 @@ import './Clock.css';
 export default class Clock extends React.Component {
   constructor() {
     super()
+
     this.LS_KEY = 'hour12clock'
     this.FORMAT = {
       hour12: 'h:mm:ss',
       hour24: 'H:mm:ss'
     }
     this.state = {
-      hour12clock: true
+      hour12clock: true,
+      meridiem: '',
+      currentTime: ''
     }
     this.timerID = null
     // Meridiem.. First unconditionally hidden
@@ -21,17 +24,12 @@ export default class Clock extends React.Component {
     this._handleDoubleClick = this._handleDoubleClick.bind(this)
   }
 
-  componentWillMount() {
-    const savedFormat = JSON.parse(localStorage.getItem(this.LS_KEY))
-
-    if (savedFormat) {
-      this._getTime(savedFormat)   
+  componentDidMount() {const loaedHour12clock = JSON.parse(localStorage.getItem(this.LS_KEY))
+    if (loaedHour12clock !== null) {
+      this._getTime(loaedHour12clock)   
     } else {
       this._getTime(this.state.hour12clock)
     }
-  }
-
-  componentDidMount() {
     this.timerID = setInterval(() => this._getTime(this.state.hour12clock), 1000)
   }
 
@@ -52,7 +50,7 @@ export default class Clock extends React.Component {
     const hour12clock = this.state.hour12clock ? false : true
     this.isOnMeridiem = true
     this._getTime(hour12clock)
-    localStorage.setItem(this.LS_KEY, hour12clock)
+    localStorage.setItem(this.LS_KEY, JSON.stringify(hour12clock))
   }
 
   render() {

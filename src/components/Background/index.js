@@ -1,3 +1,2 @@
-export { default as Wrapper } from './Wrapper';
-export { default as Image } from './Image';
+export { default as LoadedImage } from './LoadedImage';
 export { default as ImageLoader } from './ImageLoader';
