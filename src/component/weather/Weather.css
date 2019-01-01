@@ -1,0 +1,133 @@
+/* #weather {
+  opacity: 0;
+}
+
+#weather.show {
+  opacity: 1;
+} */
+
+.weather .metric-stat {
+  position: relative;
+  font-size: 150%;
+  font-weight: 500;
+  line-height: 100%;
+}
+
+.metric-stat .icon-weather {
+  margin-right: 6px;
+}
+
+.weather .widget-dash .location-name {
+  opacity: .7;
+  display: inline-block;
+  max-width: 110px;
+  padding: 3px 0;
+  margin: 0;
+  font-size: 62.5%;
+  font-weight: 500;
+  outline: 0;
+  text-transform: uppercase;
+  vertical-align: top;
+  overflow-wrap: break-word;
+  transition: opacity .5s ease;
+}
+
+.weather .widget-popup {
+  width: 400px;
+  padding: var(--widget-padding);
+  padding-bottom: calc(var(--widget-padding) - 3px);
+}
+
+.weather .weather-current .location-name {
+  display: inline-block;
+  min-width: 32px;
+  min-height: 24px;
+  margin-top: -3px;
+  font-size: 19px;
+  outline: 0;
+  cursor: pointer;
+}
+
+.weather .weather-current .day {
+  margin: 0 10px;
+  opacity: .5;
+}
+
+.weather .weather-current .weather-conditions {
+  opacity: .7;
+  display: block;
+  margin: 0 0 12px;
+  line-height: 125%;
+}
+
+.weather .weather-current .icon-weather {
+  margin-right: 4px;
+  font-size: 60px;
+  line-height: 60px;
+}
+
+.weather .weather-current .weather-temp {
+  margin-left: 5px;
+  font-size: 60px;
+}
+
+.weather .weather-current .weather-temp-low {
+  opacity: .6;
+  margin-left: 2px;
+  font-size: 37.2px;
+}
+
+.weather-forecast {
+  opacity: 0;
+  display: flex;
+  clear: both;
+  padding-top: 8px;
+  margin-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.15);
+  font-size: 11px;
+  transition: opacity .2s ease;
+}
+
+.weather-forecast.show {
+  opacity: 1;
+}
+
+.weather-forecast .weather-forecast-item {
+  flex: 1 1 11.111%;
+  margin-left: 0;
+  margin: 0 1.5px;
+  border-radius: 2px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.weather-forecast-item.selected, .weather-forecast-item:hover {
+  background: rgba(255,255,255,.09);
+}
+
+.weather-forecast .weather-forecast-label {
+  opacity: .6;
+  margin: 7px 0 1px 0;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.weather-forecast .icon-weather {
+  opacity: .85;
+  display: inline-block;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  font-size: 19px;
+  line-height: 90%;
+  vertical-align: -20%;
+}
+
+.weather-forecast .weather-forecast-high {
+  opacity: .85;
+}
+
+.weather-forecast .weather-forecast-low {
+  opacity: .4;
+  padding-left: 3px;
+}
