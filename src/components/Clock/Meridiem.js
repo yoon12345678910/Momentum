@@ -12,7 +12,7 @@ const Format = styled.span`
 
   ${props => props.isShown && css`
     opacity: 1;
-    animation: fadeout 4s ease 4s 1 normal;
+    animation: fadeOut 4s ease 4s 1 normal;
     animation-fill-mode: forwards;
   `}
 `;

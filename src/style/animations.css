@@ -7,7 +7,7 @@
   }
 }
 
-@keyframes fadeout {
+@keyframes fadeOut {
   from {
     opacity: 1;
   }
@@ -28,6 +28,10 @@
 
 .fadeIn {
   animation: fadeIn .5s linear;
+}
+
+.fadeOut {
+  animation: fadeOut 2s ease 1s 1 normal;
 }
 
 .pulse {
