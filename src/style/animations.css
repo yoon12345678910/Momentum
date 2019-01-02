@@ -7,6 +7,15 @@
   }
 }
 
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @keyframes pulse {
   0% {
     background: rgba(255,255,255,.5);
@@ -15,6 +24,7 @@
     background: rgba(255,255,255,0);
   }
 }
+
 
 .fadeIn {
   animation: fadeIn .5s linear;
