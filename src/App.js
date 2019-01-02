@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import './lib/utils';
 // import Background from './component/background/Background';
 import Background from 'containers/Background/Background';
-import Clock from './component/clock/Clock';
+import Clock from 'containers/Clock/Clock';
 import Greeting from './component/greeting/Greeting';
 import Weather from './component/weather/Weather';
 import Todo from './component/todo/Todo';
