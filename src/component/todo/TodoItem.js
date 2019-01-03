@@ -33,8 +33,8 @@ export default class TodoItem extends React.Component {
     componentDidUpdate() {
         if (this.animating) {
             const el = this.contentEditable.current;
-            el.setEndOfContenteditable();
-            el.animateCss('pulse');
+            // el.setEndOfContenteditable();
+            // el.animateCss('pulse');
             this.animating = false;
         }
     }

@@ -19,9 +19,9 @@ export default class LocationNameInput extends React.Component {
     if (this.isEditing) {
       const el = document.querySelector('.weather .weather-location .location-name');
       if (!this.state.disabledInput) {
-        el.setEndOfContenteditable();
+        // el.setEndOfContenteditable();
       }
-      el.animateCss('pulse');
+      // el.animateCss('pulse');
       this.isEditing = false;
     }
   }
