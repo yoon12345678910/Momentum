@@ -31,7 +31,7 @@
 }
 
 .fadeOut {
-  animation: fadeOut 2s ease 1s 1 normal;
+  animation: fadeOut .5s linear;
 }
 
 .pulse {

@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import { Widget } from 'components/Widget';
+import { Widget } from 'components/Base';
 import { CurrentTime, Meridiem } from 'components/Clock';
 import * as clockActions from 'redux/modules/clock';
+
 
 class Clock extends Component {
   constructor(props) {
