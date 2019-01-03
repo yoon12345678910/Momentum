@@ -6,6 +6,7 @@ import * as greetingActions from 'redux/modules/greeting';
 import { setEndOfContenteditable, animateCSS } from 'lib/utils';
 import { getRandomName } from 'lib/api/greeting';
 
+
 class UserName extends Component {
   constructor(props) {
     super(props);

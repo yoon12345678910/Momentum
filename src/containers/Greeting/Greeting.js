@@ -15,11 +15,11 @@ class Greeting extends Component {
     this.AUTO_TIME = {
       MANTRA: 6000 * 2,
       GREETING: 6000 * 2
-    }
+    };
     this.greetingTimeoutID = null;
     this.mantraTimeoutID = null;
     this.handleClickDocument = null;
-    this.handleClickMoreButton = this.handleClickMoreButton.bind(this);
+    this.handleClickMoreBox = this.handleClickMoreBox.bind(this);
   }
 
   componentDidMount() {
@@ -69,7 +69,7 @@ class Greeting extends Component {
       });
   }
 
-  handleClickMoreButton = () => {
+  handleClickMoreBox = () => {
     const { isActiveDropdown, GreetingActions } = this.props;
     const onToggle = () => GreetingActions.toggleDropdown();
     const outsideClickListener = (e) => {
@@ -142,7 +142,7 @@ class Greeting extends Component {
           </Content>
           <Side>
             <MoreBox
-              onClick={this.handleClickMoreButton}
+              onClick={this.handleClickMoreBox}
               isActive={isActiveDropdown}
               roundStyle={roundStyle}
               iconStyle={iconStyle}>
