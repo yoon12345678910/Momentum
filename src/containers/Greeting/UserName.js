@@ -4,83 +4,87 @@ import { bindActionCreators } from 'redux';
 import { UserNameInput } from 'components/Greeting';
 import * as greetingActions from 'redux/modules/greeting';
 import { setEndOfContenteditable, animateCSS } from 'lib/utils';
+import { getRandomName } from 'lib/api/greeting';
 
 class UserName extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.LS_KEY = 'userName';
-    this.randomName = ['lovely', 'good looking', 'sexy', 'rockstar', 'gorgeous', 'friends', 'pal', 'superstar'];
-    this.enteredName = '';
-    this.animating = false;
+    this.enteredUserName = '';
+    this.init = false;
+    this.isEditing = false;
     this.handleChange = this.handleChange.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
     this.handleSubmitUserName = this.handleSubmitUserName.bind(this);
   }
 
   componentDidMount() {
-    const currentUser = localStorage.getItem(this.LS_KEY);
-    let userName;
-
-    if (currentUser === null) {
-      userName = this.randomName[Math.floor(Math.random() * this.randomName.length)];
-    } else {
-      userName = currentUser;
-    }
-    this.props.GreetingActions.setUserName({userName});
-    this.enteredName = userName;
+    const loadedUserName = localStorage.getItem(this.LS_KEY);
+    this.enteredUserName = loadedUserName === null ? getRandomName() : loadedUserName;
+    this.props.GreetingActions.setUserName({userName: this.enteredUserName});
   }
 
   componentDidUpdate() {
-    if (this.animating) {
-      const el = this.inputRef;
-      setEndOfContenteditable(el);
-      animateCSS(el, 'pulse');
-      this.animating = false;
+    if (!this.isEditing) {
+      this.animateInput();
+      this.focuseInput();
+    }
+  }
+
+  animateInput = () => {
+    if (!this.init) {
+      this.init = true;
+      return;
+    }
+    animateCSS(this.inputRef, 'pulse');
+  }
+
+  focuseInput = () => {
+    if (this.props.isFocusedUserName) {
+      setEndOfContenteditable(this.inputRef);
     }
   }
 
   handleSubmitUserName = (e) => {
     e.preventDefault();
-    this.animating = true;
+    this.isEditing = false;
 
-    const { userName } = this.props;
+    const { userName, GreetingActions } = this.props;
     const trim = userName.replace(/\s/gi, '');
 
-    if (!trim.length || trim === this.enteredName) {
-      this.props.GreetingActions.setUserName({
-        userName: this.enteredName
+    if (!trim.length || trim === this.enteredUserName) {
+      GreetingActions.setUserName({
+        userName: this.enteredUserName
       });
     } else {
-      this.enteredName = userName;
+      this.enteredUserName = userName;
       localStorage.setItem(this.LS_KEY, userName);
     }
 
-    this.props.GreetingActions.setInputDisabled({
-      isDisabledInput: true
-    });
+    GreetingActions.blurUserName();
   }
 
   handleChange = (e) => {
+    this.isEditing = true;
     this.props.GreetingActions.setUserName({
       userName: e.target.value
     });
   }
 
   handleDoubleClick = () => {
-    if (this.props.isDisabledInput) {
-      this.animating = true;
+    const { isFocusedUserName, GreetingActions } = this.props;
+    if (!isFocusedUserName) {
+      this.isEditing = false;
+      GreetingActions.focuseUserName();
     }
-    this.props.GreetingActions.setInputDisabled({
-      isDisabledInput: false
-    });
   }
 
   render() {
     return (
       <UserNameInput
         innerRef={node => this.inputRef = node}
-        isDisabledInput={this.props.isDisabledInput}
+        isDisabled={!this.props.isFocusedUserName}
         onChange={this.handleChange}
         onDoubleClick={this.handleDoubleClick}
         onSubmit={this.handleSubmitUserName}>
@@ -93,7 +97,7 @@ class UserName extends Component {
 export default connect(
   (state) => ({
     userName: state.greeting.get('userName'),
-    isDisabledInput: state.greeting.get('isDisabledInput')
+    isFocusedUserName: state.greeting.get('isFocusedUserName')
   }),
   (dispatch) => ({
     GreetingActions: bindActionCreators(greetingActions, dispatch)

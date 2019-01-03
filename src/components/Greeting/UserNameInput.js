@@ -39,7 +39,7 @@ const StyledInput = styled(ContentEditable)`
 
 const UserNameInput = ({
   innerRef,
-  isDisabledInput,
+  isDisabled,
   onDoubleClick,
   onChange,
   onSubmit,
@@ -50,7 +50,7 @@ const UserNameInput = ({
       <StyledInput
         innerRef={innerRef}
         html={children}
-        disabled={isDisabledInput}
+        disabled={isDisabled}
         onDoubleClick={onDoubleClick}
         onChange={onChange}
         onKeyPress={(e) => {
@@ -67,7 +67,7 @@ const UserNameInput = ({
 }
 
 UserNameInput.defaultProps = {
-  isDisabledInput: true,
+  isDisabled: true,
   onDoubleClick: () => console.warn('onDobuleClick not defined'),
   onChange: () => console.warn('onChange not defined'),
   onSubmit: () => console.warn('onSubmit not defined'),
@@ -76,7 +76,7 @@ UserNameInput.defaultProps = {
 
 UserNameInput.propTypes = {
   // innerRef: PropTypes.node,
-  isDisabledInput: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   onDoubleClick: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,

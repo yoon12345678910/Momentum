@@ -1,41 +1,56 @@
 const mantraList = [
   {
     mantra: 'Breathe',
-    isUserNameHidden: false
+    isHiddenUserName: false
   },
   {
     mantra: 'Be a victor, not a victim',
-    isUserNameHidden: true
+    isHiddenUserName: true
   },
   {
     mantra: 'Be happy',
-    isUserNameHidden: true
+    isHiddenUserName: true
   },
   {
     mantra: 'Do more with less',
-    isUserNameHidden: true
+    isHiddenUserName: true
   },
   {
     mantra: 'Strive for greatness',
-    isUserNameHidden: true
+    isHiddenUserName: true
   },
   {
     mantra: 'Create every day',
-    isUserNameHidden: true
+    isHiddenUserName: true
   },
   {
     mantra: 'You are Creative',
-    isUserNameHidden: true
+    isHiddenUserName: true
   },
   {
     mantra: 'Slow down',
-    isUserNameHidden: true
+    isHiddenUserName: true
   },
   {
     mantra: 'Choose love',
-    isUserNameHidden: true
+    isHiddenUserName: true
   }
 ];
+
+const randomName = [
+  'lovely', 
+  'good looking', 
+  'sexy', 
+  'rockstar', 
+  'gorgeous', 
+  'friends', 
+  'pal', 
+  'superstar'
+];
+
+export function getRandomName() {
+  return randomName[Math.floor(Math.random() * randomName.length)];
+};
 
 export function getRandomMantra() {
   return mantraList[Math.floor(Math.random() * mantraList.length)];
