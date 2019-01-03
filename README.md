@@ -7,7 +7,11 @@ Cloning Momentum with React
 - [x] Greeting
 - [x] Weather
 - [x] Todo
-- [ ] Login
-- [ ] Search
-- [ ] Quote
-- [ ] Settings
+
+# Stack
+
+### Frontend
+
+- react
+- redux
+- styled-components
