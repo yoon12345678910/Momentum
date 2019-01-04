@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as greetingActions from 'redux/modules/greeting';
-import { Widget, MoreBox, Dropdown } from 'components/Base';
-import { Content, Side } from 'components/Greeting';
+import { Widget, Dropdown } from 'components/Base';
+import { Content, Side, StyledMoreBox } from 'components/Greeting';
 import { GreetingMessage, MantraMessage, UserName } from 'containers/Greeting';
 import { animateCSS } from 'lib/utils';
 
@@ -128,8 +128,6 @@ class Greeting extends Component {
 
   render() {
     const { mode, isHiddenUserName, isActiveDropdown } = this.props;
-    const roundStyle = { size: 30 };
-    const iconStyle = { size: 20 };
 
     return (
         <Widget isFlex={true}>
@@ -141,11 +139,9 @@ class Greeting extends Component {
             { isHiddenUserName ? null : <UserName /> }
           </Content>
           <Side>
-            <MoreBox
+            <StyledMoreBox
               onClick={this.handleClickMoreBox}
-              isActive={isActiveDropdown}
-              roundStyle={roundStyle}
-              iconStyle={iconStyle}>
+              isActive={isActiveDropdown}>
                 { isActiveDropdown ?
                   <Dropdown
                     innerRef={node => this.dropdownRef = node}
@@ -153,7 +149,7 @@ class Greeting extends Component {
                     isActiveDropdown={isActiveDropdown}
                   /> : null
                 }
-            </MoreBox>
+            </StyledMoreBox>
           </Side>
         </Widget>
     )
