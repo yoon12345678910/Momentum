@@ -15,6 +15,7 @@ class UserName extends Component {
     this.enteredUserName = '';
     this.init = false;
     this.isEditing = false;
+    this.inputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
     this.handleSubmitUserName = this.handleSubmitUserName.bind(this);
@@ -38,12 +39,12 @@ class UserName extends Component {
       this.init = true;
       return;
     }
-    animateCSS(this.inputRef, 'pulse');
+    animateCSS(this.inputRef.current, 'pulse');
   }
 
   focuseInput = () => {
     if (this.props.isFocusedUserName) {
-      setEndOfContenteditable(this.inputRef);
+      setEndOfContenteditable(this.inputRef.current);
     }
   }
 
@@ -84,7 +85,7 @@ class UserName extends Component {
   render() {
     return (
       <UserNameInput
-        innerRef={node => this.inputRef = node}
+        innerRef={this.inputRef}
         isDisabled={!this.props.isFocusedUserName}
         onChange={this.handleChange}
         onDoubleClick={this.handleDoubleClick}

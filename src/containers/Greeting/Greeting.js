@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as greetingActions from 'redux/modules/greeting';
-import { Widget, Dropdown } from 'components/Base';
-import { Content, Side, StyledMoreBox } from 'components/Greeting';
-import { GreetingMessage, MantraMessage, UserName } from 'containers/Greeting';
+import { Dropdown } from 'components/Base';
+import { Widget, Content, Side, MoreBox } from 'components/Greeting';
+import { GreetingPrinter, MantraPrinter, UserName } from 'containers/Greeting';
 import { animateCSS } from 'lib/utils';
 
 
@@ -127,31 +127,38 @@ class Greeting extends Component {
   }
 
   render() {
-    const { mode, isHiddenUserName, isActiveDropdown } = this.props;
+    const { 
+      mode, 
+      isHiddenUserName, 
+      isActiveDropdown
+    } = this.props;
+
+    if (mode === 'INIT') {
+      return null;
+    }
 
     return (
-        <Widget isFlex={true}>
-          <Side/>
-          <Content
-            innerRef={node => this.contentRef = node}>
-            { mode === 'GREETING' ? <GreetingMessage /> : null }
-            { mode === 'MANTRA' ? <MantraMessage /> : null }
-            { isHiddenUserName ? null : <UserName /> }
-          </Content>
-          <Side>
-            <StyledMoreBox
-              onClick={this.handleClickMoreBox}
-              isActive={isActiveDropdown}>
-                { isActiveDropdown ?
-                  <Dropdown
-                    innerRef={node => this.dropdownRef = node}
-                    data={this.generateDropdownData()}
-                    isActiveDropdown={isActiveDropdown}
-                  /> : null
-                }
-            </StyledMoreBox>
-          </Side>
-        </Widget>
+      <Widget>
+        <Side/>
+        <Content
+          innerRef={node => this.contentRef = node}>
+          { mode === 'GREETING' ? <GreetingPrinter/> : <MantraPrinter/> }
+          { isHiddenUserName ? null : <UserName/> }
+        </Content>
+        <Side>
+          <MoreBox
+            onClick={this.handleClickMoreBox}
+            isActive={isActiveDropdown}>
+              { isActiveDropdown ?
+                <Dropdown
+                  innerRef={node => this.dropdownRef = node}
+                  data={this.generateDropdownData()}
+                  isActiveDropdown={isActiveDropdown}
+                /> : null
+              }
+          </MoreBox>
+        </Side>
+      </Widget>
     )
   }
 }
