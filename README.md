@@ -1,6 +1,6 @@
 # Momentum
 
-Cloning Momentum with React
+Cloning Momentum with React.
 
 - [x] Background
 - [x] Clock
