@@ -16,6 +16,8 @@ class Greeting extends Component {
       MANTRA: 6000 * 2,
       GREETING: 6000 * 2
     };
+    this.contentRef = React.createRef();
+    this.dropdownRef = React.createRef();
     this.greetingTimeoutID = null;
     this.mantraTimeoutID = null;
     this.handleClickDocument = null;
@@ -63,16 +65,16 @@ class Greeting extends Component {
   }
 
   animateContentPromise = async () => {
-    return await animateCSS(this.contentRef, 'fadeOut')
+    return await animateCSS(this.contentRef.current, 'fadeOut')
       .then(() => {
-        animateCSS(this.contentRef, 'fadeIn');
+        animateCSS(this.contentRef.current, 'fadeIn');
       });
   }
 
   handleClickMoreBox = () => {
     const { isActiveDropdown, GreetingActions } = this.props;
     const onToggle = () => GreetingActions.toggleDropdown();
-    const outsideClickListener = (e) => {
+    const outsideClickListener = () => {
       onToggle();
       removeClickListener();
     };
@@ -141,7 +143,7 @@ class Greeting extends Component {
       <Widget>
         <Side/>
         <Content
-          innerRef={node => this.contentRef = node}>
+          innerRef={this.contentRef}>
           { mode === 'GREETING' ? <GreetingPrinter/> : <MantraPrinter/> }
           { isHiddenUserName ? null : <UserName/> }
         </Content>
@@ -151,7 +153,7 @@ class Greeting extends Component {
             isActive={isActiveDropdown}>
               { isActiveDropdown ?
                 <Dropdown
-                  innerRef={node => this.dropdownRef = node}
+                  innerRef={this.dropdownRef}
                   data={this.generateDropdownData()}
                   isActiveDropdown={isActiveDropdown}
                 /> : null
