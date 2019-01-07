@@ -17,7 +17,6 @@ class Greeting extends Component {
       GREETING: 6000 * 2
     };
     this.contentRef = React.createRef();
-    this.dropdownRef = React.createRef();
     this.greetingTimeoutID = null;
     this.mantraTimeoutID = null;
     this.handleClickDocument = null;
@@ -153,7 +152,6 @@ class Greeting extends Component {
             isActive={isActiveDropdown}>
               { isActiveDropdown ?
                 <Dropdown
-                  innerRef={this.dropdownRef}
                   data={this.generateDropdownData()}
                   isActiveDropdown={isActiveDropdown}
                 /> : null
