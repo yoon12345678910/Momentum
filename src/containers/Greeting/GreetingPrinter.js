@@ -5,7 +5,7 @@ import * as greetingActions from 'redux/modules/greeting';
 import moment from 'moment';
 
 
-class GreetingMessage extends Component {
+class GreetingPrinter extends Component {
   constructor(props) {
     super(props);
 
@@ -63,4 +63,4 @@ export default connect(
   (dispatch) => ({
     GreetingActions: bindActionCreators(greetingActions, dispatch)
   })
-)(GreetingMessage);
+)(GreetingPrinter);

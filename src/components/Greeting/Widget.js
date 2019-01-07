@@ -1,22 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import styled from 'styled-components';
+import { Widget as DefaultWidget } from 'components/Base';
 
 
-const StyledWidget = styled.div`
-  display: inline-block;
-  position: relative;
-  transition: opacity .5s ease;
-  -moz-user-select: none;
-  user-select: none;
+const StyledWidget = styled(DefaultWidget)`
+  display: flex;
 `;
 
 const Widget = ({
-  className,
   children
 }) => {
   return (
-    <StyledWidget className={className}>
+    <StyledWidget>
       {children}
     </StyledWidget>
   );

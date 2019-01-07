@@ -77,7 +77,7 @@ RounIcon.defaultProps = {
   iconStyle: {
     size: 17,
   }
-}
+};
 
 RounIcon.propTypes = {
   faIconClassName: PropTypes.string,

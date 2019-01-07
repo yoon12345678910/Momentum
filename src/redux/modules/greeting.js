@@ -63,8 +63,7 @@ export default handleActions({
     return state.set('isFocusedUserName', false);
   },
   [SET_USERNAME]: (state, action) => {
-    const { userName } = action.payload;
-    return state.set('userName', userName);
+    return state.set('userName', action.payload.userName);
   },
   [TOGGLE_DROPDOWN]: (state) => {
     return state.set('isActiveDropdown', !state.get('isActiveDropdown'));

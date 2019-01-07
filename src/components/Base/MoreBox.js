@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import RoundIcon from './RoundIcon';
 
 
-const MoreWrapper = styled.span`
+const Wrapper = styled.span`
   margin-top: 5px;
   position: absolute;
 `;
 
-const MoreToggle = styled.span`
+const Toggle = styled.span`
   margin-top: 15px;
   margin-left: 5px;
   cursor: pointer;
@@ -28,8 +28,8 @@ const MoreBox = ({
   children
 }) => {
   return (
-    <MoreWrapper>
-      <MoreToggle 
+    <Wrapper>
+      <Toggle 
         isActive={isActive}
         onClick={onClick}>
         <RoundIcon
@@ -37,9 +37,9 @@ const MoreBox = ({
           roundStyle={roundStyle}
           iconStyle={iconStyle}
           faIconClassName={'fa fa-ellipsis-h'}/>
-      </MoreToggle>
+      </Toggle>
       {children}
-    </MoreWrapper>
+    </Wrapper>
   );
 };
 
@@ -55,7 +55,7 @@ MoreBox.defaultProps = {
   },
   onClick: () => console.warn('onClick not defined'),
   children: null
-}
+};
 
 MoreBox.propTypes = {
   isActive: PropTypes.bool,
