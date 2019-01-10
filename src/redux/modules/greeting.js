@@ -1,6 +1,5 @@
 import { Map } from 'immutable';
 import { createAction, handleActions } from 'redux-actions';
-import { getRandomMantra } from 'lib/api/greeting';
 
 // action types
 const CHNAGE_MODE = 'greeting/CHNAGE_MODE';
@@ -24,10 +23,10 @@ export const toggleDropdown = createAction(TOGGLE_DROPDOWN);
 
 // initial state
 const initialState = Map({
-  mode: 'INIT',
+  mode: 'GREETING',
   isChangedMode: false,
   isFocusedUserName: false,
-  isHiddenUserName: true,
+  isHiddenUserName: false,
   isActiveDropdown: false,
   greeting: '',
   mantra: '',
@@ -51,8 +50,8 @@ export default handleActions({
     return state.set('greeting', greeting)
                 .set('isHiddenUserName', false);
   },  
-  [SET_MANTRA]: (state) => {
-    const { mantra, isHiddenUserName } = getRandomMantra();
+  [SET_MANTRA]: (state, action) => {
+    const { mantra, isHiddenUserName } = action.payload;
     return state.set('mantra', `${mantra}${isHiddenUserName ? '.' : ','} `)
                 .set('isHiddenUserName', isHiddenUserName);
   },

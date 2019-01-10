@@ -9,12 +9,12 @@ class GreetingPrinter extends Component {
   constructor(props) {
     super(props);
 
-    this.intervalID = null;
     this.GREETING = {
       MORNING: 'Good morning',
       AFTERNOON: 'Good afternoon',
       EVENING: 'Good evening'
     };
+    this.intervalID = null;
   }
 
   componentDidMount() {

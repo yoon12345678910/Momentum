@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { UserNameInput } from 'components/Greeting';
 import * as greetingActions from 'redux/modules/greeting';
+import { UserNameInput } from 'components/Greeting';
 import { setEndOfContenteditable, animateCSS } from 'lib/utils';
 import { getRandomName } from 'lib/api/greeting';
 
@@ -23,8 +23,11 @@ class UserName extends Component {
 
   componentDidMount() {
     const loadedUserName = localStorage.getItem(this.LS_KEY);
-    this.enteredUserName = loadedUserName === null ? getRandomName() : loadedUserName;
-    this.props.GreetingActions.setUserName({userName: this.enteredUserName});
+    this.enteredUserName = loadedUserName === null
+      ? getRandomName() : loadedUserName;
+    this.props.GreetingActions.setUserName({
+      userName: this.enteredUserName
+    });
   }
 
   componentDidUpdate() {

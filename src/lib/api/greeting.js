@@ -34,6 +34,10 @@ const mantraList = [
   {
     mantra: 'Choose love',
     isHiddenUserName: true
+  },
+  {
+    mantra: 'Think big, live simply',
+    isHiddenUserName: true
   }
 ];
 

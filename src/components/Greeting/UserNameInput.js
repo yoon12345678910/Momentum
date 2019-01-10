@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import ContentEditable from 'react-contenteditable';
 
 const InputWrapper = styled.span`
@@ -18,23 +18,6 @@ const StyledInput = styled(ContentEditable)`
   outline: 0;
   vertical-align: top;
   white-space: nowrap;
-
-  ${props => !props.disabled && css`
-    min-width: 1.5em;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    cursor: auto;
-
-    &:after {
-      position: absolute;
-      height: 3px;
-      right: 12px;
-      bottom: -5px;
-      left: 0;
-      background: #fff;
-      content: '';
-    }
-  `}
 `;
 
 const UserNameInput = ({

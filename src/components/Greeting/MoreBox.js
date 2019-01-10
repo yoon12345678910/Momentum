@@ -1,19 +1,59 @@
 import React from 'react';
-import { MoreBox as DefaultMoreBox } from 'components/Base';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { RoundIcon } from 'components/Base';
 
+
+const Wrapper = styled.span`
+  margin-top: 5px;
+  position: absolute;
+`;
+
+const Toggle = styled.span`
+  margin-top: 15px;
+  margin-left: 5px;
+  cursor: pointer;
+
+  opacity : ${props => props.isActive ? 1 : 0};
+  &:hover { 
+    opacity: 1;
+  };
+`;
+
+const StyledRoundIcon = styled(RoundIcon)`
+  font-size: 30px;
+`;
 
 const MoreBox = ({
-  ...rest
+  isActive,
+  onClick,
+  children
 }) => {
-  const roundStyle = { size: 30 };
-  const iconStyle = { size: 20 };
-
   return (
-    <DefaultMoreBox
-      {...rest}
-      roundStyle={roundStyle}
-      iconStyle={iconStyle}/>
+    <Wrapper>
+      <Toggle 
+        isActive={isActive}
+        onClick={onClick}>
+        <StyledRoundIcon
+          isActive={isActive}
+          faClassName={'fa fa-ellipsis-h'}
+        />
+      </Toggle>
+      {children}
+    </Wrapper>
   );
+};
+
+MoreBox.defaultProps = {
+  isActive: false,
+  onClick: () => console.warn('onClick not defined'),
+  children: null
+};
+
+MoreBox.propTypes = {
+  isActive: PropTypes.bool,
+  onClick: PropTypes.func,
+  children: PropTypes.node
 };
 
 export default MoreBox;
