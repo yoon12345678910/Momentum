@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { default as DefaultIcon } from './Icon';
 
 
-const Icon = styled.i`
-  margin: 0 10px;
-  font-size: ${props => `${props.iconStyle.size}px`};
-  opacity: .5;
+const Icon = styled(DefaultIcon)`
+  font-size: 0.666667em;
 `;
 
 const RoundWarpper = styled.div`
@@ -16,14 +15,15 @@ const RoundWarpper = styled.div`
   align-items: center;
   height: 100%;
   box-sizing: border-box;
+  font-size: 25px;
   -moz-user-select: none;
   user-select: none;
 
   &:after {
     display: block;
     position: absolute;
-    width: ${props => `${props.roundStyle.size}px`};
-    height: ${props => `${props.roundStyle.size}px`};
+    width: 1em;
+    height: 1em;
     border-radius: 50px;
     box-sizing: border-box;
     content: '';
@@ -50,39 +50,26 @@ const RoundWarpper = styled.div`
 
 const RounIcon = ({
   isActive,
-  faIconClassName,
-  roundStyle,
-  iconStyle
+  faClassName,
+  className,
 }) => {
   return (
     <RoundWarpper
       isActive={isActive}
-      roundStyle={roundStyle}>
+      className={className}>
       <Icon
-        iconStyle={iconStyle}
-        className={faIconClassName}
-        aria-hidden="true">
+        faClassName={faClassName}>
       </Icon>
     </RoundWarpper>
   );
 };
 
 RounIcon.defaultProps = {
-  faIconClassName: '',
-  roundStyle: {
-    size: 25,
-    padding_h: 0,
-    padding_v: 0,
-  },
-  iconStyle: {
-    size: 17,
-  }
+  faClassName: '',
 };
 
 RounIcon.propTypes = {
-  faIconClassName: PropTypes.string,
-  roundStyle: PropTypes.objectOf(PropTypes.number),
-  iconStyle: PropTypes.objectOf(PropTypes.number)
+  faClassName: PropTypes.string
 };
 
 export default RounIcon;

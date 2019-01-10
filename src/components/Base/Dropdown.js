@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { nipple } from 'lib/styleUtils';
 
 
 const Wrapper = styled.div`
@@ -14,20 +15,10 @@ const Wrapper = styled.div`
   border-radius: 4px;
   box-shadow: 0 1px 8px rgba(0,0,0,.25);
 
-  &:after {
-    opacity: 1;
-    display: block;
-    overflow: visible;
-    position: absolute;
-    width: 0;
-    height: 0;
+  ${nipple`
     top: -5px;
     left: 13px;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-bottom: 6px solid rgba(15,15,15,.925);
-    content: '';
-  }
+  `};
 `;
 
 const List = styled.ul`
