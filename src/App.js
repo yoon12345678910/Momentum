@@ -3,7 +3,7 @@ import './lib/utils';
 import Background from 'containers/Background/Background';
 import Clock from 'containers/Clock/Clock';
 import { Greeting } from 'containers/Greeting';
-import Weather from './component/weather/Weather';
+import { Weather } from 'containers/Weather';
 import Todo from './component/todo/Todo';
 
 
@@ -18,7 +18,7 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <Background />
+        <Background/>
         <div id="widgets" 
           className="widgets show">
           <div 
@@ -26,11 +26,11 @@ class App extends Component {
             className="top-row">
             <div className="top-left"></div>
             <div className="top-right">
-              <Weather />
+              <Weather/>
             </div>
           </div>
           <div className="center">
-            <Clock />
+            <Clock/>
             <Greeting/>
           </div>
           <div ref={this.bottomRowRef}
