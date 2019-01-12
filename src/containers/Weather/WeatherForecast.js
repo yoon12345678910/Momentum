@@ -23,14 +23,14 @@ class WeatherForecast extends Component {
       weatherForecast
     } = this.props;
 
-    // 오늘 날씨는 현재날씨로 대체.
-    // forecast API에 오늘데이터가 없거나 다를수 있음.
+    // 오늘날씨는 현재날씨로 대체.
+    // - API에 오늘의 데이터가 없거나 날씨가 다를 수 있음.
     const currentWeatherJS = currentWeather.toJS();
     const weatherForecastJS = weatherForecast.toJS();
     let forecastData = {};
       
-    forecastData = weatherForecastJS.data;
     if (currentWeatherJS.data.date) {
+      forecastData = weatherForecastJS.data;
       forecastData[currentWeatherJS.data.date] = currentWeatherJS.data;
     }
 

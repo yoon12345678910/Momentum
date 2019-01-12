@@ -38,7 +38,7 @@ const LocationWrapper = ({
       onDoubleClick={onDoubleClick}
       title={title}>
       {children}
-      <StatusIcon 
+      <StatusIcon
         faClassName={isFocused ? 'fa fa-location-arrow' : 'fa fa-pencil'}/>
     </Wrapper>
   )

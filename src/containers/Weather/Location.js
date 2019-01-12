@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as weatherActions from 'redux/modules/weather';
 import { LocationWrapper, LocationNameInput, LocationNotiMessage } from 'components/Weather';
-import { LocationNoti } from 'containers/Weather';
+import { LocationStatus } from 'containers/Weather';
 import { setEndOfContenteditable, animateCSS } from 'lib/utils';
 
 
@@ -20,9 +20,9 @@ class LocationSearch extends Component {
 
   componentDidUpdate() {
     if (this.isClickOrBlur) {
-      this.isClickOrBlur = false;
       this.animateInput();
       this.focusInput();
+      this.isClickOrBlur = false;
     }
   }
 
@@ -98,9 +98,8 @@ class LocationSearch extends Component {
         { isTodaySelected
             ? null :  <LocationNotiMessage>
                         {detailedWeather.toJS().day}
-                      </LocationNotiMessage>
-        }
-        <LocationNoti/>
+                      </LocationNotiMessage>}
+        <LocationStatus/>
       </LocationWrapper>
     );
   }

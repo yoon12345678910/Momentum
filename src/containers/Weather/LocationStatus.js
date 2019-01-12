@@ -8,14 +8,11 @@ import { LocationNotiMessage } from 'components/Weather';
 class LocationNoti extends Component {
   constructor(props) {
     super(props);
-
     this.timeoutID = null;
   }
 
   componentDidUpdate() {
-    const currentWeatherJS = this.props.currentWeather.toJS();
-
-    if (currentWeatherJS.status === 'FAILURE') {
+    if (this.props.currentWeather.toJS().status === 'FAILURE') {
       clearTimeout(this.timeoutID);
       
       this.timeoutID = setTimeout(() => {
