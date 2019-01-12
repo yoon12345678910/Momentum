@@ -17,7 +17,6 @@ const StyledInput = styled(ContentEditable)`
   border-radius: 3px;
   outline: 0;
   vertical-align: top;
-  white-space: nowrap;
 `;
 
 const UserNameInput = ({
@@ -33,6 +32,7 @@ const UserNameInput = ({
       <StyledInput
         innerRef={innerRef}
         html={children}
+        tagName="pre"
         disabled={isDisabled}
         onDoubleClick={onDoubleClick}
         onChange={onChange}

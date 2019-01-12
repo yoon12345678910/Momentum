@@ -24,6 +24,7 @@ const LocationNameInput = ({
     <StyledLocationNameInput
       innerRef={innerRef}
       html={html}
+      tagName="pre"
       disabled={disabled}
       onChange={onChange}
       onKeyPress={(e) => {
