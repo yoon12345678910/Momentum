@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as weatherActions from 'redux/modules/weather';
-import { LocationNotiMessage } from 'components/Weather';
+import { LocationMessage } from 'components/Weather';
 
 
 class LocationNoti extends Component {
@@ -28,9 +28,9 @@ class LocationNoti extends Component {
 
   render() {
     return (
-      <LocationNotiMessage>
+      <LocationMessage>
         {this.props.locationNoti}
-      </LocationNotiMessage>
+      </LocationMessage>
     );
   }
 }

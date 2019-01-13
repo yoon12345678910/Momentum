@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as weatherActions from 'redux/modules/weather';
 import { Widget } from 'components/Base';
 import { Popup, Header, Details } from 'components/Weather';
-import { Dashboard, Location, WeatherForecast } from 'containers/Weather';
+import { Dashboard, LocationSearch, WeatherForecast } from 'containers/Weather';
 import { loadLocalStorage } from 'lib/api/weather';
 
 
@@ -53,7 +53,7 @@ class Weather extends Component {
           innerRef={this.popupRef}
           isVisible={this.props.isVisiblePopup}>
           <Header>
-            <Location/>
+            <LocationSearch/>
           </Header>
           <Details
             isTodaySelected={this.props.isTodaySelected}

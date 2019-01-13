@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as weatherActions from 'redux/modules/weather';
-import { LocationWrapper, LocationNameInput, LocationNotiMessage } from 'components/Weather';
-import { LocationStatus } from 'containers/Weather';
+import { LocationWrapper, LocationNameInput, LocationMessage } from 'components/Weather';
+import { SearchStatus } from 'containers/Weather';
 import { setEndOfContenteditable, animateCSS } from 'lib/utils';
 
 
@@ -96,10 +96,10 @@ class LocationSearch extends Component {
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}/>
         { isTodaySelected
-            ? null :  <LocationNotiMessage>
+            ? null :  <LocationMessage>
                         {detailedWeather.toJS().day}
-                      </LocationNotiMessage>}
-        <LocationStatus/>
+                      </LocationMessage>}
+        <SearchStatus/>
       </LocationWrapper>
     );
   }

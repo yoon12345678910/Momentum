@@ -8,7 +8,7 @@ const Message = styled.span`
   opacity: .5;
 `;
 
-const LocationNotiMessage = ({
+const LocationMessage = ({
   children
 }) => {
   if (children === '') {
@@ -19,12 +19,12 @@ const LocationNotiMessage = ({
   );
 }
 
-LocationNotiMessage.defaultProps = {
+LocationMessage.defaultProps = {
   children: ''
 }
 
-LocationNotiMessage.propTypes = {
+LocationMessage.propTypes = {
   children: PropTypes.string
 }
 
-export default LocationNotiMessage;
+export default LocationMessage;

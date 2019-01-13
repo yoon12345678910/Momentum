@@ -8,7 +8,7 @@ const StyledLocationNameInput = styled(ContentEditable)`
   display: inline-block;
   min-width: 32px;
   min-height: 24px;
-  font-size: 19px;
+  font-size: 118.75%;
   outline: 0;
   cursor: pointer;
 `;

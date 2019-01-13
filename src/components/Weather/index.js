@@ -5,6 +5,6 @@ export { default as Popup } from './Popup';
 export { default as Header } from './Header';
 export { default as LocationWrapper } from './LocationWrapper';
 export { default as LocationNameInput } from './LocationNameInput';
-export { default as LocationNotiMessage } from './LocationNotiMessage';
+export { default as LocationMessage } from './LocationMessage';
 export { default as Details } from './Details';
 export { default as WeatherForecast } from './WeatherForecast';

@@ -69,9 +69,9 @@ const initialState = Map({
 export default handleActions({
   ...pender({
     type: GET_CURRENT_WEATHER,
-    onPending: (state) => {
-      return state.setIn(['currentWeather', 'status'], 'WAITING');
-    },
+    // onPending: (state) => {
+    //   return state.setIn(['currentWeather', 'status'], 'WAITING');
+    // },
     onFailure: (state) => {
       return state.setIn(['currentWeather', 'status'], 'FAILURE')
                   .set('locationName', state.get('foundLocationName'))
@@ -97,12 +97,12 @@ export default handleActions({
   }),
   ...pender({
     type: GET_WEATHER_FORECAST,
-    onPending: (state) => {
-      return state.setIn(['weatherForecast', 'status'], 'WAITING');
-    },
-    onFailure: (state) => {
-      return state.setIn(['weatherForecast', 'status'], 'FAILURE');
-    },
+    // onPending: (state) => {
+    //   return state.setIn(['weatherForecast', 'status'], 'WAITING');
+    // },
+    // onFailure: (state) => {
+    //   return state.setIn(['weatherForecast', 'status'], 'FAILURE');
+    // },
     onSuccess: (state, action) => {
       const { data } = action.payload;
       const parsedData = data.list
