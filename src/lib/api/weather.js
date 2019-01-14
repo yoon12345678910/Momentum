@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API = 'https://api.openweathermap.org/data/2.5/';
 const API_KEY = '4514b9d5bb75f12330b26b56f8731058';
-const LS_KEY = 'weather1';
+const LS_KEY = 'weather';
 
 const generateSearchQuery = ({ lat, lon, locationName }) => {
   if (typeof locationName !== 'undefined') {
