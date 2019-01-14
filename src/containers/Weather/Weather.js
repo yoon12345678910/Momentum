@@ -35,7 +35,7 @@ class Weather extends Component {
   }
 
   keepWeahterUpToDate = () => {
-    // API가 3시간간격으로 최신화된 날씨 제공. (15, 18, 21...)
+    // API 3시간간격으로 최신화된 날씨 제공. (15, 18, 21...)
     // get initialTime
     const MINUTE = 60000;
     const time = moment();
@@ -49,10 +49,11 @@ class Weather extends Component {
     
     this.timeoutID = setTimeout(() => {
       searchWeather();
+      clearTimeout(this.timeoutID);
+
       this.intervalID = setInterval(() => {
         searchWeather();
       }, MINUTE * 60 * 3);
-      clearTimeout(this.timeoutID);
     }, h - ms + MINUTE); // "60000" is Additional delays
   }
 
