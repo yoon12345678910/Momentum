@@ -16,8 +16,6 @@ export const focusContenteditable = (el, isEnd = true) => {
   }
 }
 
-
-
 export const animateCSS = (el, animationName) => {
   return new Promise(function (resolve, reject) {
     const animationEnd = (function (tEl) {
