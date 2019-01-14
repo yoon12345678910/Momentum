@@ -42,7 +42,7 @@ const ExtraInfo = styled.div`
   flex: 1 1 50%;
   padding-top: 10px;
   padding-left: 10px;
-  font-size: 90%;
+  font-size: 85%;
 `;
 
 const Item = styled.div`
