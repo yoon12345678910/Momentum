@@ -3,11 +3,46 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LoadedImage, ImageLoader } from 'components/Background';
 import * as backgroundActions from 'redux/modules/background';
+import { getRandomImage } from 'lib/api/background';
 
 
 class Background extends Component {
+  constructor(props) {
+    super(props);
+
+    this.intervalID = null;
+  }
+
   componentDidMount() {
-    this.props.BackgroundActions.getImage();
+    this.setImage();
+    this.autoChangeImage();
+  }
+  
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
+  }
+
+  setImage = () => {
+    const getImage = () => {
+      const currentImageJS = this.props.currentImage.toJS();
+      const image = getRandomImage();
+
+      if (image.id === currentImageJS.id) {
+        return getImage();
+      } else {
+        return image;
+      }
+    };
+
+    this.props.BackgroundActions.setImage({
+      currentImage: getImage()
+    });
+  }
+
+  autoChangeImage = () => {
+    this.intervalID = setInterval(() => {
+      this.setImage();
+    }, 60000 * 3);
   }
 
   handleLoad = () => {
@@ -16,20 +51,21 @@ class Background extends Component {
 
   render() {
     const { loaded, currentImage } = this.props;
+    const currentImageJS = currentImage.toJS();
+    let imageUrl;
 
     if (currentImage.isEmpty()) {
       return null;
     }
 
-    const currentImageJS = currentImage.toJS();
-    const imageUrl = currentImageJS.urls.regular;
+    imageUrl = currentImageJS.urls.regular;
 
     return (
       <div>
         {loaded
           ? <LoadedImage
               imageUrl={imageUrl}
-            /> 
+            />
             : <ImageLoader
                 imageUrl={imageUrl}
                 onLoad={this.handleLoad}

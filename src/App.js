@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import './lib/utils';
-import Background from 'containers/Background/Background';
+import { connect } from 'react-redux';
+// import './lib/utils';
+import { Widgets } from 'components/Base';
+import { Background, BackgroundInfo } from 'containers/Background';
 import Clock from 'containers/Clock/Clock';
 import { Greeting } from 'containers/Greeting';
 import { Weather } from 'containers/Weather';
@@ -19,8 +21,8 @@ class App extends Component {
     return (
       <Fragment>
         <Background/>
-        <div id="widgets" 
-          className="widgets show">
+        <Widgets
+          isVisibleWidgets={this.props.isVisibleWidgets}>
           <div 
             ref={this.topRowRef}
             className="top-row">
@@ -35,18 +37,24 @@ class App extends Component {
           </div>
           <div ref={this.bottomRowRef}
             className="bottom-row">
-            <div className="bottom-left"></div>
+            <div className="bottom-left">
+              <BackgroundInfo/>
+            </div>
             <div className="bottom-right">
               <Todo 
                 refs={[this.topRowRef, this.bottomRowRef]}
               />
             </div>
           </div>
-        </div>
+        </Widgets>
       </Fragment>
     );
   }
 }
 
-export default App;
+export default connect(
+  (state) => ({
+    isVisibleWidgets: state.auth.get('isVisibleWidgets')
+  })
+)(App);
 
