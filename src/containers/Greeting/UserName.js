@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as greetingActions from 'redux/modules/greeting';
 import { UserNameInput } from 'components/Greeting';
-import { setEndOfContenteditable, animateCSS } from 'lib/utils';
+import { focusContenteditable, animateCSS } from 'lib/utils';
 import { getRandomName } from 'lib/api/greeting';
 
 
@@ -47,7 +47,7 @@ class UserName extends Component {
 
   focuseInput = () => {
     if (this.props.isFocusedUserName) {
-      setEndOfContenteditable(this.inputRef.current);
+      focusContenteditable(this.inputRef.current);
     }
   }
 

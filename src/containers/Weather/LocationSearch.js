@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as weatherActions from 'redux/modules/weather';
 import { LocationWrapper, LocationNameInput, LocationMessage } from 'components/Weather';
 import { SearchStatus } from 'containers/Weather';
-import { setEndOfContenteditable, animateCSS } from 'lib/utils';
+import { focusContenteditable, animateCSS } from 'lib/utils';
 
 
 class LocationSearch extends Component {
@@ -32,7 +32,7 @@ class LocationSearch extends Component {
 
   focusInput = () => {
     if (this.props.isFocusedLocationName) {
-      setEndOfContenteditable(this.inputRef.current);
+      focusContenteditable(this.inputRef.current, false);
     }
   }
 
