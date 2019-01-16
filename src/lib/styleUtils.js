@@ -9,7 +9,6 @@ export const nipple = (...args) => css`
     height: 0;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-bottom: 6px solid rgba(15,15,15,.925);
     content: '';
     ${css(...args)};
   }
