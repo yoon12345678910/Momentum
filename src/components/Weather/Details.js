@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Icon } from 'components/Base';
+import { Icon } from 'components/Base/Icon';
 import WeatherIcon from './WeatherIcon';
 import WeatherTemp from './WeatherTemp';
 

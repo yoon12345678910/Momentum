@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 
-const Icon = styled.span`
+const StyledWeatherIcon = styled.span`
   &:before {
     font-family: 'MeteoconsRegular';
 	  content: attr(data-icon);
@@ -28,7 +28,7 @@ const WeatherIcon = ({
     '':''                   // default
   };
   return (
-    <Icon 
+    <StyledWeatherIcon 
       className={className}
       data-icon={MAPPING_ICON[children]}/>
   );

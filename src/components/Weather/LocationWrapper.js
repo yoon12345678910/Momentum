@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Icon } from 'components/Base';
+import { Icon } from 'components/Base/Icon';
 
 
 const StatusIcon = styled(Icon)`
