@@ -41,7 +41,6 @@ const DB = (function () {
 
   return {
     _saveDB() {
-      console.log('_DB', _DB)
       localStorage.setItem(LS_KEY, JSON.stringify(_DB));
     },
   
@@ -103,10 +102,8 @@ const DB = (function () {
   
     updateTodoDone(id, isDone) {
       const index = _DB.todos.findIndex(todo => id === todo.id);
-      const item = _DB.todos[index];
-      item.isDone = isDone;
+      _DB.todos[index].isDone = isDone;
       this._saveDB();
-      return item;
     },
     
     deleteTodo(id) {
@@ -117,8 +114,7 @@ const DB = (function () {
 
     updateTodoTitle(id, title) {
       const index = _DB.todos.findIndex(todo => id === todo.id);
-      const item = _DB.todos[index];
-      item.title = title;
+      _DB.todos[index].title = title;
       this._saveDB();
     },
   }

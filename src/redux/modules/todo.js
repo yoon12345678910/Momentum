@@ -48,8 +48,8 @@ export default handleActions({
   [INIT_TODO]: (state) => {
     const { selectedListChooserId, listChoosers, todos } = DB.getAllData();
     return state.set('selectedListChooserId', selectedListChooserId)
-                .set('listChoosers', Map(listChoosers))
-                .set('todos', List(todos))
+                .set('listChoosers', Map(fromJS(listChoosers)))
+                .set('todos', List(fromJS(todos)))
                 .set('isVisibleAddTodo', !!todos.length);
   },
   [CHANGE_LIST_CHOOSER]: (state, action) => {
@@ -57,7 +57,7 @@ export default handleActions({
     const todos = DB.getTodos(listChooserId);
     DB.saveSelectedListChooser(listChooserId);
     return state.set('selectedListChooserId', listChooserId)
-                .set('todos', List(todos))
+                .set('todos', List(fromJS(todos)))
                 .set('isVisibleAddTodo', !!todos.length);
   },
   [ADD_TODO]: (state, action) => {
@@ -66,7 +66,7 @@ export default handleActions({
     const item = DB.addTodo(state.get('selectedListChooserId'), title);
     const listChoosers = DB.getListChoosers();
     return state.set('listChoosers', Map(listChoosers))
-                .set('todos', todos.push(item));
+                .set('todos', todos.push(fromJS(item)));
   },
   [DELETE_TODO]: (state, action) => {
     const { id } = action.payload;
@@ -76,17 +76,16 @@ export default handleActions({
     const listChoosers = DB.getListChoosers();
     return state.deleteIn(['todos', index])
                 .set('listChoosers', Map(listChoosers))
-                .set('isVisibleAddTodo', !!todos.size);
+                .set('isVisibleAddTodo', !!(todos.size - 1));
   },
   [UPDATE_TODO_DONE]: (state, action) => {
     const { id, isDone } = action.payload;
     const todos = state.get('todos');
     const index = todos.toJS().findIndex(todo => id === todo.id);
-    const item = DB.updateTodoDone(id, isDone);
-    console.log('tem', item, state.getIn(['todos', index]))
+    DB.updateTodoDone(id, isDone);
     const listChoosers = DB.getListChoosers();
-    return state.setIn(['todos', index], item)
-                // .set('listChoosers', Map(listChoosers))
+    return state.setIn(['todos', index, 'isDone'], isDone)
+                .set('listChoosers', Map(listChoosers))
                 .set('isVisibleAddTodo', !!todos.size);
   },
   [UPDATE_TODO_TITLE]: (state, action) => {
@@ -94,7 +93,7 @@ export default handleActions({
     DB.updateTodoTitle(id, title);
     const todos = state.get('todos');
     const index = todos.toJS().findIndex(todo => id === todo.id);
-    return state.updateIn(['todos', index, 'title'], title => title);
+    return state.setIn(['todos', index, 'title'], title);
   },
   // [UPDATE_TODO_CHOOSER]: (state) => {
     

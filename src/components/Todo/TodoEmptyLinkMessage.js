@@ -26,9 +26,8 @@ const TodoEmptyLinkMessage = ({
   return (
     <MessageBox
       onClick={(e) => {
-        // e.nativeEvent.stopImmediatePropagation();
-        onClickListChooser();
-      }}>
+        e.nativeEvent.stopImmediatePropagation();
+        onClickListChooser();}}>
       {message}
       <StyledIcon
         faClassName={'fa fa-angle-right'}/>

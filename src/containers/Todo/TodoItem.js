@@ -14,7 +14,8 @@ class TodoItem extends Component {
       value: this.props.title,
       enteredValue: this.props.title,
       disabledInput: true,
-      isDone: this.props.isDone
+      isDone: this.props.isDone,
+      isHoverDeleteButton: false,
     };
 
     this.isClickOrBlur = false;
@@ -24,10 +25,10 @@ class TodoItem extends Component {
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleHoverDeleteButton = this.handleHoverDeleteButton.bind(this);
   }
 
   componentDidUpdate() {
-    console.log('item container', this.props.isDone)
     if (this.isClickOrBlur) {
       this.animateInput();
       this.focusInput();
@@ -74,18 +75,19 @@ class TodoItem extends Component {
 
     if (!trim.length || trim === enteredValue) {
       this.setState({
-        value: enteredValue
+        value: enteredValue,
+        disabledInput: true
       });
     } else {
+      this.setState({
+        enteredValue: value,
+        disabledInput: true
+      });
       this.props.TodoActions.updateTodoTitle({
         id: this.props.id,
         title: value
       });
     }
-
-    this.setState({
-      disabledInput: true
-    });
   }
 
   handleChangeCheckbox = () => {
@@ -101,6 +103,12 @@ class TodoItem extends Component {
     });
   }
 
+  handleHoverDeleteButton = () => {
+    this.setState({
+      isHoverDeleteButton: !this.state.isHoverDeleteButton
+    });
+  }
+
   render() {    
     return (
       <TodoItemComponent
@@ -113,6 +121,8 @@ class TodoItem extends Component {
         onChangeTitle={this.handleChangeTitle}
         onChangeCheckbox={this.handleChangeCheckbox}
         onDelete={this.handleDelete}
+        isHoverDeleteButton={this.state.isHoverDeleteButton}
+        onHoverDeleteButton={this.handleHoverDeleteButton}
       />
     );
   }
