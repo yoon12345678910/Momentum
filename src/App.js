@@ -6,7 +6,8 @@ import { Background, BackgroundInfo } from 'containers/Background';
 import Clock from 'containers/Clock/Clock';
 import { Greeting } from 'containers/Greeting';
 import { Weather } from 'containers/Weather';
-import Todo from './component/todo/Todo';
+import LegacyTodo from './component/todo/Todo';
+import { Todo } from 'containers/Todo';
 
 
 class App extends Component {
@@ -41,9 +42,11 @@ class App extends Component {
               <BackgroundInfo/>
             </div>
             <div className="bottom-right">
-              <Todo 
+              <LegacyTodo 
                 refs={[this.topRowRef, this.bottomRowRef]}
               />
+              <Todo
+                layoutRef={[this.topRowRef, this.bottomRowRef]}/>
             </div>
           </div>
         </Widgets>
