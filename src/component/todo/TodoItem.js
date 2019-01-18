@@ -8,7 +8,7 @@ import ContentEditable from 'react-contenteditable';
 export default class TodoItem extends React.Component {
     constructor(props) {
         super(props);
-
+ 
         this.state = {
             value: this.props.title,
             enteredValue: this.props.title,

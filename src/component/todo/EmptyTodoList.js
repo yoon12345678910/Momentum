@@ -8,7 +8,7 @@ const EmptyTodoList = ({ listChooserEmptyInfo, onClickListChooser, isShownFooter
         <div
           onClick={(e) => {
             e.nativeEvent.stopImmediatePropagation();
-            onClickListChooser(listChooserEmptyInfo.linkTarget);
+            onClickListChooser(listChooserEmptyInfo.targetLink);
           }}
           className="empty-link">
           {listChooserEmptyInfo.message}
@@ -22,7 +22,7 @@ const EmptyTodoList = ({ listChooserEmptyInfo, onClickListChooser, isShownFooter
     
     const description = () => {
       return (
-        <div className="empty-description">
+        <div className="empty-description"> 
           {listChooserEmptyInfo.message}
         </div>
       )
@@ -33,7 +33,7 @@ const EmptyTodoList = ({ listChooserEmptyInfo, onClickListChooser, isShownFooter
         <p className="empty-title">
           {listChooserEmptyInfo.title}
         </p>
-        { listChooserEmptyInfo.linkTarget ? link() : description() }
+        { listChooserEmptyInfo.targetLink ? link() : description() }
         <button
           onClick={onClickToggleFooter}
           className={"button new-todo-button " + (isShownFooter ? "hidden" : "")}>
@@ -48,7 +48,7 @@ const EmptyTodoList = ({ listChooserEmptyInfo, onClickListChooser, isShownFooter
     listChooserEmptyInfo:       PropTypes.shape({
       title:                    PropTypes.string.isRequired,
       message:                  PropTypes.string.isRequired,
-      linkTarget:               PropTypes.string
+      targetLink:               PropTypes.string
     }),
     onClickListChooser:         PropTypes.func.isRequired,
     isShownFooter:              PropTypes.bool.isRequired,

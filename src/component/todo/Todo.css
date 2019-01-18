@@ -83,7 +83,7 @@
   width: 100%;
   padding: 3px 0;
   font-size: 94%;
-  line-height: 1.25;
+  line-height: 1.25; 
 }
 
 .todo .todo-item label {

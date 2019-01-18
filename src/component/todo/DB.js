@@ -36,7 +36,7 @@ const _defaultTodoData = {
 
 
 const DB = (function () {
-  const LS_KEY = 'todoDB';
+  const LS_KEY = 'regacyTodoDB';
   let _DB = null;
 
   return {
