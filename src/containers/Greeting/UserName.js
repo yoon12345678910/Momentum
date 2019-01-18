@@ -64,6 +64,9 @@ class UserName extends Component {
       });
     } else {
       this.enteredUserName = userName;
+      GreetingActions.setUserName({
+        userName
+      });
       localStorage.setItem(this.LS_KEY, userName);
     }
 

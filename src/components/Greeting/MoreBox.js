@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { RoundIcon } from 'components/Base';
+import { RoundIcon2 } from 'components/Base/Icon';
 
 
 const Wrapper = styled.span`
@@ -20,7 +20,7 @@ const Toggle = styled.span`
   };
 `;
 
-const StyledRoundIcon = styled(RoundIcon)`
+const StyledRoundIcon = styled(RoundIcon2)`
   font-size: 30px;
 `;
 
@@ -36,8 +36,7 @@ const MoreBox = ({
         onClick={onClick}>
         <StyledRoundIcon
           isActive={isActive}
-          faClassName={'fa fa-ellipsis-h'}
-        />
+          faClassName={'fa fa-ellipsis-h'}/>
       </Toggle>
       {children}
     </Wrapper>

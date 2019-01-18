@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as greetingActions from 'redux/modules/greeting';
-import { Dropdown } from 'components/Base';
-import { MoreBox } from 'components/Greeting';
+import { MoreBox, MoreBoxDropdown } from 'components/Greeting';
 
 
 class MoreAction extends Component {
@@ -61,7 +60,7 @@ class MoreAction extends Component {
         onClick={this.handleClick}
         isActive={isActiveDropdown}>
           { isActiveDropdown ?
-            <Dropdown
+            <MoreBoxDropdown
               data={this.generateDropdownData()}
               isActiveDropdown={isActiveDropdown}
             /> : null
