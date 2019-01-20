@@ -7,4 +7,5 @@ export { default as TodoItem } from './TodoItem';
 export { default as TodoEmpty } from './TodoEmpty';
 export { default as TodoEmptyDescMessage } from './TodoEmptyDescMessage';
 export { default as TodoEmptyLinkMessage } from './TodoEmptyLinkMessage';
+export { default as Footer } from './Footer';
 export { default as AddTodoForm } from './AddTodoForm';

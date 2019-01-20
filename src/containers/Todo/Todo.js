@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as todoActions from 'redux/modules/todo';
 import { Widget } from 'components/Base';
-import { Popup } from 'components/Todo';
+import { Popup, Footer } from 'components/Todo';
 import { Dashboard, ListChooser, TodoList, AddTodo } from 'containers/Todo';
 
  
@@ -13,7 +13,7 @@ class Todo extends Component {
 
     this.popupRef = React.createRef();
     this.todoListChooserRef = React.createRef();
-    this.addTodoRef = React.createRef();
+    this.footerRef = React.createRef();
     this.popupHeightRefs = [];
   }
 
@@ -23,7 +23,7 @@ class Todo extends Component {
     this.popupHeightRefs = [
       ...this.props.layoutRef,
       this.todoListChooserRef, 
-      this.addTodoRef
+      this.footerRef
     ];
   }
 
@@ -35,7 +35,9 @@ class Todo extends Component {
           isVisible={this.props.isVisiblePopup}>
           <ListChooser innerRef={this.todoListChooserRef}/>
           <TodoList popupHeightRefs={this.popupHeightRefs}/>
-          <AddTodo innerRef={this.addTodoRef}/>
+          <Footer innerRef={this.footerRef}>
+            { this.props.isVisibleAddTodo? <AddTodo/> : null }
+          </Footer>
         </Popup>
         <Dashboard
           popupRef={this.popupRef}/>
@@ -46,7 +48,8 @@ class Todo extends Component {
 
 export default connect( 
   (state) => ({
-    isVisiblePopup: state.todo.get('isVisiblePopup')
+    isVisiblePopup: state.todo.get('isVisiblePopup'),
+    isVisibleAddTodo: state.todo.get('isVisibleAddTodo')
   }),
   (dispatch) => ({
     TodoActions: bindActionCreators(todoActions, dispatch)

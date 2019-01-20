@@ -73,7 +73,7 @@ const TodoItem = ({
       <ActionsBox>
         <div onClick={(e) => {
           e.nativeEvent.stopImmediatePropagation();
-          onDelete();}}>
+          onDelete(); }}>
           <StyledRoundIcon
             isActive={isHoverDeleteButton}
             faClassName={'fa fa-times'}/>

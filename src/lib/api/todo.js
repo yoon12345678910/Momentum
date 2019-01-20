@@ -17,7 +17,7 @@ const _defaultTodoData = {
       name: 'Today',
       date: '2018-12-10 20:30:42',
       empty: {
-        title: 'Add a todo to get started',
+        title: 'No todos yet',
         message: 'Switch to Inbox',
         targetLink: '1-inbox'
       }
@@ -27,7 +27,7 @@ const _defaultTodoData = {
       date: '2018-12-10 20:30:42',
       empty: {
         title: 'No completed todos yet',
-        message: 'get started in Today',
+        message: 'Get started in Today',
         targetLink: '1-today'
       }
     }

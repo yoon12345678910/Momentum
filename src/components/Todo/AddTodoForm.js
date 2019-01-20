@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 
-const Wrapper = styled.div`
-  visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
-`;
-
 const StyledInput = styled.input`
   display: block;
   overflow: hidden;
@@ -19,29 +15,24 @@ const StyledInput = styled.input`
 
 const AddTodoForm = ({
   innerRef,
-  isVisible,
   value,
   onChange,
   onKeyPress
 }) => {
   return (
-    <Wrapper 
-      isVisible={isVisible}>
-      <StyledInput 
-        ref={innerRef}
-        value={value} 
-        onChange={onChange}
-        onKeyPress={onKeyPress}
-        type="text"
-        placeholder="New Todo"
-      />
-    </Wrapper>
+    <StyledInput 
+      ref={innerRef}
+      value={value} 
+      onChange={onChange}
+      onKeyPress={onKeyPress}
+      type="text"
+      placeholder="New Todo"
+    />
   );
 };
 
 AddTodoForm.defaultProps = {
   innerRef: null,
-  isVisible: false,
   value: '',
   onChange: () => console.warn('onChange not defined'),
   onKeyPress: () => console.warn('onKeyPress not defined')
@@ -51,7 +42,6 @@ AddTodoForm.propTypes = {
   innerRef: PropTypes.shape({ 
     current: PropTypes.instanceOf(Element) 
   }),
-  isVisible: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func
