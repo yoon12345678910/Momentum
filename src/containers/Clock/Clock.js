@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import { Widget } from 'components/Base';
-import { CurrentTime, Meridiem } from 'components/Clock';
+import { Widget, CurrentTime, Meridiem } from 'components/Clock';
 import * as clockActions from 'redux/modules/clock';
 
 
