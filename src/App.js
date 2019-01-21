@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Widgets } from 'components/Base';
+import { BackgroundOverlay, Widgets } from 'components/Base';
 import * as Layout from 'components/Base/Layout';
 import { Background, BackgroundInfo } from 'containers/Background';
 import Clock from 'containers/Clock/Clock';
 import { Greeting } from 'containers/Greeting';
 import { Weather } from 'containers/Weather';
 import { Todo } from 'containers/Todo';
+import { MainFocus } from 'containers/MainFocus';
 
 
 class App extends Component {
@@ -21,6 +22,7 @@ class App extends Component {
     return (
       <Fragment>
         <Background/>
+        <BackgroundOverlay isVisibleWidgets={this.props.isVisibleWidgets}/>
         <Widgets isVisibleWidgets={this.props.isVisibleWidgets}>
           <Layout.TopRow innerRef={this.topRowRef}>
             <Layout.TopLeft></Layout.TopLeft>
@@ -32,6 +34,9 @@ class App extends Component {
             <Clock/>
             <Greeting/>
           </Layout.Center>
+          <Layout.CenterBelow>
+            <MainFocus/>
+          </Layout.CenterBelow>
           <Layout.BottomRow innerRef={this.bottomRowRef}>
             <Layout.BottomLeft>
               <BackgroundInfo/>
