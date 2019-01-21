@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as todoActions from 'redux/modules/todo';
-import { ListChooserWrapper, ListChooserDropdown } from 'components/Todo';
+import { ListChooserToggle, ListChooserDropdown, ListChooserDropdownItem } from 'components/Todo';
 
 
 class ListChooser extends Component {
@@ -69,28 +69,41 @@ class ListChooser extends Component {
 
   render() {
     const { selectedListChooserId, listChoosers } = this.props;
-    const listChoosersJS = listChoosers.toJS();
-
+    
     if (listChoosers.isEmpty()) {
       return null;
     }
     
+    const listChoosersJS = listChoosers.toJS();
+    const selectedListchooserName = listChoosersJS[selectedListChooserId].name;
+    const listChooserDropdownItems = Object.keys(listChoosersJS)
+      .map((key) => {
+        const { name, todoCnt } = listChoosersJS[key];
+        return (
+          <ListChooserDropdownItem
+            key={key}
+            onClick={() => {
+              this.handleToggleDropdown();
+              this.handleClickListChooser(key); }}
+            name={name}
+            isSelected={key === selectedListChooserId}
+            todoCnt={todoCnt}/>
+        );
+      });
+
     return (
-      <ListChooserWrapper
-        innerRef={this.props.innerRef}
+      <ListChooserToggle
         isActivedDropdownButton={this.state.isActivedDropdownButton}
         onToggleDropdownButton={this.handleToggleDropdownButton}
         onToggleDropdown={this.handleToggleDropdown}
-        selectedListchooserName={listChoosersJS[selectedListChooserId].name}>
+        selectedListchooserName={selectedListchooserName}>
         <ListChooserDropdown
           innerRef={this.dropdownRef}
           isVisibleDropdown={this.state.isVisibleDropdown}
-          onToggleDropdown={this.handleToggleDropdown}
-          onToggleDropdownButton={this.handleToggleDropdownButton}
-          onClickListChooser={this.handleClickListChooser}
-          listChoosers={listChoosersJS}
-          selectedListChooserId={selectedListChooserId}/>
-      </ListChooserWrapper>
+          onToggleDropdownButton={this.handleToggleDropdownButton}>
+          {listChooserDropdownItems}
+        </ListChooserDropdown>
+      </ListChooserToggle>
     );
   }
 }

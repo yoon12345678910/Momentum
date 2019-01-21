@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import ContentEditable from 'react-contenteditable';
 import { RoundIcon2 } from 'components/Base/Icon';
 
+
 const Wrapper = styled.li`
   display: inline-block;
   position: relative;
@@ -68,12 +69,10 @@ const TodoItem = ({
 }) => {
   return (
     <Wrapper
-      onMouseEnter={onHoverDeleteButton}
-      onMouseLeave={onHoverDeleteButton}>
+      onMouseEnter={() => onHoverDeleteButton(true)}
+      onMouseLeave={() => onHoverDeleteButton(false)}>
       <ActionsBox>
-        <div onClick={(e) => {
-          e.nativeEvent.stopImmediatePropagation();
-          onDelete(); }}>
+        <div onClick={onDelete}>
           <StyledRoundIcon
             isActive={isHoverDeleteButton}
             faClassName={'fa fa-times'}/>
@@ -91,11 +90,7 @@ const TodoItem = ({
         disabled={disabled}
         onChange={onChange}
         onDoubleClick={onDoubleClick}
-        onKeyPress={(e) => {
-          if (e.key === 'Enter') {
-            onChangeTitle(e);
-          }
-        }}
+        onKeyPress={() => onChangeTitle()}
         onBlur={onChangeTitle}
         done={isDone ? 1 : 0}
         spellCheck={false}/>

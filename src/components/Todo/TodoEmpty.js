@@ -20,7 +20,7 @@ const Title = styled.p`
   opacity: .7;
 `;
 
-const AddTodoButton = styled.button`
+const NewTodoButton = styled.button`
   padding: 8px 28px 9px 28px;
   border-radius: 50px;
   border: none;
@@ -44,11 +44,11 @@ const TodoEmpty = ({
     <Wrapper>
       <Title>{title}</Title>
       {children}
-      <AddTodoButton
+      <NewTodoButton
         isVisible={!isVisibleAddTodo}
         onClick={onToggleAddTodo}>
         New Todo
-      </AddTodoButton>
+      </NewTodoButton>
     </Wrapper>
   );
 };

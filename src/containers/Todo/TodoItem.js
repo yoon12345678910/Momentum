@@ -63,8 +63,7 @@ class TodoItem extends Component {
     }
   }
 
-  handleChangeTitle = (e) => {
-    e.preventDefault();
+  handleChangeTitle = () => {
     const {
       value,
       enteredValue
@@ -90,22 +89,24 @@ class TodoItem extends Component {
     }
   }
 
-  handleChangeCheckbox = () => {
+  handleChangeCheckbox = (e) => {
+    e.nativeEvent.stopImmediatePropagation();
     this.props.TodoActions.updateTodoDone({
       id: this.props.id,
       isDone: !this.props.isDone
     });
   }
 
-  handleDelete = () => {
+  handleDelete = (e) => {
+    e.nativeEvent.stopImmediatePropagation();
     this.props.TodoActions.deleteTodo({
       id: this.props.id
     });
   }
 
-  handleHoverDeleteButton = () => {
+  handleHoverDeleteButton = (isHoverDeleteButton) => {
     this.setState({
-      isHoverDeleteButton: !this.state.isHoverDeleteButton
+      isHoverDeleteButton
     });
   }
 

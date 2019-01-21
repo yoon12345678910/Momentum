@@ -18,77 +18,37 @@ const Wrapper = styled(Dropdown.Wrapper)`
   `};
 `;
 
-const Name = styled.span`
-  opacity: ${props => props.isSelected ? 1 : .7};
-`;
-
-const TodoCount = styled.span`
-  margin-left: 6px;
-  opacity: .45;
-`;
-
 const ListChooserDropdown = ({
   innerRef,
   isVisibleDropdown,
-  onToggleDropdown,
   onToggleDropdownButton,
-  onClickListChooser,
-  listChoosers,
-  selectedListChooserId
+  children
 }) => {
-  const dropdownList = Object.keys(listChoosers)
-    .map((key) => {
-      const { name, todoCnt } = listChoosers[key];
-      return (
-        <Dropdown.Item
-          key={key}
-          onClick={() => {
-            onToggleDropdown();
-            onClickListChooser(key);}}>
-          <Name isSelected={key === selectedListChooserId}>
-            {name}
-          </Name>
-          <TodoCount>{todoCnt}</TodoCount>
-        </Dropdown.Item>
-      );
-    });
   return (
     <Wrapper
       innerRef={innerRef}
       isVisible={isVisibleDropdown}
       onMouseEnter={() => onToggleDropdownButton(true)}
       onMouseLeave={() => onToggleDropdownButton(false)}>
-      {dropdownList}
+      {children}
     </Wrapper>
   );
 };
 
 ListChooserDropdown.defaultProps = {
-  // innerRef: null,
+  innerRef: null,
   isVisibleDropdown: false,
-  onToggleDropdown: () => console.warn('onToggleDropdown not defined'),
   onToggleDropdownButton: () => console.warn('onToggleDropdownButton not defined'),
-  onClickListChooser: () => console.warn('onClickListChooser not defined'),
-  listChoosers: {
-    name: '',
-    todoCnt: 0
-  },
-  selectedListChooserId: ''
+  children: null
 };
 
 ListChooserDropdown.propTypes = {
-  // innerRef: PropTypes.element,
+  innerRef: PropTypes.shape({ 
+    current: PropTypes.instanceOf(Element) 
+  }),
   isVisibleDropdown: PropTypes.bool,
-  onToggleDropdown: PropTypes.func,
   onToggleDropdownButton: PropTypes.func,
-  onClickListChooser: PropTypes.func,
-  listChoosers: PropTypes.objectOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      todoCnt: PropTypes.number
-    })
-  ),
-  selectedListChooserId: PropTypes.string
+  children: PropTypes.node
 };
 
 export default ListChooserDropdown;

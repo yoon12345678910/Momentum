@@ -29,11 +29,12 @@ class TodoEmpty extends Component {
       selectedListChooserId, 
       listChoosers
     } = this.props;
-    const listChoosersJS = listChoosers.toJS();
-
+    
     if (listChoosers.isEmpty()) {
       return null;
     }
+    
+    const listChoosersJS = listChoosers.toJS();
     const emptyInfo = listChoosersJS[selectedListChooserId].empty;
 
     return (
