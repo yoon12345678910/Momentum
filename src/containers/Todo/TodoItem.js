@@ -12,9 +12,7 @@ class TodoItem extends Component {
 
     this.state = {
       value: this.props.title,
-      enteredValue: this.props.title,
       disabledInput: true,
-      isDone: this.props.isDone,
       isHoverDeleteButton: false,
     };
 
@@ -64,10 +62,8 @@ class TodoItem extends Component {
   }
 
   handleChangeTitle = () => {
-    const {
-      value,
-      enteredValue
-    } = this.state;
+    const value = this.state.value;
+    const enteredValue = this.props.title;
 
     this.isClickOrBlur = true;
     const trim = value.replace(/(^\s*)|(\s*$)/, '');
@@ -84,7 +80,8 @@ class TodoItem extends Component {
       });
       this.props.TodoActions.updateTodoTitle({
         id: this.props.id,
-        title: value
+        title: value,
+        isMainFocus: this.props.isMainFocus
       });
     }
   }
@@ -93,14 +90,16 @@ class TodoItem extends Component {
     e.nativeEvent.stopImmediatePropagation();
     this.props.TodoActions.updateTodoDone({
       id: this.props.id,
-      isDone: !this.props.isDone
+      isDone: !this.props.isDone,
+      isMainFocus: this.props.isMainFocus
     });
   }
 
   handleDelete = (e) => {
     e.nativeEvent.stopImmediatePropagation();
     this.props.TodoActions.deleteTodo({
-      id: this.props.id
+      id: this.props.id,
+      isMainFocus: this.props.isMainFocus
     });
   }
 

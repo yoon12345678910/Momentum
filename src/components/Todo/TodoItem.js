@@ -81,7 +81,7 @@ const TodoItem = ({
       <Label>
         <Checkbox
           type="checkbox"
-          defaultChecked={isDone}
+          checked={isDone}
           onChange={onChangeCheckbox}/>
       </Label>
       <StyledContentEditable
@@ -90,7 +90,11 @@ const TodoItem = ({
         disabled={disabled}
         onChange={onChange}
         onDoubleClick={onDoubleClick}
-        onKeyPress={() => onChangeTitle()}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            onChangeTitle();
+          }
+        }}
         onBlur={onChangeTitle}
         done={isDone ? 1 : 0}
         spellCheck={false}/>

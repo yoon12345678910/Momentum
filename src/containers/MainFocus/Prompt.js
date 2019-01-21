@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as todoActions from 'redux/modules/todo';
-import { AddTodoForm } from 'components/Todo';
+import { MainFocusPrompt } from 'components/MainFocus';
+import { animateCSS } from 'lib/utils';
 
 
-class AddTodo extends Component {
+class Prompt extends Component {
   constructor(props) {
     super(props);
 
@@ -13,15 +14,20 @@ class AddTodo extends Component {
       value: ''
     };
 
+    this.wrapperRef = React.createRef();
     this.inputRef = React.createRef();
+    this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   componentDidMount() {
-    if (this.props.todos.isEmpty()) {
-      this.inputRef.current.focus();
-    }
+    animateCSS(this.wrapperRef.current, 'fadeIn');
+    this.inputRef.current.focus();
+  }
+
+  handleClick = () => {
+    this.inputRef.current.focus();
   }
 
   handleChange = (e) => {
@@ -39,7 +45,7 @@ class AddTodo extends Component {
         });
         this.props.TodoActions.addTodo({
           title: this.state.value,
-          isMainFocus: false,
+          isMainFocus: true
         });
       }
     } 
@@ -47,9 +53,11 @@ class AddTodo extends Component {
 
   render() {
     return (
-      <AddTodoForm
-        innerRef={this.inputRef}
+      <MainFocusPrompt
+        wrapperRef={this.wrapperRef}
+        inputRef={this.inputRef}
         value={this.state.value}
+        onClick={this.handleClick}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}/>
     );
@@ -57,10 +65,8 @@ class AddTodo extends Component {
 }
 
 export default connect(
-  (state) => ({
-    todos: state.todo.get('todos')
-  }),
+  (state) => ({}),
   (dispatch) => ({
     TodoActions: bindActionCreators(todoActions, dispatch)
   })
-)(AddTodo);
+)(Prompt);

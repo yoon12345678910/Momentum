@@ -18,6 +18,7 @@ class Todo extends Component {
   }
 
   componentDidMount() {
+    this.props.TodoActions.initTodo();
     this.popupHeightRefs = [
       ...this.props.layoutRef,
       this.header, 

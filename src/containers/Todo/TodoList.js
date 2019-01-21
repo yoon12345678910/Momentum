@@ -13,11 +13,11 @@ class TodoList extends Component {
     this.originalListHieght = 0;
     this.wrapperRef = React.createRef();
     this.listRef = React.createRef();
-    this.updateDimensions = this.updateDimensions.bind(this);
+    this.resizeList = this.resizeList.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.updateDimensions);
+    window.addEventListener('resize', this.resizeList);
   }
 
   componentDidUpdate() {
@@ -26,12 +26,11 @@ class TodoList extends Component {
     if (this.originalListHieght > 0 && this.listRef.current.offsetHeight === 0) {
       this.setListSize(this.originalListHieght);
     } else {
-      const toBeHeight = this.calculateListSize();
-      this.setListSize(toBeHeight);
+      this.resizeList();
     }
   }
 
-  updateDimensions() {
+  resizeList() {
     if (this.props.isVisiblePopup) {
       const toBeHeight = this.calculateListSize();
       this.setListSize(toBeHeight);
@@ -70,7 +69,7 @@ class TodoList extends Component {
                   title={todo.title}
                   resizeList={this.resizeList}
                   isDone={todo.isDone}
-                  />;
+                  isMainFocus={todo.isMainFocus}/>;
       })) : <TodoEmpty/>;
     return content;
   }

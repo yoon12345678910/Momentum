@@ -13,17 +13,8 @@ class Dashboard extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  initTodo = () => {
-    if (this.props.status === 'INIT') {
-      this.props.TodoActions.initTodo();
-    }
-  }
-
   handleClick = () => {
-    const onToggle = () => {
-      this.props.TodoActions.toggleDashboard();
-      this.initTodo();
-    };
+    const onToggle = () => this.props.TodoActions.toggleDashboard();
     const outsideClickListener = (e) => {
       if (!this.props.popupRef.current.contains(e.target)) {
         onToggle();

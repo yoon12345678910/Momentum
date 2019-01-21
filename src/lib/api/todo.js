@@ -59,7 +59,8 @@ export const DB = (function () {
       const result = {
         selectedListChooserId: _DB.selectedListChooserId,
         listChoosers: this.getListChoosers(),
-        todos: this.getTodos({ listChooserId: _DB.selectedListChooserId })
+        todos: this.getTodos({ listChooserId: _DB.selectedListChooserId }),
+        mainFocusTodos: _DB.todos.filter(todo => !!todo.isMainFocus)
       };
       
       return result;
@@ -132,6 +133,7 @@ export const DB = (function () {
       this._saveDB();
     },
   
+
     addTodo({ listChooserId, title }) {
       const date = moment().format('YYYY-MM-DD HH:mm:ss');
       const item = {
@@ -139,6 +141,7 @@ export const DB = (function () {
         listChooserId,
         title: title,
         isDone: listChooserId === DEFAULT_LIST_CHOOSER_ID.DONE ? true : false,
+        isMainFocus: false,
         date
       };
 
@@ -171,6 +174,24 @@ export const DB = (function () {
 
       _DB.todos[index].title = title;
       this._saveDB();
+    },
+
+
+    addMainFocusTodo({ title }) {
+      const date = moment().format('YYYY-MM-DD HH:mm:ss');
+      const item = {
+        id: `${date}-${_DB.todos.length}`,
+        listChooserId: DEFAULT_LIST_CHOOSER_ID.TODAY,
+        title: title,
+        isDone: false,
+        isMainFocus: true,
+        date,
+      };
+
+      _DB.todos.push(item);
+      this._saveDB();
+
+      return item;
     },
 
 
