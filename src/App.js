@@ -1,12 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-// import './lib/utils';
 import { Widgets } from 'components/Base';
 import { Background, BackgroundInfo } from 'containers/Background';
 import Clock from 'containers/Clock/Clock';
 import { Greeting } from 'containers/Greeting';
 import { Weather } from 'containers/Weather';
-import LegacyTodo from './component/todo/Todo';
 import { Todo } from 'containers/Todo';
 
 
@@ -42,9 +40,6 @@ class App extends Component {
               <BackgroundInfo/>
             </div>
             <div className="bottom-right">
-              <LegacyTodo 
-                refs={[this.topRowRef, this.bottomRowRef]}
-              />
               <Todo
                 layoutRef={[this.topRowRef, this.bottomRowRef]}/>
             </div>
