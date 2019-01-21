@@ -1,72 +1,8 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 @import url('../static/fonts/fonts.css');
 @import url('./animations.css');
+@import url('./reset.css');
 
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-
-
-
-/* -------------------------------------------- */
-/*                                              */
-/* index.css                                    */
-/*                                              */
-/* -------------------------------------------- */
-
-
-:root {
- --widget-padding: 19px;
- --border-radius: 4px;
- --dropdown-li-padding-v: 7px;
- --dropdown-li-padding-h: 16px;
- --header-height: 47px;
-}
 
 body {
   overflow: hidden;
@@ -109,62 +45,6 @@ button {
   cursor: pointer;
 }
 
-.top-row, .bottom-row {
-  display: flex;
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
-.top-row {
-  top: 0;
-}
-
-.bottom-row {
-  bottom: 0;
-}
-
-.top-left, .bottom-left {
-  flex: 1 0 auto;
-  position: relative;
-}
-
-.top-right, .bottom-right {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: row-reverse;
-  flex-wrap: wrap;
-  position: relative;
-  justify-content: flex-start;
-  text-align: right;
-}
-
-.center {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  text-align: center;
-  -webkit-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-  -webkit-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
-}
-
-
-@media screen and (max-height: 550px) {
-  .center, .center-below {
-    font-size: 80%;
-  }
-}
-
-@media screen and (max-height: 600px) {
-  .center, .center-below, body {
-      font-size: 90%;
-  }
-}
-
 ::-webkit-scrollbar {
   height: 13px;
   width: 13px;
@@ -177,5 +57,14 @@ button {
   border-radius: 7px;
 }
 
+@media screen and (max-height: 550px) {
+  .center-below {
+    font-size: 80%;
+  }
+}
 
-/* --------------- index.css --------------- */
+@media screen and (max-height: 600px) {
+  body {
+      font-size: 90%;
+  }
+}

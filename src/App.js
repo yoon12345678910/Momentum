@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Widgets } from 'components/Base';
+import * as Layout from 'components/Base/Layout';
 import { Background, BackgroundInfo } from 'containers/Background';
 import Clock from 'containers/Clock/Clock';
 import { Greeting } from 'containers/Greeting';
@@ -20,30 +21,25 @@ class App extends Component {
     return (
       <Fragment>
         <Background/>
-        <Widgets
-          isVisibleWidgets={this.props.isVisibleWidgets}>
-          <div 
-            ref={this.topRowRef}
-            className="top-row">
-            <div className="top-left"></div>
-            <div className="top-right">
+        <Widgets isVisibleWidgets={this.props.isVisibleWidgets}>
+          <Layout.TopRow innerRef={this.topRowRef}>
+            <Layout.TopLeft></Layout.TopLeft>
+            <Layout.TopRight>
               <Weather/>
-            </div>
-          </div>
-          <div className="center">
+            </Layout.TopRight>
+          </Layout.TopRow>
+          <Layout.Center>
             <Clock/>
             <Greeting/>
-          </div>
-          <div ref={this.bottomRowRef}
-            className="bottom-row">
-            <div className="bottom-left">
+          </Layout.Center>
+          <Layout.BottomRow innerRef={this.bottomRowRef}>
+            <Layout.BottomLeft>
               <BackgroundInfo/>
-            </div>
-            <div className="bottom-right">
-              <Todo
-                layoutRef={[this.topRowRef, this.bottomRowRef]}/>
-            </div>
-          </div>
+            </Layout.BottomLeft>
+            <Layout.BottomRight>
+              <Todo layoutRef={[this.topRowRef, this.bottomRowRef]}/>
+            </Layout.BottomRight>
+          </Layout.BottomRow>
         </Widgets>
       </Fragment>
     );
@@ -55,4 +51,3 @@ export default connect(
     isVisibleWidgets: state.auth.get('isVisibleWidgets')
   })
 )(App);
-
