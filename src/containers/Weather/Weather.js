@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as weatherActions from 'redux/modules/weather';
-import { Widget } from 'components/Base';
+import { WidgetPopup } from 'containers/Base';
 import { Popup, Header, Details } from 'components/Weather';
 import { Dashboard, LocationSearch, WeatherForecast } from 'containers/Weather';
 import { loadLocalStorage } from 'lib/api/weather';
@@ -79,21 +79,24 @@ class Weather extends Component {
   }
 
   render() {
+    const detailedWeatherJS = this.props.detailedWeather.toJS();
+
     return (
-      <Widget>
+      <Fragment>
         <Dashboard popupRef={this.popupRef}/>
         <Popup 
           innerRef={this.popupRef}
-          isVisible={this.props.isVisiblePopup}>
+          isVisible={this.props.isVisiblePopup}
+          isDisplayed={this.props.isDisplayedPopup}>
           <Header>
             <LocationSearch/>
           </Header>
           <Details
             isTodaySelected={this.props.isTodaySelected}
-            data={this.props.detailedWeather.toJS()}/>
+            data={detailedWeatherJS}/>
           <WeatherForecast/>
         </Popup>
-      </Widget>
+      </Fragment>
     );
   }
 }
@@ -108,4 +111,4 @@ export default connect(
   (dispatch) => ({
     WeatherActions: bindActionCreators(weatherActions, dispatch)
   })
-)(Weather);
+)(WidgetPopup(Weather));
