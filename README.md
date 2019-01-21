@@ -7,6 +7,7 @@ Cloning Momentum with React.
 - [x] Greeting
 - [x] Weather
 - [x] Todo
+- [x] Main Focus
 
 # Stack
 
