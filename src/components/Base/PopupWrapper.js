@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   position: relative;
   opacity: ${props => props.isVisible ? 1 : 0};
   z-index: 2;
-  transition: all .55s ease;
+  transition: all .15s ease;
 `;
 
 const PopupWrapper = ({
