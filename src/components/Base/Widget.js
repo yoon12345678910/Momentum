@@ -7,7 +7,6 @@ const StyledWidget = styled.div`
   display: inline-block;
   position: relative;
   transition: opacity .5s ease;
-  -moz-user-select: none;
   user-select: none;
 `;
 

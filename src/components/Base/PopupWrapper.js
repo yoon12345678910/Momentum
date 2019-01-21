@@ -4,16 +4,17 @@ import styled from 'styled-components';
 
 
 const Wrapper = styled.div`
-  overflow: ${props => props.isVisible ? 'visible': 'hidden'};
+  display: ${props => props.isDisplayed ? 'block': 'none'};
   position: relative;
   opacity: ${props => props.isVisible ? 1 : 0};
   z-index: 2;
-  transition: all .15s ease;
+  transition: all .55s ease;
 `;
 
 const PopupWrapper = ({
-  isVisible,
   innerRef,
+  isVisible,
+  isDisplayed,
   className,
   children
 }) => {
@@ -21,6 +22,7 @@ const PopupWrapper = ({
     <Wrapper
       ref={innerRef}
       isVisible={isVisible}
+      isDisplayed={isDisplayed}
       className={className}>
         {children}
     </Wrapper>
@@ -28,12 +30,18 @@ const PopupWrapper = ({
 };
 
 PopupWrapper.defaultProps = {
+  innerRef: null,
   isVisible: false,
+  isDisplayed: false,
   children: null
 };
 
 PopupWrapper.propTypes = {
+  innerRef: PropTypes.shape({ 
+    current: PropTypes.instanceOf(Element) 
+  }),
   isVisible: PropTypes.bool,
+  isDisplayed: PropTypes.bool,
   children: PropTypes.node
 };
 
