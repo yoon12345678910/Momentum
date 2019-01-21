@@ -12,6 +12,7 @@ const StyledCenter = styled.div`
   text-align: center;
   transform: translate(-50%,-50%);
   transform-origin: 50% 50%;
+  z-index: 1;
 
   @media (max-height: 550px) {
     font-size: 80%;
