@@ -21,8 +21,12 @@ const Widget = ({
   );
 };
 
+Widget.defaultProps = {
+  children: null
+};
+
 Widget.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 };
 
 export default Widget;
