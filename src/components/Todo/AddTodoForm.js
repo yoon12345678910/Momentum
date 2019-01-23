@@ -15,14 +15,14 @@ const StyledInput = styled.input`
 
 const AddTodoForm = ({
   innerRef,
-  value,
+  title,
   onChange,
   onKeyPress
 }) => {
   return (
     <StyledInput 
       ref={innerRef}
-      value={value} 
+      value={title} 
       onChange={onChange}
       onKeyPress={onKeyPress}
       type="text"
@@ -33,7 +33,7 @@ const AddTodoForm = ({
 
 AddTodoForm.defaultProps = {
   innerRef: null,
-  value: '',
+  title: '',
   onChange: () => console.warn('onChange not defined'),
   onKeyPress: () => console.warn('onKeyPress not defined')
 };
@@ -42,7 +42,7 @@ AddTodoForm.propTypes = {
   innerRef: PropTypes.shape({ 
     current: PropTypes.instanceOf(Element) 
   }),
-  value: PropTypes.string,
+  title: PropTypes.string,
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func
 };

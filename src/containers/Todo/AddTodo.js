@@ -10,7 +10,7 @@ class AddTodo extends Component {
     super(props);
 
     this.state = {
-      value: ''
+      title: ''
     };
 
     this.inputRef = React.createRef();
@@ -26,19 +26,20 @@ class AddTodo extends Component {
 
   handleChange = (e) => {
     this.setState({
-      value: e.target.value
+      title: e.target.value
     });
   }
 
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      const trim = this.state.value.replace(/\s/gi, '');
+      const { title } = this.state;
+      const trim = title.replace(/\s/gi, '');
       if (trim.length) {
         this.setState({
-          value: ''
+          title: ''
         });
         this.props.TodoActions.addTodo({
-          title: this.state.value,
+          title: title,
           isMainFocus: false,
         });
       }
@@ -49,7 +50,7 @@ class AddTodo extends Component {
     return (
       <AddTodoForm
         innerRef={this.inputRef}
-        value={this.state.value}
+        title={this.state.title}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}/>
     );
