@@ -32,7 +32,7 @@ const StyledInput = styled.input`
 const MainFocusPrompt = ({
   wrapperRef,
   inputRef,
-  value,
+  title,
   onClick,
   onChange,
   onKeyPress
@@ -44,7 +44,7 @@ const MainFocusPrompt = ({
       <Title>What is your main focus for today?</Title>
       <StyledInput
         ref={inputRef}
-        value={value} 
+        value={title} 
         onChange={onChange}
         onKeyPress={onKeyPress}
         type="text"/>
@@ -55,7 +55,7 @@ const MainFocusPrompt = ({
 MainFocusPrompt.defaultProps = {
   wrapperRef: null,
   inputRef: null,
-  value: '',
+  title: '',
   onClick: () => console.warn('onClick not defined'),
   onChange: () => console.warn('onChange not defined'),
   onKeyPress: () => console.warn('onKeyPress not defined'),
@@ -68,7 +68,7 @@ MainFocusPrompt.propTypes = {
   innerRef: PropTypes.shape({
     current: PropTypes.instanceOf(Element)
   }),
-  value: PropTypes.string,
+  title: PropTypes.string,
   onClick: PropTypes.func,
   onChange: PropTypes.func,
   onKeyPress: PropTypes.func
