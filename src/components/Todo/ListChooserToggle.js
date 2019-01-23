@@ -5,17 +5,6 @@ import { RoundIcon1 } from 'components/Base/Icon';
 
 
 const Wrapper = styled.div`
-  position: relative;
-  height: 47px;
-`;
-
-const ListRow = styled.div`
-  display: flex;
-  position: relative;
-  height: 47px;
-`;
-
-const ActiveList = styled.div`
   display: inline-flex;
   flex: 1 1 auto;
   padding-left: 19px;
@@ -39,8 +28,7 @@ const StyledRoundIcon = styled(RoundIcon1)`
   margin: 0 3px;
 `;
 
-const ListChooserWrapper = ({
-  innerRef,
+const ListChooserToggle = ({
   isActivedDropdownButton,
   onToggleDropdown,
   onToggleDropdownButton,
@@ -48,43 +36,37 @@ const ListChooserWrapper = ({
   children
 }) => {
   return (
-    <Wrapper ref={innerRef}>
-      <ListRow>
-        <ActiveList>
-          <DropdownToggle
-            onMouseEnter={() => onToggleDropdownButton(true)}
-            onMouseLeave={() => onToggleDropdownButton(false)}
-            onClick={onToggleDropdown}>
-            <ListChooserName>
-              {selectedListchooserName}
-            </ListChooserName>
-            <StyledRoundIcon
-              isActive={isActivedDropdownButton}
-              faClassName={'fa fa-angle-down'}/>
-          </DropdownToggle>
-          {children}
-        </ActiveList>
-      </ListRow>
+    <Wrapper>
+      <DropdownToggle
+        onMouseEnter={() => onToggleDropdownButton(true)}
+        onMouseLeave={() => onToggleDropdownButton(false)}
+        onClick={onToggleDropdown}>
+        <ListChooserName>
+          {selectedListchooserName}
+        </ListChooserName>
+        <StyledRoundIcon
+          isActive={isActivedDropdownButton}
+          faClassName={'fa fa-angle-down'}/>
+      </DropdownToggle>
+      {children}
     </Wrapper>
   );
 };
 
-ListChooserWrapper.defaultProps = {
-  // innerRef: null,
+ListChooserToggle.defaultProps = {
   isActivedDropdownButton: false,
   onToggleDropdown: () => console.warn('onToggleDropdown not defined'),
   onToggleDropdownButton: () => console.warn('onToggleDropdownButton not defined'),
   selectedListchooserName: '',
-  // children: null
+  children: null
 };
 
-ListChooserWrapper.propTypes = {
-  // innerRef: PropTypes.node,
+ListChooserToggle.propTypes = {
   isActivedDropdownButton: PropTypes.bool,
   onToggleDropdown: PropTypes.func,
   onToggleDropdownButton: PropTypes.func,
   selectedListchooserName: PropTypes.string,
-  // children: PropTypes.element
+  children: PropTypes.element
 };
 
-export default ListChooserWrapper;
+export default ListChooserToggle;

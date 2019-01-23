@@ -10,34 +10,34 @@ class TodoList extends Component {
   constructor(props) {
     super(props);
 
+    this.originalListHieght = 0;
     this.wrapperRef = React.createRef();
     this.listRef = React.createRef();
-    this.originalListHieght = 0; 
+    this.resizeList = this.resizeList.bind(this);
   }
 
   componentDidMount() {
-    this.resizeList();
+    window.addEventListener('resize', this.resizeList);
   }
 
   componentDidUpdate() {
-    this.resizeList();
-  }
-
-  resizeList = () => {
-    const setValue = (value) => {
-      this.wrapperRef.current.style.minHeight = `${value}px`;
-      this.wrapperRef.current.style.maxHeight = `${value}px`;
-      this.listRef.current.style.minHeight = `${value}px`;
-      this.listRef.current.style.maxHeight = `${value}px`;
-    };
-    
     // Prevent issue 
     // When a pop-up is turned on and you click outside of the widget, the list becomes zero.
     if (this.originalListHieght > 0 && this.listRef.current.offsetHeight === 0) {
-      setValue(this.originalListHieght);
-      return;
-    };
+      this.setListSize(this.originalListHieght);
+    } else {
+      this.resizeList();
+    }
+  }
 
+  resizeList() {
+    if (this.props.isVisiblePopup) {
+      const toBeHeight = this.calculateListSize();
+      this.setListSize(toBeHeight);
+    }
+  }
+
+  calculateListSize = () => {
     this.listRef.current.style.minHeight = null;
     this.listRef.current.style.maxHeight = null;
 
@@ -49,7 +49,14 @@ class TodoList extends Component {
     const listHeight = this.listRef.current.offsetHeight + 2;
     const toBeHeight = Math.min(Math.max(listHeight, this.props.dropdownHeight), maxHeight);
     this.originalListHieght = Math.min(listHeight, maxHeight);
-    setValue(toBeHeight);
+    return toBeHeight;
+  }
+
+  setListSize = (height) => {
+    this.wrapperRef.current.style.minHeight = `${height}px`;
+    this.wrapperRef.current.style.maxHeight = `${height}px`;
+    this.listRef.current.style.minHeight = `${height}px`;
+    this.listRef.current.style.maxHeight = `${height}px`;
   }
 
   paintTodoList = () => {
@@ -60,10 +67,9 @@ class TodoList extends Component {
                   key={todo.id}
                   id={todo.id}
                   title={todo.title}
-                  // listChooserId={todo.listChooserId}
                   resizeList={this.resizeList}
                   isDone={todo.isDone}
-                  />;
+                  isMainFocus={todo.isMainFocus}/>;
       })) : <TodoEmpty/>;
     return content;
   }
@@ -81,6 +87,7 @@ class TodoList extends Component {
 
 export default connect(
   (state) => ({
+    isVisiblePopup: state.todo.get('isVisiblePopup'),
     todos: state.todo.get('todos'),
     dropdownHeight: state.todo.get('dropdownHeight')
   }),

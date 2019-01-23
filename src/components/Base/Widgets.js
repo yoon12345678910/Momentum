@@ -11,6 +11,7 @@ const StyledWidgets = styled.div`
   bottom: 0;
   transition: opacity .5s ease;
   opacity: ${props => props.isVisibleWidgets ? 1 : 0};
+  z-index: 3;
 `;
 
 const Widgets = ({

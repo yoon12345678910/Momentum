@@ -13,8 +13,15 @@ class AddTodo extends Component {
       value: ''
     };
 
+    this.inputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.todos.isEmpty()) {
+      this.inputRef.current.focus();
+    }
   }
 
   handleChange = (e) => {
@@ -27,11 +34,12 @@ class AddTodo extends Component {
     if (e.key === 'Enter') {
       const trim = this.state.value.replace(/\s/gi, '');
       if (trim.length) {
-        this.props.TodoActions.addTodo({
-          title: this.state.value
-        });
         this.setState({
           value: ''
+        });
+        this.props.TodoActions.addTodo({
+          title: this.state.value,
+          isMainFocus: false,
         });
       }
     } 
@@ -40,19 +48,17 @@ class AddTodo extends Component {
   render() {
     return (
       <AddTodoForm
-        innerRef={this.props.innerRef}
-        isVisible={this.props.isVisibleAddTodo}
+        innerRef={this.inputRef}
         value={this.state.value}
         onChange={this.handleChange}
-        onKeyPress={this.handleKeyPress}
-      />
+        onKeyPress={this.handleKeyPress}/>
     );
   }
 }
 
 export default connect(
   (state) => ({
-    isVisibleAddTodo: state.todo.get('isVisibleAddTodo')
+    todos: state.todo.get('todos')
   }),
   (dispatch) => ({
     TodoActions: bindActionCreators(todoActions, dispatch)

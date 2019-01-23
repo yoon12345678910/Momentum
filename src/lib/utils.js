@@ -31,13 +31,17 @@ export const animateCSS = (el, animationName) => {
         }
       }
     }(document.createElement('div')));
-  
-    el.classList.add(animationName);
-    el.addEventListener(animationEnd, function () {
+
+    const callback = function () {
       this.classList.remove(animationName);
+      el.removeEventListener(animationEnd, callback);
+      
       resolve(el);
       reject(new Error('animateCSS is failed'));
-    });
+    };
+  
+    el.classList.add(animationName);
+    el.addEventListener(animationEnd, callback);
   });
 };
 

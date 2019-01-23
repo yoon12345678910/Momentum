@@ -6,28 +6,46 @@ import { TodoEmpty as TodoEmptyComponent, TodoEmptyLinkMessage, TodoEmptyDescMes
 
 
 class TodoEmpty extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleToggleAddTodo = this.handleToggleAddTodo.bind(this);
+    this.handleClickListChooser = this.handleClickListChooser.bind(this);
+  }
+
+  handleToggleAddTodo = () => {
+    this.props.TodoActions.toggleAddTodo();
+  }
+
+  handleClickListChooser = (targetLink) => {
+    this.props.TodoActions.changeListChooser({
+      listChooserId: targetLink
+    });
+  }
+
   render() {
     const { 
       isVisibleAddTodo, 
       selectedListChooserId, 
-      listChoosers,
-      TodoActions
+      listChoosers
     } = this.props;
-    const listChoosersJS = listChoosers.toJS();
-
+    
     if (listChoosers.isEmpty()) {
       return null;
     }
+    
+    const listChoosersJS = listChoosers.toJS();
     const emptyInfo = listChoosersJS[selectedListChooserId].empty;
 
     return (
       <TodoEmptyComponent
         isVisibleAddTodo={isVisibleAddTodo}
         title={emptyInfo.title}
-        onToggleAddTodo={() => this.props.TodoActions.toggleAddTodo()}>
+        onToggleAddTodo={this.handleToggleAddTodo}>
         {emptyInfo.targetLink ?
           <TodoEmptyLinkMessage
-            onClickListChooser={() => TodoActions.changeListChooser({ listChooserId: emptyInfo.targetLink })}
+            onClickListChooser={this.handleClickListChooser}
+            targetLink={emptyInfo.targetLink}
             message={emptyInfo.message}/> 
           : <TodoEmptyDescMessage
               message={emptyInfo.message}/>

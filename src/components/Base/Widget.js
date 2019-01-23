@@ -7,7 +7,6 @@ const StyledWidget = styled.div`
   display: inline-block;
   position: relative;
   transition: opacity .5s ease;
-  -moz-user-select: none;
   user-select: none;
 `;
 
@@ -22,8 +21,12 @@ const Widget = ({
   );
 };
 
+Widget.defaultProps = {
+  children: null
+};
+
 Widget.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node
 };
 
 export default Widget;

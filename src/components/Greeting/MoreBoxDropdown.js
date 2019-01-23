@@ -18,7 +18,7 @@ const Wrapper = styled(Dropdown.Wrapper)`
   `};
 `;
 
-const List = styled.ul`
+const List = styled.div`
   padding: 4px 0;
 `;
 

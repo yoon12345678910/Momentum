@@ -38,6 +38,10 @@ const Link = styled.a`
     opacity: .9;
   }
 
+  &:link {
+    color: #fff;
+  }
+  
   &:visited {
     color: #fff;
   }

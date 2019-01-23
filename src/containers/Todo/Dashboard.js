@@ -46,6 +46,7 @@ class Dashboard extends Component {
 
 export default connect(
   (state) => ({
+    status: state.todo.get('status'),
     isVisiblePopup: state.todo.get('isVisiblePopup')
   }),
   (dispatch) => ({

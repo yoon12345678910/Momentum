@@ -22,16 +22,14 @@ const StyledPopup = styled(DefaultPopup)`
 `;
 
 const Popup = ({
-  innerRef,
   isVisible,
-  children
+  children,
+  ...rest
 }) => {
   return (
-    <StyledPopupWrapper 
-      innerRef={innerRef}
-      isVisible={isVisible}>
-      <StyledPopup
-        isVisible={isVisible}>
+    <StyledPopupWrapper isVisible={isVisible}
+      {...rest}>
+      <StyledPopup>
         {children}
       </StyledPopup>
     </StyledPopupWrapper>

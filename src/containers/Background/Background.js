@@ -58,7 +58,7 @@ class Background extends Component {
       return null;
     }
 
-    imageUrl = currentImageJS.urls.regular;
+    imageUrl = currentImageJS.urls.full;
 
     return (
       <div>

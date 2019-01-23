@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 
 const Content = styled.div`
-  display: ${props => props.isVisible ? 'block' : 'none'};
+  // display: block;
   position: absolute;
   overflow-x: hidden;
   overflow-y: auto;
@@ -19,26 +19,22 @@ const Content = styled.div`
 `;
 
 const Popup = ({
-  isVisible,
   className,
   children
 }) => {
   return (
     <Content
-      className={className}
-      isVisible={isVisible}>
+      className={className}>
       {children}
     </Content>
   );
 };
 
 Popup.defaultProps = {
-  isVisible: false,
   children: null
 };
 
 Popup.propTypes = {
-  isVisible: PropTypes.bool,
   children: PropTypes.node
 };
 

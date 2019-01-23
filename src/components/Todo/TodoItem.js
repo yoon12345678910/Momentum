@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ContentEditable from 'react-contenteditable';
+import { RoundIcon2 } from 'components/Base/Icon';
 
 
 const Wrapper = styled.li`
@@ -27,13 +28,20 @@ const Label = styled.label`
   float: left;
   padding-left: 19px;
   padding-right: 5px;
+  cursor: pointer;
 `;
 
-const DeleteButton = styled.div`
+const StyledRoundIcon = styled(RoundIcon2)`
+  font-size: 21px;
+  &:after {
+    background: ${props => props.isActive ? 'rgba(255,255,255,.0)' : ''};
+  }
+  cursor: pointer;
 `;
 
 const Checkbox = styled.input`
   vertical-align: middle;
+  cursor: pointer;
 `;
 
 const StyledContentEditable = styled(ContentEditable)`
@@ -55,17 +63,25 @@ const TodoItem = ({
   onDoubleClick,
   onChangeTitle,
   onChangeCheckbox,
-  onDelete
+  onDelete,
+  isHoverDeleteButton,
+  onHoverDeleteButton
 }) => {
   return (
-    <Wrapper>
+    <Wrapper
+      onMouseEnter={() => onHoverDeleteButton(true)}
+      onMouseLeave={() => onHoverDeleteButton(false)}>
       <ActionsBox>
-        <DeleteButton onClick={onDelete}/>
+        <div onClick={onDelete}>
+          <StyledRoundIcon
+            isActive={isHoverDeleteButton}
+            faClassName={'fa fa-times'}/>
+        </div>
       </ActionsBox>
       <Label>
         <Checkbox
           type="checkbox"
-          defaultChecked={isDone}
+          checked={isDone}
           onChange={onChangeCheckbox}/>
       </Label>
       <StyledContentEditable
@@ -76,7 +92,7 @@ const TodoItem = ({
         onDoubleClick={onDoubleClick}
         onKeyPress={(e) => {
           if (e.key === 'Enter') {
-            onChangeTitle(e);
+            onChangeTitle();
           }
         }}
         onBlur={onChangeTitle}
@@ -95,7 +111,9 @@ TodoItem.defaultProps = {
   onDoubleClick: () => console.warn('onDoubleClick not defined'),
   onChangeTitle: () => console.warn('onChangeTitle not defined'),
   onChangeCheckbox: () => console.warn('onChangeCheckbox not defined'),
-  onDelete:() => console.warn('onDelete not defined'),
+  onDelete: () => console.warn('onDelete not defined'),
+  isHoverDeleteButton: false,
+  onHoverDeleteButton: () => console.warn('isHoverDeleteButton not defined')
 };
 
 TodoItem.propTypes = {
@@ -109,7 +127,9 @@ TodoItem.propTypes = {
   onDoubleClick: PropTypes.func,
   onChangeTitle: PropTypes.func,
   onChangeCheckbox: PropTypes.func,
-  onDelete: PropTypes.func
+  onDelete: PropTypes.func,
+  isHoverDeleteButton: PropTypes.bool,
+  onHoverDeleteButton: PropTypes.func
 };
 
 export default TodoItem;

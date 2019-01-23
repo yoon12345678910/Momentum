@@ -40,7 +40,7 @@ TodoList.propTypes = {
   listRef: PropTypes.shape({ 
     current: PropTypes.instanceOf(Element) 
   }),
-  // children: PropTypes.arrayOf(PropTypes.number)
+  children: PropTypes.node
 };
 
 export default TodoList;

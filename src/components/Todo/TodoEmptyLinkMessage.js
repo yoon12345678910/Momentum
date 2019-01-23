@@ -21,14 +21,14 @@ const MessageBox = styled.div`
 
 const TodoEmptyLinkMessage = ({
   onClickListChooser,
+  targetLink,
   message
 }) => {
   return (
     <MessageBox
       onClick={(e) => {
-        // e.nativeEvent.stopImmediatePropagation();
-        onClickListChooser();
-      }}>
+        e.nativeEvent.stopImmediatePropagation();
+        onClickListChooser(targetLink);}}>
       {message}
       <StyledIcon
         faClassName={'fa fa-angle-right'}/>
@@ -39,11 +39,13 @@ const TodoEmptyLinkMessage = ({
 
 TodoEmptyLinkMessage.defaultProps = {
   onClickListChooser: () => console.warn('onClickListChooser not defined'),
+  targetLink: '',
   message: ''
 };
 
 TodoEmptyLinkMessage.propTypes = {
   onClick: PropTypes.func,
+  targetLink: PropTypes.string,
   message: PropTypes.string
 };
 
