@@ -33,7 +33,6 @@ const ActionWrapper = styled.span`
 `;
 
 const StyledIcon = styled(Icon)`
-  margin-left: 4px;
   font-size: 20px;  
   opacity: .85;
 `;
@@ -83,10 +82,9 @@ const MainFocusTodo = ({
         </TodoTitle>
         <ActionWrapper 
           isHover={isHover} 
-          isDone={isDone}>
-          { isDone 
-            ? <StyledIcon faClassName={'fa fa-plus-circle'} onClick={changePromptMode}/> 
-              : <StyledIcon faClassName={'fa fa-times-circle'} onClick={onDelete}/>}
+          isDone={isDone}
+          onClick={isDone ? changePromptMode : onDelete}>
+          <StyledIcon faClassName={isDone ? 'fa fa-plus-circle' : 'fa fa-times-circle'}/>
         </ActionWrapper>  
       </TodoBox>
     </Todo>

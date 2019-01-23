@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ContentEditable from 'react-contenteditable';
-import { RoundIcon2 } from 'components/Base/Icon';
+import { Icon, RoundIcon2 } from 'components/Base/Icon';
 
 
 const Wrapper = styled.li`
@@ -21,10 +21,18 @@ const ActionsBox = styled.div`
   padding-right: 15px;
 `;
 
+const Exclamation = styled(Icon)`
+  position: absolute;
+  top: 7px;
+  left: -4px;
+  font-size: 1px;
+  opacity: ${props => props.isDone ? .5 : .7};
+`;
+
 const Label = styled.label`
   position: relative;
-  top: -1px;
-  left: 0;
+  top: -2px;
+  left: 3px;
   float: left;
   padding-left: 19px;
   padding-right: 5px;
@@ -50,14 +58,15 @@ const StyledContentEditable = styled(ContentEditable)`
   margin-right: 70px;
   outline: 0;
   word-wrap: break-word;
-  opacity: ${props => props.done ? .5 : .9};
-  text-decoration: ${props => props.done ? 'line-through' : ''};
+  opacity: ${props => props.opacity};
+  text-decoration: ${props => props.decoration};
 `;
 
 const TodoItem = ({
   innerRef,
   title,
   isDone,
+  isMainFocus,
   disabled,
   onChange,
   onDoubleClick,
@@ -67,6 +76,18 @@ const TodoItem = ({
   isHoverDeleteButton,
   onHoverDeleteButton
 }) => {
+  const textOpacity = (() => {
+    let opacity;
+    if (isDone) {
+      opacity = .5;
+    } else if (!disabled) {
+      opacity = .7;
+    } else {
+      opacity = .9;
+    }
+    return opacity;
+  })();
+  const textDecoration = isDone ? 'line-through' : '';
   return (
     <Wrapper
       onMouseEnter={() => onHoverDeleteButton(true)}
@@ -78,6 +99,8 @@ const TodoItem = ({
             faClassName={'fa fa-times'}/>
         </div>
       </ActionsBox>
+      { isMainFocus 
+        ? <Exclamation isDone={isDone} faClassName={'fa fa-star'}/> : null}
       <Label>
         <Checkbox
           type="checkbox"
@@ -87,6 +110,7 @@ const TodoItem = ({
       <StyledContentEditable
         innerRef={innerRef}
         html={title}
+        tagName="pre"
         disabled={disabled}
         onChange={onChange}
         onDoubleClick={onDoubleClick}
@@ -96,7 +120,8 @@ const TodoItem = ({
           }
         }}
         onBlur={onChangeTitle}
-        done={isDone ? 1 : 0}
+        opacity={textOpacity}
+        decoration={textDecoration}
         spellCheck={false}/>
     </Wrapper>
   );
@@ -106,6 +131,7 @@ TodoItem.defaultProps = {
   innerRef: null,
   title: '',
   isDone: false,
+  isMainFocus: false,
   disabled: true,
   onChange: () => console.warn('onChange not defined'),
   onDoubleClick: () => console.warn('onDoubleClick not defined'),
@@ -122,6 +148,7 @@ TodoItem.propTypes = {
   }),
   title: PropTypes.string,
   isDone: PropTypes.bool,
+  isMainFocus: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   onDoubleClick: PropTypes.func,

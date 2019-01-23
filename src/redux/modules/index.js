@@ -5,6 +5,7 @@ import clock from './clock';
 import greeting from './greeting';
 import weather from './weather';
 import todo from './todo';
+import mainFocus from './mainFocus';
 import { penderReducer } from 'redux-pender';
 
 export default combineReducers({
@@ -14,5 +15,6 @@ export default combineReducers({
   greeting,
   weather,
   todo,
+  mainFocus,
   pender: penderReducer
 });

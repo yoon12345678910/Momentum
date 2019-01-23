@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as todoActions from 'redux/modules/todo';
+import * as mainFocusActions from 'redux/modules/mainFocus';
 import { Widget } from 'components/MainFocus';
 import { Prompt, Todo } from 'containers/MainFocus';
 
 
 class MainFocus extends Component {
+  componentDidMount() {
+    this.props.MainFocusActions.initTodo();
+  }
+
   render() {
-    const mainFocusTodosJS = this.props.mainFocusTodos.toJS();
-    const mainFocusTodo = mainFocusTodosJS[mainFocusTodosJS.length - 1];
+    const { mode, todos } = this.props;
+    const todosJS = todos.toJS();
+    const mainTodo = todosJS[todosJS.length - 1];
+
+    if (mode === 'INIT') {
+      return null;
+    }
 
     return (
       <Widget>
-        { this.props.mainFocusMode === 'TODO' 
-          ? <Todo data={mainFocusTodo}/> : <Prompt/> }
+        { mode === 'TODO' 
+          ? <Todo data={mainTodo}/> : <Prompt/> }
       </Widget>
     );
   }
@@ -22,10 +31,10 @@ class MainFocus extends Component {
 
 export default connect(
   (state) => ({
-    mainFocusMode: state.todo.get('mainFocusMode'),
-    mainFocusTodos: state.todo.get('mainFocusTodos')
+    mode: state.mainFocus.get('mode'),
+    todos: state.mainFocus.get('todos')
   }),
   (dispatch) => ({
-    TodoActions: bindActionCreators(todoActions, dispatch)
+    MainFocusActions: bindActionCreators(mainFocusActions, dispatch)
   })
 )(MainFocus);

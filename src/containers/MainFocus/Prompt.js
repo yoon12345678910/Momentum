@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as mainFocusActions from 'redux/modules/mainFocus';
 import * as todoActions from 'redux/modules/todo';
 import { MainFocusPrompt } from 'components/MainFocus';
 import { animateCSS } from 'lib/utils';
@@ -11,7 +12,7 @@ class Prompt extends Component {
     super(props);
 
     this.state = {
-      value: ''
+      title: ''
     };
 
     this.wrapperRef = React.createRef();
@@ -23,7 +24,7 @@ class Prompt extends Component {
 
   componentDidMount() {
     animateCSS(this.wrapperRef.current, 'fadeIn');
-    this.inputRef.current.focus();
+    this.handleClick();
   }
 
   handleClick = () => {
@@ -31,21 +32,17 @@ class Prompt extends Component {
   }
 
   handleChange = (e) => {
-    this.setState({
-      value: e.target.value
-    });
+    this.setState({ title: e.target.value });
   }
 
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
-      const trim = this.state.value.replace(/\s/gi, '');
+      const trim = this.state.title.replace(/\s/gi, '');
+
       if (trim.length) {
-        this.setState({
-          value: ''
-        });
-        this.props.TodoActions.addTodo({
-          title: this.state.value,
-          isMainFocus: true
+        this.setState({ title: '' });
+        this.props.MainFocusActions.createTodo({
+          title: this.state.title
         });
       }
     } 
@@ -56,7 +53,7 @@ class Prompt extends Component {
       <MainFocusPrompt
         wrapperRef={this.wrapperRef}
         inputRef={this.inputRef}
-        value={this.state.value}
+        title={this.state.title}
         onClick={this.handleClick}
         onChange={this.handleChange}
         onKeyPress={this.handleKeyPress}/>
@@ -67,6 +64,7 @@ class Prompt extends Component {
 export default connect(
   () => ({}),
   (dispatch) => ({
+    MainFocusActions: bindActionCreators(mainFocusActions, dispatch),
     TodoActions: bindActionCreators(todoActions, dispatch)
   })
 )(Prompt);

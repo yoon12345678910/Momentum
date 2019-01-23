@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as todoActions from 'redux/modules/todo';
+import * as mainFocusActions from 'redux/modules/mainFocus';
 import { TodoItem as TodoItemComponent } from 'components/Todo';
 import { focusContenteditable, animateCSS } from 'lib/utils';
 
@@ -61,7 +62,7 @@ class TodoItem extends Component {
     }
   }
 
-  handleChangeTitle = () => {
+  handleChangeTitle = async () => {
     const title = this.state.title;
     const enteredTitle = this.props.title;
 
@@ -74,38 +75,75 @@ class TodoItem extends Component {
         disabledInput: true
       });
     } else {
-      const { id, isMainFocus } = this.props;
+      const { 
+        id, 
+        isMainFocus, 
+        TodoActions, 
+        MainFocusActions
+      } = this.props;
       this.setState({
         enteredTitle: title,
         disabledInput: true
       });
-      this.props.TodoActions.updateTodoTitle({
-        id,
-        title,
-        isMainFocus
-      });
+
+      try {
+        if (isMainFocus) {
+          await MainFocusActions.updateTodoTitle({
+            id,
+            title,
+            isMainFocus
+          });
+        }
+        TodoActions.updateTodoTitle({
+          id,
+          title,
+          isMainFocus
+        });
+      } catch (e) {}
     }
   }
 
-  handleChangeCheckbox = (e) => {
+  handleChangeCheckbox = async (e) => {
     e.nativeEvent.stopImmediatePropagation();
-    const { id, isDone, isMainFocus } = this.props;
+    const { 
+      id, 
+      isDone, 
+      isMainFocus, 
+      TodoActions, 
+      MainFocusActions 
+    } = this.props;
 
-    this.props.TodoActions.updateTodoDone({
-      id,
-      isDone: !isDone,
-      isMainFocus: isMainFocus
-    });
+    try {
+      if (isMainFocus) {
+        await MainFocusActions.updateTodoDone({
+          id,
+          isDone: !isDone,
+          isMainFocus: isMainFocus
+        });
+      }
+      TodoActions.updateTodoDone({
+        id,
+        isDone: !isDone,
+        isMainFocus: isMainFocus
+      });
+    } catch (e) {}
   }
 
-  handleDelete = (e) => {
+  handleDelete = async (e) => {
     e.nativeEvent.stopImmediatePropagation();
-    const { id, isMainFocus } = this.props;
+    const { 
+      id, 
+      isMainFocus,
+      TodoActions,
+      MainFocusActions
+    } = this.props;
 
-    this.props.TodoActions.deleteTodo({
-      id,
-      isMainFocus
-    });
+    try {
+      if (isMainFocus) {
+        MainFocusActions.deleteTodo({ id, isMainFocus }); 
+      }
+      TodoActions.deleteTodo({ id, isMainFocus });  
+    } catch (e) {}
   }
 
   handleHoverDeleteButton = (isHoverDeleteButton) => {
@@ -120,6 +158,7 @@ class TodoItem extends Component {
         innerRef={this.inputRef}
         title={this.state.title}
         isDone={this.props.isDone}
+        isMainFocus={this.props.isMainFocus}
         disabled={this.state.disabledInput}
         onChange={this.handleChange}
         onDoubleClick={this.handleDoubleClick}
@@ -135,6 +174,7 @@ class TodoItem extends Component {
 export default connect(
   () => ({}),
   (dispatch) => ({
-    TodoActions: bindActionCreators(todoActions, dispatch)
+    TodoActions: bindActionCreators(todoActions, dispatch),
+    MainFocusActions: bindActionCreators(mainFocusActions, dispatch)
   })
 )(TodoItem);

@@ -52,9 +52,9 @@ class TodoList extends Component {
                   key={todo.id}
                   id={todo.id}
                   title={todo.title}
-                  resizeList={this.resizeList}
                   isDone={todo.isDone}
-                  isMainFocus={todo.isMainFocus}/>;
+                  isMainFocus={todo.isMainFocus}
+                  resizeList={this.resizeList}/>;
       })) : <TodoEmpty/>;
 
     return (

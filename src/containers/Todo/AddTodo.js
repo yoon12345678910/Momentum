@@ -38,10 +38,7 @@ class AddTodo extends Component {
         this.setState({
           title: ''
         });
-        this.props.TodoActions.addTodo({
-          title: title,
-          isMainFocus: false,
-        });
+        this.props.TodoActions.createTodo({ title });
       }
     } 
   }

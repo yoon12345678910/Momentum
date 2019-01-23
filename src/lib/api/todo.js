@@ -54,21 +54,25 @@ export const DB = (function () {
       localStorage.setItem(LS_KEY, JSON.stringify(_DB));
     },
 
-  
-    getAllData() {
+
+    getInitialTodo() {
       const result = {
         selectedListChooserId: _DB.selectedListChooserId,
         listChoosers: this.getListChoosers(),
-        todos: this.getTodos({ listChooserId: _DB.selectedListChooserId }),
-        mainFocusTodos: _DB.todos.filter(todo => !!todo.isMainFocus)
+        todos: this.getTodos({ listChooserId: _DB.selectedListChooserId })
       };
-      
       return result;
     },
-  
+
+
+    getInitialMainFocus() {
+      const result = _DB.todos.filter(todo => !!todo.isMainFocus);
+      return result;
+    },
+
 
     getListChoosers() {
-      const listChoosers =  Object.keys(_DB.listChoosers)
+      const listChoosers = Object.keys(_DB.listChoosers)
         .reduce((acc, key) => {
           const listChooser = _DB.listChoosers[key];
           listChooser.todoCnt = (() => {
@@ -99,18 +103,23 @@ export const DB = (function () {
 
       return todos;
     },
-  
+    
 
-    saveSelectedListChooser({ listChooserId }) {
+    changeSelectedListChooser({ listChooserId }) {
       _DB.selectedListChooserId = listChooserId;
+
       this._saveDB();
+
+      return {
+        todos: this.getTodos({ listChooserId })
+      };
     },
 
 
-    addListChooser({ name }) {
+    createListChooser({ name }) {
       const date = moment().format('YYYY-MM-DD HH:mm:ss');
       const id = `${date}-${Object.keys(_DB.listChoosers).length}`;
-      const item = {
+      const listChooser = {
         id,
         date,
         name: name.toUpperCase(),
@@ -121,22 +130,26 @@ export const DB = (function () {
         isDefault: false
       };
 
-      _DB.listChoosers[id] = item;
+      _DB.listChoosers[id] = listChooser;
       this._saveDB();
 
-      return item;
+      return {
+        listChooser
+      };
     },
 
 
     deleteListChooser({ id }) {
       delete _DB.listChoosers[id];
       this._saveDB();
+
+      return {};
     },
   
 
-    addTodo({ listChooserId, title }) {
+    createTodo({ listChooserId, title }) {
       const date = moment().format('YYYY-MM-DD HH:mm:ss');
-      const item = {
+      const todo = {
         id: `${date}-${_DB.todos.length}`,
         listChooserId,
         title: title,
@@ -145,10 +158,33 @@ export const DB = (function () {
         date
       };
 
-      _DB.todos.push(item);
+      _DB.todos.push(todo);
       this._saveDB();
 
-      return item;
+      return {
+        listChoosers: this.getListChoosers(),
+        todo
+      };
+    },
+
+    
+    createTodoMainFocus({ title }) {
+      const date = moment().format('YYYY-MM-DD HH:mm:ss');
+      const todo = {
+        id: `${date}-${_DB.todos.length}`,
+        listChooserId: DEFAULT_LIST_CHOOSER_ID.TODAY,
+        title: title,
+        isDone: false,
+        isMainFocus: true,
+        date,
+      };
+
+      _DB.todos.push(todo);
+      this._saveDB();
+
+      return {
+        todo
+      };
     },
   
 
@@ -158,6 +194,10 @@ export const DB = (function () {
 
       item.isDone = isDone;
       this._saveDB();
+
+      return {
+        listChoosers: this.getListChoosers()
+      };
     },
     
 
@@ -166,6 +206,10 @@ export const DB = (function () {
       
       _DB.todos.splice(index, 1);
       this._saveDB();
+
+      return {
+        listChoosers: this.getListChoosers()
+      };
     },
 
 
@@ -174,26 +218,8 @@ export const DB = (function () {
 
       _DB.todos[index].title = title;
       this._saveDB();
-    },
 
-
-    addMainFocusTodo({ title }) {
-      const date = moment().format('YYYY-MM-DD HH:mm:ss');
-      const item = {
-        id: `${date}-${_DB.todos.length}`,
-        listChooserId: DEFAULT_LIST_CHOOSER_ID.TODAY,
-        title: title,
-        isDone: false,
-        isMainFocus: true,
-        date,
-      };
-
-      _DB.todos.push(item);
-      this._saveDB();
-
-      return item;
-    },
-
-
+      return {};
+    }
   }
 })();

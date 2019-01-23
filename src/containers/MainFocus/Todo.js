@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as mainFocusActions from 'redux/modules/mainFocus';
 import * as todoActions from 'redux/modules/todo';
 import { MainFocusTodo } from 'components/MainFocus';
 import { animateCSS } from 'lib/utils';
@@ -22,35 +23,40 @@ class Prompt extends Component {
 
   componentDidMount() {
     animateCSS(this.wrapperRef.current, 'fadeIn');
+    this.props.TodoActions.createTodoMainFocus({ todo: this.props.data });
   }
 
   changePromptMode = () => {
-    this.props.TodoActions.changeMainFocusMode({
-      mode: 'PROMPT'
-    });
+    this.props.MainFocusActions.changeMode({ mode: 'PROMPT' });
   }
 
-  handleChangeCheckbox = () => {
+  handleChangeCheckbox = async () => {
     const { id, isDone, isMainFocus } = this.props.data;
-    this.props.TodoActions.updateTodoDone({
-      id,
-      isDone: !isDone,
-      isMainFocus
-    });
+    try {
+      await this.props.MainFocusActions.updateTodoDone({
+        id,
+        isDone: !isDone,
+        isMainFocus
+      });
+      await this.props.TodoActions.updateTodoDoneMainFocus({
+        id,
+        isDone: !isDone,
+        isMainFocus,
+        todo: this.props.data
+      });
+    } catch (e) {}
   }
 
-  handleDelete = () => {
+  handleDelete = async () => {
     const { id, isMainFocus } = this.props.data;
-    this.props.TodoActions.deleteTodo({
-      id,
-      isMainFocus
-    });
+    try {
+      await this.props.MainFocusActions.deleteTodo({ id, isMainFocus });
+      this.props.TodoActions.deleteTodoMainFocus({ id, isMainFocus });
+    } catch (e) {}
   }
 
   handleToggleHover = (isHover) => {
-    this.setState({
-      isHover
-    });
+    this.setState({ isHover });
   }
 
   render() {
@@ -73,6 +79,7 @@ class Prompt extends Component {
 export default connect(
   () => ({}),
   (dispatch) => ({
+    MainFocusActions: bindActionCreators(mainFocusActions, dispatch),
     TodoActions: bindActionCreators(todoActions, dispatch)
   })
 )(Prompt);
