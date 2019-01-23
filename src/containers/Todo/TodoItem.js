@@ -11,7 +11,7 @@ class TodoItem extends Component {
     super(props);
 
     this.state = {
-      value: this.props.title,
+      title: this.props.title,
       disabledInput: true,
       isHoverDeleteButton: false,
     };
@@ -48,7 +48,7 @@ class TodoItem extends Component {
     this.isClickOrBlur = false;
     this.props.resizeList();
     this.setState({
-      value: e.target.value
+      title: e.target.value
     });
   }
 
@@ -62,44 +62,49 @@ class TodoItem extends Component {
   }
 
   handleChangeTitle = () => {
-    const value = this.state.value;
-    const enteredValue = this.props.title;
+    const title = this.state.title;
+    const enteredTitle = this.props.title;
 
     this.isClickOrBlur = true;
-    const trim = value.replace(/(^\s*)|(\s*$)/, '');
+    const trim = title.replace(/(^\s*)|(\s*$)/, '');
 
-    if (!trim.length || trim === enteredValue) {
+    if (!trim.length || trim === enteredTitle) {
       this.setState({
-        value: enteredValue,
+        title: enteredTitle,
         disabledInput: true
       });
     } else {
+      const { id, isMainFocus } = this.props;
       this.setState({
-        enteredValue: value,
+        enteredTitle: title,
         disabledInput: true
       });
       this.props.TodoActions.updateTodoTitle({
-        id: this.props.id,
-        title: value,
-        isMainFocus: this.props.isMainFocus
+        id,
+        title,
+        isMainFocus
       });
     }
   }
 
   handleChangeCheckbox = (e) => {
     e.nativeEvent.stopImmediatePropagation();
+    const { id, isDone, isMainFocus } = this.props;
+
     this.props.TodoActions.updateTodoDone({
-      id: this.props.id,
-      isDone: !this.props.isDone,
-      isMainFocus: this.props.isMainFocus
+      id,
+      isDone: !isDone,
+      isMainFocus: isMainFocus
     });
   }
 
   handleDelete = (e) => {
     e.nativeEvent.stopImmediatePropagation();
+    const { id, isMainFocus } = this.props;
+
     this.props.TodoActions.deleteTodo({
-      id: this.props.id,
-      isMainFocus: this.props.isMainFocus
+      id,
+      isMainFocus
     });
   }
 
@@ -113,7 +118,7 @@ class TodoItem extends Component {
     return (
       <TodoItemComponent
         innerRef={this.inputRef}
-        value={this.state.value}
+        title={this.state.title}
         isDone={this.props.isDone}
         disabled={this.state.disabledInput}
         onChange={this.handleChange}
@@ -122,16 +127,13 @@ class TodoItem extends Component {
         onChangeCheckbox={this.handleChangeCheckbox}
         onDelete={this.handleDelete}
         isHoverDeleteButton={this.state.isHoverDeleteButton}
-        onHoverDeleteButton={this.handleHoverDeleteButton}
-      />
+        onHoverDeleteButton={this.handleHoverDeleteButton}/>
     );
   }
 }
 
 export default connect(
-  (state) => ({
-    todos: state.todo.get('todos')
-  }),
+  () => ({}),
   (dispatch) => ({
     TodoActions: bindActionCreators(todoActions, dispatch)
   })

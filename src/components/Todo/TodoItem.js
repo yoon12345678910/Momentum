@@ -56,7 +56,7 @@ const StyledContentEditable = styled(ContentEditable)`
 
 const TodoItem = ({
   innerRef,
-  value,
+  title,
   isDone,
   disabled,
   onChange,
@@ -86,7 +86,7 @@ const TodoItem = ({
       </Label>
       <StyledContentEditable
         innerRef={innerRef}
-        html={value}
+        html={title}
         disabled={disabled}
         onChange={onChange}
         onDoubleClick={onDoubleClick}
@@ -104,7 +104,7 @@ const TodoItem = ({
 
 TodoItem.defaultProps = {
   innerRef: null,
-  value: '',
+  title: '',
   isDone: false,
   disabled: true,
   onChange: () => console.warn('onChange not defined'),
@@ -120,7 +120,7 @@ TodoItem.propTypes = {
   innerRef: PropTypes.shape({
     current: PropTypes.instanceOf(Element)
   }),
-  value: PropTypes.string,
+  title: PropTypes.string,
   isDone: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
