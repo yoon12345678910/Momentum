@@ -65,7 +65,7 @@ class Prompt extends Component {
 }
 
 export default connect(
-  (state) => ({}),
+  () => ({}),
   (dispatch) => ({
     TodoActions: bindActionCreators(todoActions, dispatch)
   })

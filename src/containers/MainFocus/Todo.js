@@ -31,8 +31,7 @@ class Prompt extends Component {
   }
 
   handleChangeCheckbox = () => {
-    const mainFocusTodosJS = this.props.mainFocusTodos.toJS();
-    const { id, isDone, isMainFocus } = mainFocusTodosJS[mainFocusTodosJS.length - 1];
+    const { id, isDone, isMainFocus } = this.props.data;
     this.props.TodoActions.updateTodoDone({
       id,
       isDone: !isDone,
@@ -41,8 +40,7 @@ class Prompt extends Component {
   }
 
   handleDelete = () => {
-    const mainFocusTodosJS = this.props.mainFocusTodos.toJS();
-    const { id, isMainFocus } = mainFocusTodosJS[mainFocusTodosJS.length - 1];
+    const { id, isMainFocus } = this.props.data;
     this.props.TodoActions.deleteTodo({
       id,
       isMainFocus
@@ -56,8 +54,7 @@ class Prompt extends Component {
   }
 
   render() {
-    const mainFocusTodosJS = this.props.mainFocusTodos.toJS();
-    const { title, isDone } = mainFocusTodosJS[mainFocusTodosJS.length - 1];
+    const { title, isDone } = this.props.data;
 
     return (
       <MainFocusTodo
@@ -74,9 +71,7 @@ class Prompt extends Component {
 }
 
 export default connect(
-  (state) => ({
-    mainFocusTodos: state.todo.get('mainFocusTodos')
-  }),
+  () => ({}),
   (dispatch) => ({
     TodoActions: bindActionCreators(todoActions, dispatch)
   })
