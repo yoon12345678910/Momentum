@@ -10,7 +10,6 @@ class TodoList extends Component {
   constructor(props) {
     super(props);
 
-    this.originalListHieght = 0;
     this.wrapperRef = React.createRef();
     this.listRef = React.createRef();
     this.resizeList = this.resizeList.bind(this);
@@ -21,49 +20,35 @@ class TodoList extends Component {
   }
 
   componentDidUpdate() {
-    // Prevent issue 
-    // When a pop-up is turned on and you click outside of the widget, the list becomes zero.
-    if (this.originalListHieght > 0 && this.listRef.current.offsetHeight === 0) {
-      this.setListSize(this.originalListHieght);
-    } else {
+    if (this.props.isVisiblePopup || this.listRef.current.offsetHeight) {
       this.resizeList();
     }
   }
 
   resizeList() {
-    if (this.props.isVisiblePopup) {
-      const toBeHeight = this.calculateListSize();
-      this.setListSize(toBeHeight);
-    }
-  }
-
-  calculateListSize = () => {
-    this.listRef.current.style.minHeight = null;
-    this.listRef.current.style.maxHeight = null;
-
-    // External element size to get maximum pop-up size
+    // External element size to get maximum pop-up size 
     const externalHeight = this.props.popupHeightRefs.reduce((acc, ref) => {
       return acc + ref.current.offsetHeight;
     }, 0);
     const maxHeight = window.innerHeight - externalHeight; 
+
+    this.listRef.current.style.minHeight = null;
+    this.listRef.current.style.maxHeight = `${maxHeight}px`;
+
     const listHeight = this.listRef.current.offsetHeight + 2;
     const toBeHeight = Math.min(Math.max(listHeight, this.props.dropdownHeight), maxHeight);
-    this.originalListHieght = Math.min(listHeight, maxHeight);
-    return toBeHeight;
+
+    this.wrapperRef.current.style.minHeight = `${toBeHeight}px`;
+    this.wrapperRef.current.style.maxHeight = `${toBeHeight}px`;
+    this.listRef.current.style.minHeight = `${toBeHeight}px`;
+    this.listRef.current.style.maxHeight = `${toBeHeight}px`;
   }
 
-  setListSize = (height) => {
-    this.wrapperRef.current.style.minHeight = `${height}px`;
-    this.wrapperRef.current.style.maxHeight = `${height}px`;
-    this.listRef.current.style.minHeight = `${height}px`;
-    this.listRef.current.style.maxHeight = `${height}px`;
-  }
-
-  paintTodoList = () => {
+  render() {
     const todosJS = this.props.todos.toJS();
     const content = todosJS.length ? 
       (todosJS.map(todo => {
-        return <TodoItem
+        return  <TodoItem
                   key={todo.id}
                   id={todo.id}
                   title={todo.title}
@@ -71,15 +56,12 @@ class TodoList extends Component {
                   isDone={todo.isDone}
                   isMainFocus={todo.isMainFocus}/>;
       })) : <TodoEmpty/>;
-    return content;
-  }
 
-  render() {
     return (
       <TodoListComponent
         wrapperRef={this.wrapperRef}
         listRef={this.listRef}>
-        {this.paintTodoList()}
+        {content}
       </TodoListComponent>
     );
   }
