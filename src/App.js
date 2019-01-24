@@ -8,6 +8,7 @@ import { Greeting } from 'containers/Greeting';
 import { Weather } from 'containers/Weather';
 import { Todo } from 'containers/Todo';
 import { MainFocus } from 'containers/MainFocus';
+import { Search } from 'containers/Search';
 
 
 class App extends Component {
@@ -25,7 +26,9 @@ class App extends Component {
         <BackgroundOverlay isVisibleWidgets={this.props.isVisibleWidgets}/>
         <Widgets isVisibleWidgets={this.props.isVisibleWidgets}>
           <Layout.TopRow innerRef={this.topRowRef}>
-            <Layout.TopLeft></Layout.TopLeft>
+            <Layout.TopLeft>
+              <Search/>
+            </Layout.TopLeft>
             <Layout.TopRight>
               <Weather/>
             </Layout.TopRight>
