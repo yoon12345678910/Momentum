@@ -11,21 +11,30 @@ const StyledWidget = styled.div`
 `;
 
 const Widget = ({
+  innerRef,
   className,
-  children
+  children,
+  ...rest
 }) => {
   return (
-    <StyledWidget className={className}>
+    <StyledWidget
+      ref={innerRef}
+      className={className}
+      {...rest}>
       {children}
     </StyledWidget>
   );
 };
 
 Widget.defaultProps = {
+  innerRef: null,
   children: null
 };
 
 Widget.propTypes = {
+  innerRef: PropTypes.shape({
+    current: PropTypes.instanceOf(Element)
+  }),
   children: PropTypes.node
 };
 
