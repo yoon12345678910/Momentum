@@ -33,7 +33,7 @@ const Item = styled(Dropdown.Item)`
 
 const MoreBoxDropdown = ({
   data,
-  isActiveDropdown,
+  isActive,
   innerRef
 }) => {
   const dropdownList = data.map((item, i) => {
@@ -51,7 +51,7 @@ const MoreBoxDropdown = ({
   return (
     <Wrapper
       ref={innerRef}
-      isVisible={isActiveDropdown}>
+      isVisible={isActive}>
       <List>
         {dropdownList}
       </List>
@@ -61,13 +61,13 @@ const MoreBoxDropdown = ({
 
 MoreBoxDropdown.defaultProps = {
   data: [],
-  isActiveDropdown: false,
+  isActive: false,
   nippleStyle: ''
 };
 
 MoreBoxDropdown.propTypes = {
   data: PropTypes.array,
-  isActiveDropdown: PropTypes.bool,
+  isActive: PropTypes.bool,
   nippleStyle: PropTypes.string
 };
 
