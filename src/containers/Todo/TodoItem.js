@@ -5,6 +5,7 @@ import * as todoActions from 'redux/modules/todo';
 import * as mainFocusActions from 'redux/modules/mainFocus';
 import { TodoItem as TodoItemComponent } from 'components/Todo';
 import { focusContenteditable, animateCSS } from 'lib/utils';
+import sanitizeHtml from 'sanitize-html';
 
 
 class TodoItem extends Component {
@@ -18,6 +19,7 @@ class TodoItem extends Component {
     };
 
     this.isClickOrBlur = false;
+    this.isHoverToggle = false;
     this.inputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
@@ -29,9 +31,15 @@ class TodoItem extends Component {
 
   componentDidUpdate() {
     if (this.isClickOrBlur) {
+      this.isClickOrBlur = false;
       this.animateInput();
       this.focusInput();
-      this.isClickOrBlur = false;
+    }
+
+    if (this.isHoverToggle) {
+      this.isHoverToggle = false;
+    } else {
+      this.props.resizeList();
     }
   }
 
@@ -47,9 +55,11 @@ class TodoItem extends Component {
 
   handleChange = (e) => {
     this.isClickOrBlur = false;
-    this.props.resizeList();
     this.setState({
-      title: e.target.value
+      title: sanitizeHtml(e.target.value, {
+        allowedTags: [],
+        allowedAttributes: {}
+      })
     });
   }
 
@@ -65,9 +75,8 @@ class TodoItem extends Component {
   handleChangeTitle = async () => {
     const title = this.state.title;
     const enteredTitle = this.props.title;
-
+    const trim = title.replace(/\s/gi, '');
     this.isClickOrBlur = true;
-    const trim = title.replace(/(^\s*)|(\s*$)/, '');
 
     if (!trim.length || trim === enteredTitle) {
       this.setState({
@@ -82,6 +91,7 @@ class TodoItem extends Component {
         MainFocusActions
       } = this.props;
       this.setState({
+        title,
         enteredTitle: title,
         disabledInput: true
       });
@@ -147,6 +157,7 @@ class TodoItem extends Component {
   }
 
   handleHoverDeleteButton = (isHoverDeleteButton) => {
+    this.isHoverToggle = true;
     this.setState({
       isHoverDeleteButton
     });
@@ -172,7 +183,7 @@ class TodoItem extends Component {
 }
 
 export default connect(
-  () => ({}),
+  null,
   (dispatch) => ({
     TodoActions: bindActionCreators(todoActions, dispatch),
     MainFocusActions: bindActionCreators(mainFocusActions, dispatch)
