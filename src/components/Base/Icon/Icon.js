@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 
 const StyledIcon = styled.i`
-  margin: 0 10px;
+  padding: 0 10px;
   opacity: .5;
 `;
 
