@@ -1,8 +1,7 @@
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-@import url('../static/fonts/fonts.css');
-@import url('./animations.css');
 @import url('./reset.css');
-
+@import url('./animations.css');
+@import url('../static/fonts/fonts.css');
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
 body {
   overflow: hidden;
@@ -55,12 +54,6 @@ button {
   background-clip: padding-box;
   border: 3px solid transparent;
   border-radius: 7px;
-}
-
-@media screen and (max-height: 550px) {
-  .center-below {
-    font-size: 80%;
-  }
 }
 
 @media screen and (max-height: 600px) {
