@@ -58,6 +58,7 @@ const StyledContentEditable = styled(ContentEditable)`
   margin-right: 70px;
   outline: 0;
   word-wrap: break-word;
+  white-space: normal;
   opacity: ${props => props.opacity};
   text-decoration: ${props => props.decoration};
 `;
@@ -99,18 +100,18 @@ const TodoItem = ({
             faClassName={'fa fa-times'}/>
         </div>
       </ActionsBox>
-      { isMainFocus 
+      {isMainFocus
         ? <Exclamation isDone={isDone} faClassName={'fa fa-star'}/> : null}
       <Label>
         <Checkbox
-          type="checkbox"
+          type='checkbox'
           checked={isDone}
-          onChange={onChangeCheckbox}/>
+          onChange={onChangeCheckbox} />
       </Label>
       <StyledContentEditable
         innerRef={innerRef}
         html={title}
-        tagName="pre"
+        tagName='pre'
         disabled={disabled}
         onChange={onChange}
         onDoubleClick={onDoubleClick}
