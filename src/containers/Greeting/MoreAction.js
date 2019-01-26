@@ -9,12 +9,19 @@ class MoreAction extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isActive: false
+    };
     this.handleClickDocument = null;
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick = () => {
-    const onToggle = () => this.props.GreetingActions.toggleDropdown();
+    const onToggle = () => {
+      this.setState({
+        isActive: !this.state.isActive
+      });
+    };
     const outsideClickListener = () => {
       onToggle();
       removeClickListener();
@@ -22,8 +29,9 @@ class MoreAction extends Component {
     const removeClickListener = () => {
       document.removeEventListener('click', this.handleClickDocument);
     };
+
     onToggle();
-    if (this.props.isActiveDropdown) {
+    if (this.state.isActive) {
       removeClickListener();
     } else {
       this.handleClickDocument = outsideClickListener.bind(this);
@@ -53,16 +61,17 @@ class MoreAction extends Component {
   }
 
   render() {
-    const { isActiveDropdown } = this.props;
+    const { isActive } = this.state;
 
     return (
       <MoreBox
-        onClick={this.handleClick}
-        isActive={isActiveDropdown}>
-          { isActiveDropdown ?
+        isActive={isActive}
+        isHover={this.props.isContentHover}
+        onClick={this.handleClick}>
+          { isActive ?
             <MoreBoxDropdown
               data={this.generateDropdownData()}
-              isActiveDropdown={isActiveDropdown}
+              isActive={isActive}
             /> : null
           }
       </MoreBox>
@@ -73,7 +82,7 @@ class MoreAction extends Component {
 export default connect(
   (state) => ({
     mode: state.greeting.get('mode'),
-    isActiveDropdown: state.greeting.get('isActiveDropdown')
+    isContentHover: state.greeting.get('isContentHover')
   }),
   (dispatch) => ({
     GreetingActions: bindActionCreators(greetingActions, dispatch)

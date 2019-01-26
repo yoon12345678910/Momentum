@@ -17,6 +17,7 @@ class Greeting extends Component {
     };
     this.contentRef = React.createRef();
     this.timeoutID = null;
+    this.handleHover = this.handleHover.bind(this);
   }
 
   componentDidMount() {
@@ -59,11 +60,19 @@ class Greeting extends Component {
     }, timeset);
   }
 
+  handleHover = (isContentHover) => {
+    this.props.GreetingActions.toggleContentHover({
+      isContentHover
+    });
+  }
+
   render() {
     return (
       <Widget>
         <Side/>
-        <Content innerRef={this.contentRef}>
+        <Content 
+          innerRef={this.contentRef}
+          onHover={this.handleHover}>
           { 
             this.props.mode === 'GREETING' 
               ? <GreetingPrinter/> : <MantraPrinter/> 

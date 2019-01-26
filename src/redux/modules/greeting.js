@@ -9,7 +9,7 @@ const SET_MANTRA = 'greeting/SET_MANTRA';
 const SET_USERNAME = 'greeting/SET_USERNAME';
 const FOCUSE_USERNAME = 'greeting/FOCUSE_USERNAME';
 const BLUR_USERNAME = 'greeting/BLUR_USERNAME';
-const TOGGLE_DROPDOWN = 'greeting/TOGGLE_DROPDOWN';
+const TOGGLE_CONTENT_HOVER = 'greeting/TOGGLE_CONTENT_HOVER';
 
 // action creator
 export const setLoadedMode = createAction(SET_LOADED_MODE);
@@ -19,7 +19,7 @@ export const setMantra = createAction(SET_MANTRA);
 export const focuseUserName = createAction(FOCUSE_USERNAME);
 export const blurUserName = createAction(BLUR_USERNAME);
 export const setUserName = createAction(SET_USERNAME);
-export const toggleDropdown = createAction(TOGGLE_DROPDOWN);
+export const toggleContentHover = createAction(TOGGLE_CONTENT_HOVER);
 
 // initial state
 const initialState = Map({
@@ -27,7 +27,7 @@ const initialState = Map({
   isChangedMode: false,
   isFocusedUserName: false,
   isHiddenUserName: false,
-  isActiveDropdown: false,
+  isContentHover: false,
   greeting: '',
   mantra: '',
   userName: ''
@@ -64,7 +64,7 @@ export default handleActions({
   [SET_USERNAME]: (state, action) => {
     return state.set('userName', action.payload.userName);
   },
-  [TOGGLE_DROPDOWN]: (state) => {
-    return state.set('isActiveDropdown', !state.get('isActiveDropdown'));
+  [TOGGLE_CONTENT_HOVER]: (state, action) => {
+    return state.set('isContentHover', action.payload.isContentHover);
   }
 }, initialState);

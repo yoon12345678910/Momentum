@@ -12,18 +12,31 @@ const StyledContents = styled.span`
 
 const Contents = ({
   innerRef,
+  onHover,
   children
 }) => {
   return (
     <StyledContents 
-      ref={innerRef}>
+      ref={innerRef}
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}>
       {children}
     </StyledContents>
   );
 };
 
+Contents.defaultTypes = {
+  innerRef: null,
+  onHover: () => console.warn('onHover not defined'),
+  children: null
+};
+
 Contents.propTypes = {
-  children: PropTypes.node.isRequired
+  innerRef: PropTypes.shape({
+    current: PropTypes.instanceOf(Element)
+  }),
+  onHover: PropTypes.func,
+  children: PropTypes.node
 };
 
 export default Contents;
