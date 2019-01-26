@@ -6,7 +6,7 @@ import { RoundIcon2 } from 'components/Base/Icon';
 
 const Wrapper = styled.span`
   position: absolute;
-  margin-right: 3px;
+  margin-top: 4px;
 `;
 
 const Toggle = styled.span`
