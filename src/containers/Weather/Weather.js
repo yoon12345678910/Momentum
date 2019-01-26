@@ -68,7 +68,7 @@ class Weather extends Component {
       };
       this.searchWeather(coords);
     } catch (error) {
-      alert(`Can't access geo location ${error}`);
+      alert(error.message);
     }
   }
 
