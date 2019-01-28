@@ -23,6 +23,7 @@ const SearchUnderLine = styled.span`
 
 const StyledIcon = styled(Icon)`
   position: absolute;
+  padding-left: 20px;
   top: 0;
   font-size: 15px;
   line-height: 57px;
@@ -36,7 +37,7 @@ const StyledIcon = styled(Icon)`
 
 const StyledInput = styled.input`
   position: relative;
-  padding: 20px 0 20px 36px;
+  padding: 20px 0 20px 46px;
   border: none;
   box-sizing: border-box;
   height: 60px;
