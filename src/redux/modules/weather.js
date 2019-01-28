@@ -69,9 +69,6 @@ const initialState = Map({
 export default handleActions({
   ...pender({
     type: GET_CURRENT_WEATHER,
-    // onPending: (state) => {
-    //   return state.setIn(['currentWeather', 'status'], 'WAITING');
-    // },
     onFailure: (state) => {
       return state.setIn(['currentWeather', 'status'], 'FAILURE')
                   .set('locationName', state.get('foundLocationName'))
@@ -97,21 +94,10 @@ export default handleActions({
   }),
   ...pender({
     type: GET_WEATHER_FORECAST,
-    // onPending: (state) => {
-    //   return state.setIn(['weatherForecast', 'status'], 'WAITING');
-    // },
-    // onFailure: (state) => {
-    //   return state.setIn(['weatherForecast', 'status'], 'FAILURE');
-    // },
     onSuccess: (state, action) => {
       const { data } = action.payload;
       const parsedData = data.list
         .map(d => weatherDataParser(d))
-        .filter(d => {
-          const today = parseInt(moment().format('YYYYMMDD'));
-          // 오늘을 제외한 4일치 일기예보
-          return d.date !== today && d.date <= today + 4; 
-        })
         .reduce((acc, d) => {
           let item = acc[d.date] || d;
           if (d.hours >= 12 && d.hours <= 18) { // 기준시간

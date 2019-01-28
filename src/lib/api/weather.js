@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 
 const API = 'https://api.openweathermap.org/data/2.5/';
 const API_KEY = '4514b9d5bb75f12330b26b56f8731058';
@@ -18,7 +19,11 @@ export const getCurrentWeather = (...req) => {
 
 // 5일간의 일기예보, 3시간 간격(15,18,21...)
 export const getWeatherForecast = (...req) => {
-  return axios.get(`${API}forecast?${generateSearchQuery(...req)}&appid=${API_KEY}&units=metric&lang=kr`);
+  const cnt = (() => {
+    const REQUEST_MAX_CNT = 39;
+    return REQUEST_MAX_CNT - Math.floor(moment().format('H') / 3);
+  })();
+  return axios.get(`${API}forecast?${generateSearchQuery(...req)}&appid=${API_KEY}&units=metric&lang=kr&cnt=${cnt}`);
 }
 
 export const loadLocalStorage = () => {
