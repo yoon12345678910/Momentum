@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Info } from 'components/Background';
+import { Info, ChangeImageButton } from 'components/Background';
 import * as authActions from 'redux/modules/auth';
 import * as backgroundActions from 'redux/modules/background';
+import { animateCSS } from 'lib/utils';
 
 
 class Background extends Component {
@@ -11,12 +12,20 @@ class Background extends Component {
     super(props);
 
     this.timeoutID = null;
+    this.wrapperRef = React.createRef();
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
+    this.handleClickChangeImage = this.handleClickChangeImage.bind(this);
   }
 
   componentWillUnmount() {
     clearTimeout(this.timeoutID);
+  }
+
+  componentDidUpdate() {
+    if (this.props.loaded) {
+      animateCSS(this.wrapperRef.current, 'fadeIn');
+    }
   }
 
   handleMouseEnter = () => {
@@ -33,22 +42,29 @@ class Background extends Component {
     clearTimeout(this.timeoutID);
   }
 
+  handleClickChangeImage = () => {
+    this.props.BackgroundActions.changeImage();
+  }
+
   render() {
     const { loaded, currentImage } = this.props;
     const currentImageJS = currentImage.toJS();
     
     if (!loaded) {
-      return null;
+      return <ChangeImageButton onClickChangeImage={this.handleClickChangeImage}/>
     }
 
     return (
-      <Info
-        title={currentImageJS.slug.replace(/-/gi, ' ')}
-        userName={currentImageJS.user.name}
-        link={currentImageJS.links.html}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      />
+      <Fragment>
+        <ChangeImageButton onClickChangeImage={this.handleClickChangeImage}/>
+        <Info
+          innerRef={this.wrapperRef}
+          title={currentImageJS.slug.replace(/-/gi, ' ')}
+          userName={currentImageJS.user.name}
+          link={currentImageJS.links.html}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}/>
+      </Fragment>
     );
   }
 }
