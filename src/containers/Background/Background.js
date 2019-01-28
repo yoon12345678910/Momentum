@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { LoadedImage, ImageLoader } from 'components/Background';
 import * as backgroundActions from 'redux/modules/background';
-import { getRandomImage } from 'lib/api/background';
 
 
 class Background extends Component {
@@ -14,41 +13,30 @@ class Background extends Component {
   }
 
   componentDidMount() {
-    this.setImage();
-    this.autoChangeImage();
+    this.props.BackgroundActions.changeImage();
   }
-  
+
+  componentDidUpdate() {
+    if (this.props.loaded) {
+      clearInterval(this.intervalID);
+      this.autoChangeImage();
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.intervalID);
   }
-
-  setImage = () => {
-    const getImage = () => {
-      const currentImageJS = this.props.currentImage.toJS();
-      const image = getRandomImage();
-
-      if (image.id === currentImageJS.id) {
-        return getImage();
-      } else {
-        return image;
-      }
-    };
-
-    this.props.BackgroundActions.setImage({
-      currentImage: getImage()
-    });
-  }
-
+  
   autoChangeImage = () => {
     this.intervalID = setInterval(() => {
-      this.setImage();
+      this.props.BackgroundActions.changeImage();
     }, 60000 * 3);
   }
-
+  
   handleLoad = () => {
     this.props.BackgroundActions.loadedImage();
   }
-
+  
   render() {
     const { loaded, currentImage } = this.props;
     const currentImageJS = currentImage.toJS();
@@ -63,14 +51,11 @@ class Background extends Component {
     return (
       <div>
         {loaded
-          ? <LoadedImage
-              imageUrl={imageUrl}
-            />
+          ? <LoadedImage imageUrl={imageUrl}/>
             : <ImageLoader
                 imageUrl={imageUrl}
                 onLoad={this.handleLoad}
-              />
-        }
+              />}
       </div>
     );
   }
