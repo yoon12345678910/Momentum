@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { Widget as DefaultWidget } from 'components/Base';
 
+
+const Widget = styled(DefaultWidget)`
+  position: absolute;
+  bottom: 0;
+  left: 52px;
+`;
 
 const Text = styled.span`
   position: absolute;
@@ -47,13 +54,12 @@ const Link = styled.a`
   }
 `;
 
-const Wrapper = styled.div`
+const InfoWrapper = styled.div`
   display: inline-block;
   position: absolute;
   height: 60px;
   width: 240px;
   bottom: 0;
-  left: 52px;
   font-weight: 300;
   transition: all 0s ease, opacity 1s ease, transform 1s ease;
   vertical-align: bottom;
@@ -74,36 +80,43 @@ const Wrapper = styled.div`
 `;
 
 const Info = ({
+  innerRef,
   title,
   userName,
   link,
   onMouseEnter,
-  onMouseLeave
+  onMouseLeave,
 }) => {
   return (
-    <Wrapper
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}>
-      <Title>{title}</Title>
-      <Source>
-        <Link
-          href={link}>
-          {`Photo by ${userName}`}
-        </Link>
-      </Source>
-    </Wrapper>
+    <Widget innerRef={innerRef}>
+      <InfoWrapper
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}>
+        <Title>{title}</Title>
+        <Source>
+          <Link
+            href={link}>
+            {`Photo by ${userName}`}
+          </Link>
+        </Source>
+      </InfoWrapper>
+    </Widget>
   );
 };
 
-Image.defaultProps = { 
+Info.defaultProps = { 
+  innerRef: null,
   title: '',
   userName: '',
   link: '',
   onMouseEnter: () => console.warn('onMouseEnter not defined'),
-  onMouseLeave: () => console.warn('onMouseLeave not defined'),
+  onMouseLeave: () => console.warn('onMouseLeave not defined')
 };
 
-Image.propTypes = {
+Info.propTypes = {
+  innerRef: PropTypes.shape({
+    current: PropTypes.instanceOf(Element)
+  }),
   title: PropTypes.string,
   userName: PropTypes.string,
   link: PropTypes.string,
