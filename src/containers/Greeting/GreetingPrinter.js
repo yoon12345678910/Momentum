@@ -9,48 +9,54 @@ class GreetingPrinter extends Component {
   constructor(props) {
     super(props);
 
-    this.GREETING = {
-      MORNING: 'Good morning',
-      AFTERNOON: 'Good afternoon',
-      EVENING: 'Good evening'
-    };
-    this.intervalID = null;
+    this.timeoutID = null;
   }
 
   componentDidMount() {
     this.props.GreetingActions.setLoadedMode();
     this.getGreeting();
-    
-    this.intervalID = setInterval(() => {
-      this.getGreeting();
-    }, 1000);
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalID);
+    clearTimeout(this.timeoutID);
   }
 
   getGreeting = () => {
-    const hours = moment().format('H');
+    const t = moment();
+    const curHour = parseInt(t.format('H'));
+    const calcNextInterval = (nextHour) => {
+      const hour = nextHour - curHour < 0 ? 24 - curHour + nextHour : nextHour - curHour;
+      const ms = (parseInt(t.format('mm')) * 60000 + parseInt(t.format('ss')));
+      return hour * 60 * 60000 - ms;
+    };
     let greeting;
+    let nextInterval;
 
-    if (hours >= 5 && hours < 12) {
-      greeting = this.GREETING.MORNING;
-    } else if (hours >= 12 && hours < 17) {
-      greeting = this.GREETING.AFTERNOON;
-    } else {
-      greeting = this.GREETING.EVENING;
+    if (curHour >= 5 && curHour < 12) {
+      greeting = 'Good morning';
+      nextInterval = calcNextInterval(12);
+    }
+    else if (curHour >= 12 && curHour < 17) {
+      greeting = 'Good afternoon';
+      nextInterval = calcNextInterval(17);
+    }
+    else {
+      greeting = 'Good evening';
+      nextInterval = calcNextInterval(5);
     }
 
-    this.props.GreetingActions.setGreeting({
-      greeting: `${greeting}, `
-    });
+    this.props.GreetingActions.setGreeting({ greeting });
+    
+    clearTimeout(this.timeoutID);
+    this.timeoutID = setTimeout(() => {
+      this.getGreeting();
+    }, nextInterval);
   }
 
   render() {
     return (
       <span>
-        {this.props.greeting}
+        {`${this.props.greeting}, `}
       </span>
     )
   }
