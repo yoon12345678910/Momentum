@@ -5,6 +5,7 @@ import { Icon } from 'components/Base/Icon';
 
 
 const StyledIcon = styled(Icon)`
+  padding: 0;
   margin-left: 6px;
 `;
 
