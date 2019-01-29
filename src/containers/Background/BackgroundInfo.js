@@ -51,12 +51,12 @@ class Background extends Component {
     const currentImageJS = currentImage.toJS();
     
     if (!loaded) {
-      return <ChangeImageButton onClickChangeImage={this.handleClickChangeImage}/>
+      return <ChangeImageButton loaded={loaded} onClickChangeImage={this.handleClickChangeImage}/>
     }
 
     return (
       <Fragment>
-        <ChangeImageButton onClickChangeImage={this.handleClickChangeImage}/>
+        <ChangeImageButton loaded={loaded} onClickChangeImage={this.handleClickChangeImage}/>
         <Info
           innerRef={this.wrapperRef}
           title={currentImageJS.slug.replace(/-/gi, ' ')}

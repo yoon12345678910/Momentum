@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { Icon } from 'components/Base/Icon';
 
+
+const rotate = keyframes`
+  100% {
+    transform: rotate(360deg);
+  }
+`;
 
 const ChangeImageIcon = styled(Icon)`
   position: absolute;
@@ -13,6 +19,8 @@ const ChangeImageIcon = styled(Icon)`
   z-index: 1;
   transition: opacity .5s ease;
   user-select: none;
+  transition: all .3s ease;
+  animation: ${props => props.loaded ? '': css`${rotate} 3s linear infinite`};
   cursor: pointer;
   &:hover {
     opacity: .85;
@@ -20,21 +28,25 @@ const ChangeImageIcon = styled(Icon)`
 `;
 
 const ChangeImageButton = ({
+  loaded,
   onClickChangeImage
 }) => {
   return (
     <ChangeImageIcon
+      loaded={loaded}
       onClick={onClickChangeImage}
       faClassName={'fa fa-refresh'}
-      title={'Change Background'}/>
+      title={loaded ? 'Change Background' : 'Loading...'}/>
   );
 };
 
 ChangeImageButton.defaultProps = { 
+  loaded: false,
   onClickChangeImage: () => console.warn('onClickChangeImage not defined')
 };
 
 ChangeImageButton.propTypes = {
+  loaded: PropTypes.bool,
   onClickChangeImage: PropTypes.func
 };
 
