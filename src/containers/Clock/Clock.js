@@ -12,8 +12,8 @@ class Clock extends Component {
 
     this.LS_KEY = 'hour12clock';
     this.HOUR_FORMAT = {
-      hour12: 'h:mm:ss',
-      hour24: 'HH:mm:ss'
+      hour12: 'h:mm',
+      hour24: 'HH:mm'
     };
     this.timerID = null;
     this.isOnMeridiem = false; // Meridiem.. First unconditionally hidden
