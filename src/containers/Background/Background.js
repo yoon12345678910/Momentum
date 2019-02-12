@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { LoadedImage, ImageLoader } from 'components/Background';
 import * as backgroundActions from 'redux/modules/background';
+import { LoadedImage, ImageLoader } from 'components/Background';
 
 
 class Background extends Component {
@@ -10,6 +10,7 @@ class Background extends Component {
     super(props);
 
     this.intervalID = null;
+    this.handleLoad = this.handleLoad.bind(this);
   }
 
   componentDidMount() {
@@ -18,8 +19,9 @@ class Background extends Component {
 
   componentDidUpdate() {
     if (this.props.loaded) {
-      clearInterval(this.intervalID);
       this.autoChangeImage();
+    } else {
+      clearInterval(this.intervalID);
     }
   }
 
@@ -46,7 +48,7 @@ class Background extends Component {
       return null;
     }
 
-    imageUrl = currentImageJS.urls.full;
+    imageUrl = currentImageJS.urls.regular;
 
     return (
       <div>
