@@ -429,13 +429,6 @@ const unsplashImages = [
 ];
 
 export function getRandomImage(id = 0) {
-  const getImage = () => {
-    const image = unsplashImages[Math.floor(Math.random() * unsplashImages.length)];
-    if (image.id === id) {
-      return getImage();
-    } else {
-      return image;
-    }
-  };
-  return getImage();
+  const images = unsplashImages.filter(imageObj => id !== imageObj.id);
+  return images[Math.floor(Math.random() * images.length)];
 }
