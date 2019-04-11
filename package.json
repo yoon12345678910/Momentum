@@ -1,6 +1,7 @@
 {
   "name": "momentum",
   "version": "0.1.0",
+  "description": "react redux",
   "private": true,
   "homepage": ".",
   "dependencies": {
