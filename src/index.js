@@ -1,19 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
-import './style/index.css';
-import App from './App';
-import configureStore from 'redux/configureStore';
-import { Provider } from 'react-redux';
+require('./reset.css');
+require('./font.css');
+require('./index.css');
 
+import utils from './utils/utils';
+import BackgroundClass from './component/background/background';
+import ClockClass from './component/clock/clock';
+import GreetingClass from './component/greeting/greeting';
+import WeatherClass from './component/weather/weather';
+import TodoClass from './component/todo/todo';
 
-const store = configureStore();
+const Background = new BackgroundClass();
+const Clock = new ClockClass();
+const Greeting =  new GreetingClass();
+const Weather = new WeatherClass();
+const Todo = new TodoClass();
 
-ReactDOM.render(
-  <Provider store={store}>
-      <App />
-  </Provider>,
-  document.getElementById('root')
-);
-
-serviceWorker.unregister();
+Background.init();
+Clock.init();
+Greeting.init();
+Weather.init();
+Todo.init();

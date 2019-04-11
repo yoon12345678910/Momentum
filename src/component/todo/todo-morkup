@@ -1,0 +1,43 @@
+
+    // this.listChoosers = {
+    //   '1-inbox': {
+    //     name: 'Inbox',
+    //     date: window.getToday(),
+    //     empty: {
+    //       title: 'Add a todo to get started',
+    //       link: 'Switch to Today',
+    //       linkTarget: '1-today'
+    //     }
+    //   },
+    //   '1-today': {
+    //     name: 'Today',
+    //     date: window.getToday(),
+    //     empty: {
+    //       title: 'Add a todo to get started',
+    //       link: 'Switch to Inbox',
+    //       linkTarget: '1-inbox'
+    //     }
+    //   },
+    //   '1-done': {
+    //     name: 'Done',
+    //     date: window.getToday(),
+    //     empty: {
+    //       title: 'No completed todos yet',
+    //       link: 'get started in Today',
+    //       linkTarget: '1-today'
+    //     }
+    //   }
+    // }
+
+    // this.currentListChooserId = '1-today';
+
+    // this.todos = {
+    //   '1-inbox': [],
+    //   '1-today': [],
+    //   '1-done': []
+    // }
+
+    // this._saveLS();
+
+    {"1-inbox":{"name":"Inbox","date":"2018-12-10/20:30:42","empty":{"title":"Add a todo to get started","link":"Switch to Today","linkTarget":"1-today"}},"1-today":{"name":"Today","date":"2018-12-10/20:30:42","empty":{"title":"Add a todo to get started","link":"Switch to Inbox","linkTarget":"1-inbox"}},"1-done":{"name":"Done","date":"2018-12-10/20:30:42","empty":{"title":"No completed todos yet","link":"get started in Today","linkTarget":"1-today"}}}
+
