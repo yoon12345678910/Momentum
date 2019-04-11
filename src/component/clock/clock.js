@@ -1,58 +1,74 @@
-export default class {
+import React from 'react';
+import moment from 'moment';
+import CurrentTime from './CurrentTime';
+import Meridiem from './Meridiem';
+import './Clock.css';
+
+export default class Clock extends React.Component {
   constructor() {
-    this.LS_KEY = 'hour12clock';
-    this.hour12clock = false;
-    this.containerEl = document.querySelector('#clock');
-    this.timeEl = this.containerEl.querySelector('.time');
-    this.formatEl = this.containerEl.querySelector('.format');
-  }
-
-  init() {
-    this._loadLS();
-    this.setTime();
-    setInterval(this.setTime.bind(this), 1000);
-    this.timeEl.addEventListener('dblclick', this._changeHourFormat.bind(this));
-  }
-
-  setTime() {
-    const date = new Date();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-  
-    if (this.hour12clock) {
-      this.timeEl.innerText = `${hours % 12 || 12}:${minutes.padLeft()}:${seconds.padLeft()}`;
-    } else {
-      this.timeEl.innerText = `${hours.padLeft()}:${minutes.padLeft()}:${seconds.padLeft()}`;
+    super()
+    this.LS_KEY = 'hour12clock'
+    this.FORMAT = {
+      hour12: 'h:mm:ss',
+      hour24: 'H:mm:ss'
     }
-
-    this.formatEl.innerText = hours >= 12 ? 'PM' : 'AM';
-  }
-
-  _changeHourFormat() {
-    if (this.hour12clock) {
-      this.hour12clock = false;
-      this.formatEl.classList.remove('show');
-    } else {
-      this.hour12clock = true;
-      this.formatEl.classList.add('show');
+    this.state = {
+      hour12clock: true
     }
-
-    this._saveLS();
-    this.setTime();
+    this.timerID = null
+    // Meridiem.. First unconditionally hidden
+    this.isOnMeridiem = false
+    this._handleDoubleClick = this._handleDoubleClick.bind(this)
   }
-  
-  _loadLS() {
-    const currentHour12clock = JSON.parse(localStorage.getItem(this.LS_KEY));
 
-    if (currentHour12clock === null) {
-      this._saveLS();
+  componentWillMount() {
+    const savedFormat = JSON.parse(localStorage.getItem(this.LS_KEY))
+
+    if (savedFormat) {
+      this._getTime(savedFormat)   
     } else {
-      this.hour12clock = currentHour12clock;
+      this._getTime(this.state.hour12clock)
     }
   }
 
-  _saveLS() {
-    localStorage.setItem(this.LS_KEY, this.hour12clock);
+  componentDidMount() {
+    this.timerID = setInterval(() => this._getTime(this.state.hour12clock), 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID)
+  }
+
+  _getTime = (hour12clock) => {
+    const now = moment()
+    this.setState({
+      hour12clock,
+      meridiem: now.format('a'),
+      currentTime: now.format(hour12clock ? this.FORMAT.hour12 : this.FORMAT.hour24)
+    })
+  }
+
+  _handleDoubleClick = () => {
+    const hour12clock = this.state.hour12clock ? false : true
+    this.isOnMeridiem = true
+    this._getTime(hour12clock)
+    localStorage.setItem(this.LS_KEY, hour12clock)
+  }
+
+  render() {
+    return (
+      <div id="clock" className="widget-container clock">
+        <CurrentTime
+          onDoubleClick={this._handleDoubleClick}>
+          {this.state.currentTime}
+        </CurrentTime>
+        <Meridiem
+          isOnMeridiem={this.isOnMeridiem}
+          hour12clock={this.state.hour12clock}>
+          {this.state.meridiem}
+        </Meridiem>
+      </div>
+    )
   }
 }
+

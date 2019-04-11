@@ -1,0 +1,171 @@
+<ul id="background" class="background"></ul>
+
+  <div id="widgets" class="widgets">
+    <div class="top-row">
+        <div class="top-left"></div>
+        <div class="top-right">
+          <div id="weather" class="widget-container weather">
+              <div class="widget-dash">
+                <div class="metric-stat">
+                  <span class="icon icon-weather"></span><!--
+               --><span class="weather-temp"></span>
+                </div>
+                <span class="location-name"></span>
+              </div>
+              <div class="widget-wrapper nipple-top-right">
+                <div class="widget-popup">
+                  <div class="weather-current">
+                    <div class="weather-header">
+                      <span class="weather-location">
+                        <span class="location-name" contenteditable="false"></span>
+                        <span class="day"></span>
+                        <span class="edit"></span>
+                        <span class="reset"></span>
+                        <span class="weather-conditions"></span>
+                      </span>
+                    </div>
+                    <div class="weather-details">
+                      <span class="icon icon-weather"></span>
+                      <span class="weather-temp"></span>
+                      <span class="weather-temp-low"></span>
+                    </div>
+                  </div>
+                  <div class="weather-forecast"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="center">
+        <div id="clock" class="widget-container clock">
+          <div class="time bold">00:00</div>
+          <span class="format"></span>
+        </div>
+      
+        <!-- <form class="js-form form">
+          <input type="text" placeholder="What is your name?" />
+        </form>
+        <h4 class="js-greetings greetings"></h4> -->
+
+        <div id="greeting" class="widget-container greeting bold">
+          <span class="side"></span>
+          <span class="content">
+            <span class="message"></span><!--
+         --><span class="name-wrapper"><!--
+             --><span class="name" spellcheck="false" contenteditable="false"></span><!--
+             --><span class="punctuation">.</span>
+            </span>
+          </span>
+          <span class="side"></span>
+        </div>
+      
+        <!-- <form class="js-toDoForm">
+          <input type="text" placeholder="Write a to do" />
+        </form>
+      
+        <ul class="js-toDoList"></ul> -->
+    </div>
+    <div class="bottom-row">
+      <div class="bottom-left"></div>
+      <div class="bottom-right">
+        
+        <div id="todo" class="widget-container todo">
+          <div class="widget-wrapper nipple-bottom-right">
+            <div class="widget-popup">
+              <div class="todo-header">
+                <div class="list-row">
+                  <div class="active-list-container">
+                    <div class="list-chooser-toggle has-icon-wrapper">
+                      <span class="active-list-name"></span>
+                      <div class="icon-wrapper">
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <ul class="dropdown list-chooser nipple-top-left nipple--u-bg">
+                      <!-- <li class="list-chooser-item" data-list-id="1-inbox">
+                        <span class="list-name">Inbox</span>
+                        <span class="todo-count">0</span>
+                      </li>
+                      <li class="list-chooser-item active" data-list-id="1-today">
+                        <span class="list-name">Today</span>
+                        <span class="todo-count">10</span>
+                      </li>
+                      <li class="list-chooser-item" data-list-id="1-done">
+                        <span class="list-name">Done</span>
+                        <span class="todo-count">0</span>
+                      </li> -->
+                    </ul>
+                  </div>
+                  <!-- <div class="todo-actions"></div> -->
+                </div>
+              </div>
+              <div class="todo-list-wrapper">
+                <ol class="todo-list">
+
+                  <!-- <li class="empty">
+                    <p class="empty-title">Add a todo to get started</p>
+                    <div class="empty-link">
+                      Switch to Today<i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </div>
+                    <button class="button new-todo-button">New Todo</button>
+                  </li> -->
+
+                  <!-- <li class="todo-item">
+                    <div class="todo-item-action">
+                      <div class="todo-move-list-toggle icon-wrapper">
+                        <i class="fa fa-folder" aria-hidden="true"></i>
+                      </div>
+                      <div class="todo-delete-list-toggle icon-wrapper">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <label>
+                      <input class="todo-item-checkbox" type="checkbox" />
+                    </label>
+                    <span class="todo-item-title">오늘의 날씨는 너무 춥다.</span>
+                  </li>
+
+                  <li class="todo-item done">
+                    <div class="todo-item-action">
+                      <div class="todo-move-list-toggle icon-wrapper">
+                        <i class="fa fa-folder" aria-hidden="true"></i>
+                      </div>
+                      <div class="todo-delete-list-toggle icon-wrapper">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                      </div>
+                    </div>
+                    <label>
+                      <input class="todo-item-checkbox" type="checkbox" />
+                    </label>
+                    <span class="todo-item-title">오늘의 날씨는 너무 춥다.</span>
+                  </li> -->
+                  
+                </ol>
+              </div>
+              <div class="todo-footer">
+                <input class="todo-new" type="text" placeholder="New Todo" />
+              </div>
+            </div>
+          </div>
+          <span class="widget-dash toggle">Todo</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <DigitalDisplay 
+          now={this.state.now}
+          hour12clock={this.state.hour12clock}
+          onDoubleClick={this._toggleMeridiem.bind(this)} 
+        />
+
+         <DigitalDisplay
+          currentTime={this.state.currentTime}
+          onDoubleClick={this._handleDoubleClick}
+        />
+
+        <DigitalDisplayMeridiem
+          hour12clock={this.state.hour12clock}
+          meridiem={this.state.meridiem}
+        />

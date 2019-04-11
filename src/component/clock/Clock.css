@@ -1,0 +1,21 @@
+.clock .time {
+  color: #fff;
+  font-size: 1050%;
+  letter-spacing: -5px;
+  cursor: default;
+}
+
+.clock .format {
+  opacity: 0;
+  position: absolute;
+  left: 101%;
+  bottom: 9%;
+  font-size: 150%;
+  text-transform: uppercase;
+}
+
+.clock .format.show {
+  opacity: 1;
+  animation: fadeout 4s ease 4s 1 normal;
+  animation-fill-mode: forwards;
+}

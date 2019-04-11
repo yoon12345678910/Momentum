@@ -1,6 +1,6 @@
 # Momentum
 
-*vanillaJS*
+*reactJS*
 
 구현 기능
 ---

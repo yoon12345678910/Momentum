@@ -1,55 +1,35 @@
 // https://meetup.toast.com/posts/153
+
 const path = require('path');
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = (env, options) => {
+module.exports = (_, options) => {
   const config = {
-    entry: {
-      app: ['./src/index.js']
-    },
+    entry: './src/index.js',
     output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist')
-    },
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all'
-          }
-        }
-      }
+      filename: 'bundle.js',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: ''
     },
     module: {
       rules: [
         {
-          test: /\.css$/,
-          use: [
-            {
-              loader: 'style-loader',
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: true
-              }
-            }
-          ]
+          test: /\.(js|jsx)$/,
+          exclude: /node_modules/,
+          loader: 'babel-loader',
+          query: {
+            cacheDirectory: true,
+            plugins: [
+              'react-hot-loader/babel',
+              '@babel/transform-runtime'
+            ]
+          }
         },
         {
-          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [{
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/'
-            }
-          }]
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader?sourceMap'],
         }
       ]
     },
@@ -61,20 +41,29 @@ module.exports = (env, options) => {
       new HtmlWebpackPlugin({
         title: 'Development',
         showErrors: true,
-        template: path.join(__dirname, './src/index.html'),
+        template: './src/index.html',
+        filename: './index.html'
       }),
-      new CopyWebpackPlugin([
-        { from: './src/asset/', to: './asset'}
-      ])
     ];
 
-    config.devtool = 'inline-source-map';
+    config.devtool = 'source-map';
 
     config.devServer = {
+      headers: 
+        { 'Access-Control-Allow-Origin': '*' },
+      // inline: true,
+      disableHostCheck: true,
       hot: true,
+      filename: 'bundle.js',
       contentBase: path.resolve(__dirname, 'src'),
       stats: {
-        color: true
+        assets: false,
+        colors: true,
+        version: false,
+        hash: false,
+        timings: false,
+        chunks: false,
+        chunkModules: false
       }
     };
   } else {

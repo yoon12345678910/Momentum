@@ -1,114 +1,100 @@
-export default class {
+import React from 'react';
+import moment from 'moment';
+import Dashboard from './Dashboard';
+import WeatherDetails from './WeatherDetails';
+import LocationNameInput from './LocationNameInput';
+import Forecast from './Forecast';
+import './Weather.css'
+
+export default class Weather extends React.Component {
   constructor() {
+    super();
+
     this.LS_KEY = 'weather';
     this.API_KEY = '4514b9d5bb75f12330b26b56f8731058';
-    this.API_TYPE_KEY = {
+    this.SEARCH_KEY = {
       COORDS: 'coords',
-      CITY: 'cidy'
+      CITY: 'city'
     };
-    this.ICON = { // icon mapping (openweathermap{d:day,n:night} : meteocons)
-      '01d': 'B',   '01n': '2', // clear sky
-      '02d': 'H',   '02n': '4', // few clouds
-      '03d': 'N',   '03n': '5', // scattered clouds
-      '04d': 'Y',   '04n': '%', // broken clouds
-      '09d': 'T',   '09n': '!', // shower rain
-      '10d': 'R',   '10n': '8', // rain
-      '11d': '0',   '11n': '&', // thunderstorm
-      '13d': 'W',   '13n': '#', // snow
-      '50d': 'M',   '50n': 'M'  // mist
+    this.WEEKS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    this.state = {
+      isShownPopup: false,
+      locationName: '',
+      foundLocationName: '',
+      currentWeather: null,
+      weatherForecast: null,
+      selectedDate: -1
     };
-    this.WEEKS = new Array('Sunday', 'Monday', 'Tuesday', 'wednesday', 'Thursdasy', 'Friday', 'Saturday');
-    this.containerEl = document.querySelector('#weather')
-    this.dashEl = this.containerEl.querySelector('.widget-dash'),
-    this.dashIconEl = this.dashEl.querySelector('.icon-weather'),
-    this.dashTempEl = this.dashEl.querySelector('.weather-temp'),
-    this.dashLocationEl = this.dashEl.querySelector('.location-name'),
-    this.wrapperEl = this.containerEl.querySelector('.widget-wrapper'),
-    this.currentEl = this.wrapperEl.querySelector('.weather-current'),
-    this.currentIconEl = this.currentEl.querySelector('.icon-weather'),
-    this.currentTempEl = this.currentEl.querySelector('.weather-temp'),
-    this.currentLocationEl = this.currentEl.querySelector('.location-name'),
-    this.conditionsEl = this.wrapperEl.querySelector('.weather-conditions'),
-    this.forecastEl = this.wrapperEl.querySelector('.weather-forecast');
-    this.enterCity = '';
-    this.activeWidgetWrapper = false;
-    this.onToggleWidgetWrapper;
-    this.defaultData = {};
-    this.weatherData = {};
-    this.forecastData = {};
+    this.handleTogglePopup = this.handleTogglePopup.bind(this);
+    this.handleSubmitLocationName = this.handleSubmitLocationName.bind(this);
+    this.handleChangeLocationName = this.handleChangeLocationName.bind(this);
+    this.handleClickForecastedDay = this.handleClickForecastedDay.bind(this);
   }
 
-  init() {
-    this._loadLS();
-
-    this.dashEl.addEventListener('click', this._handleToggleWidgetWrapper.bind(this));
-  
-    this.currentLocationEl.addEventListener('keydown', function (e) {
-      const keyCode = e.keyCode ? e.keyCode : e.which;
-      if (keyCode === 13) {
-        e.preventDefault();
-        this.blur();
-      }
-    });
-  
-    this.currentLocationEl.addEventListener('dblclick', function () {
-      this.currentLocationEl.activeContenteditable();
-      this.enterCity = this.currentLocationEl.innerText;
-    }.bind(this));
-  
-    this.currentLocationEl.addEventListener('focusout', function (e) {
-      this._handleSearchInput();
-    }.bind(this));
-  }
-
-  _handleToggleWidgetWrapper (e) {
-    const changeDisplay = () => {
-      this.activeWidgetWrapper = this.activeWidgetWrapper ? false : true;
-      this.containerEl.classList.toggle('show');  
-      this.wrapperEl.classList.toggle('show-fade-in');
-    }
-
-    const outsideClickListener = (e) => {
-      if (this.dashEl.contains(e.target)) return;
-      if (!this.wrapperEl.contains(e.target)) {
-        changeDisplay();
-        removeClickListener();
-      }
-    }
-
-    const removeClickListener = () => {
-      document.removeEventListener('click', this.onToggleWidgetWrapper);
-    }
-
-    changeDisplay();
-
-    if (this.activeWidgetWrapper) {
-      this.onToggleWidgetWrapper = outsideClickListener.bind(this);
-      document.addEventListener('click', this.onToggleWidgetWrapper);
+  componentDidMount() {
+    const loadedCoords= JSON.parse(localStorage.getItem(this.LS_KEY));
+    if (loadedCoords === null) {
+      this.askForCoords();
     } else {
-      removeClickListener();
+      this.searchWeather(loadedCoords);
     }
   }
 
+  askForCoords = async () => {
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+      const { latitude, longitude } = position.coords;
+      const searchReq = {
+        key: this.SEARCH_KEY.COORDS,
+        lat: latitude,
+        lon: longitude
+      };
+      this.searchWeather(searchReq);
+    } catch (error) {
+      console.error('Cant access geo location ' + error);
+    }
+  }
 
-  _mappingWeaterObj (obj) {
-    const timestamp = obj.dt * 1000;
-    const date = new Date(timestamp);
-    return  {
+  searchWeather = async (searchReq) => {
+    const searchQuery = searchReq.key === this.SEARCH_KEY.COORDS ? 
+      `lat=${searchReq.lat}&lon=${searchReq.lon}`
+      : `q=${searchReq.locationName}`;
+    const currentWeather = await this.callCurrentWeather(searchQuery);
+    const forecast = await this.callForecast(searchQuery);
+    
+    if (currentWeather && forecast) {
+      forecast[currentWeather.date] = currentWeather;
+      this.setState({
+        locationName: currentWeather.locationName,
+        foundLocationName: currentWeather.locationName,
+        currentWeather,
+        forecast,
+        selectedDate: -1,
+      });
+      localStorage.setItem(this.LS_KEY, JSON.stringify({
+        key: this.SEARCH_KEY.CITY,
+        locationName: currentWeather.locationName
+      }));
+    } else {
+      this.setState({
+        locationName: this.state.foundLocationName
+      });
+    }
+  }
+
+  parseWeatherData = (obj) => {
+    const timestamp = obj.dt * 1000
+    const d = moment(timestamp)
+    return {
       dt: timestamp,
-      dd: date.getDay(),
-      dt_txt: (() => {
-        return [date.getFullYear(),
-          (date.getMonth() + 1).padLeft(),
-          date.getDate().padLeft()].join('-')
-        + ' ' + 
-        [date.getHours().padLeft(),
-          date.getMinutes().padLeft(),
-          date.getSeconds().padLeft()].join(':');
-      })(),
-      temp: Math.floor(obj.main.temp),
-      temp_min: Math.floor(obj.main.temp_min),
-      temp_max: Math.floor(obj.main.temp_max),
+      date: parseInt(d.format('YYYYMMDD')),
+      hours: parseInt(d.format('H')),
+      day: this.WEEKS[d.day()],
+      temp: obj.main.temp,
+      temp_min: obj.main.temp_min,
+      temp_max: obj.main.temp_max,
       pressure: obj.main.pressure,
       humidity: obj.main.humidity,
       weather: obj.weather[0],
@@ -116,165 +102,131 @@ export default class {
     }
   }
 
-  _getCurrentWeather (weatherObj) {
-    const searchKeyword = `${weatherObj.key === this.API_TYPE_KEY.CITY ?`q=${weatherObj.data.name}` : `lat=${weatherObj.data.lat}&lon=${weatherObj.data.lng}`}`;
-
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?${searchKeyword}&appid=${this.API_KEY}&units=metric&lang=kr`
-    ).then(function(response) {
-      return response.json()
-    }).then(function(json) {
-      this.weatherData = this._mappingWeaterObj(json);
-      this.defaultData.city = json.name;
-      this.defaultData.country = json.sys.country;
-  
-      this.dashEl.title = this.weatherData.weather.main;
-      this.dashIconEl.dataset.icon = this.ICON[this.weatherData.weather.icon];
-      this.dashTempEl.innerText = `${this.weatherData.temp}°`;
-      this.dashLocationEl.innerText = `${this.defaultData.city}, ${this.defaultData.country}`;
-      this.currentIconEl.title = this.weatherData.weather.main;
-      this.currentIconEl.dataset.icon = this.ICON[this.weatherData.weather.icon];
-      this.currentTempEl.innerText = `${this.weatherData.temp}°`;
-      this.currentLocationEl.innerText = `${this.defaultData.city}, ${this.defaultData.country}`;
-      this.conditionsEl.innerText = this.weatherData.weather.main;;
-  
-      this.enterCity = weatherObj.data.name;
-      this._saveLS(weatherObj);
-    }.bind(this)).catch(function(error) {
-      this.currentLocationEl.innerText = this.enterCity;
-      console.error('getCurrentWeather: ' + error.message);
-    }.bind(this));
+  callCurrentWeather = (searchQuery) => {
+    return fetch(`https://api.openweathermap.org/data/2.5/weather?${searchQuery}&appid=${this.API_KEY}&units=metric&lang=kr`)
+      .then(response => response.json())
+      .then(json => {
+        if (json.cod === '404') return false;
+        const currentWeather = this.parseWeatherData(json);
+        currentWeather.coords = json.coord;
+        currentWeather.locationName = `${json.name}, ${json.sys.country}`;
+        return currentWeather;
+      })
+      .catch(err => console.error(err));
   }
-  
-  _getForecast(weatherObj) {
-    this.forecastEl.classList.remove('show');
 
-    const searchKeyword = `${weatherObj.key === this.API_TYPE_KEY.CITY ?`q=${weatherObj.data.name}` : `lat=${weatherObj.data.lat}&lon=${weatherObj.data.lng}`}`;
+  callForecast = (searchQuery) => {
     const cnt = (() => {
       const REQUEST_MAX_CNT = 39;
-      return REQUEST_MAX_CNT - Math.floor(new Date().getHours() / 3);
-    })()
+      return REQUEST_MAX_CNT - Math.floor(moment().format('H') / 3);
+    })();
 
-    fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?${searchKeyword}&appid=${this.API_KEY}&units=metric&lang=kr&cnt=${cnt}`
-    ).then(function(response) {
-      return response.json()
-    }).then(function(json) {
-      const DISPLAY_TIME_1 = 12;
-      const DISPLAY_TIME_2 = 15;
-
-      this.forecastData = json.list
-        .map((f) => this._mappingWeaterObj(f))
-        .filter((f,i ) => {
-          return new Date().getDay() !== new Date(f.dt).getDay()
-        })
-        .reduce((acc, f) => {
-          const d = new Date(f.dt);
-          const fHours = d.getHours();
-          const fDate = f.dt_txt.split(' ')[0];
-          if (!acc[`${fDate}`] || fHours === DISPLAY_TIME_1 || fHours === DISPLAY_TIME_2) {
-            acc[`${fDate}`] = f;
-          }
-          const o = acc[`${fDate}`];
-          o.temp_min = Math.min(o.temp, f.temp);
-          o.temp_max = Math.max(o.temp, f.temp);
-          return acc;
-        }, {});
-
-      while (this.forecastEl.hasChildNodes()) {
-        this.forecastEl.removeChild(this.forecastEl.firstChild); 
-      }
-  
-      for (const [key, item] of Object.entries(this.forecastData)) {
-        const fItem = document.createElement('div');
-        const fLabel = document.createElement('div');
-        const fIcon = document.createElement('span');
-        const fHigh = document.createElement('span');
-        const fLow = document.createElement('span');
-
-        fItem.classList.add('weather-forecast-item');
-        fLabel.classList.add('weather-forecast-label');
-        fIcon.classList.add('icon', 'icon-weather');
-        fHigh.classList.add('weather-forecast-high');
-        fLow.classList.add('weather-forecast-low');
-
-        fItem.setAttribute('data-day', key);
-        fItem.title = item.weather.main;
-        fLabel.innerText = this.WEEKS[item.dd];
-        fIcon.dataset.icon = this.ICON[item.weather.icon];
-        fHigh.innerText = `${item.temp_max}°`;
-        fLow.innerText = `${item.temp_min}°`;
-
-        fItem.appendChild(fLabel);
-        fItem.appendChild(fIcon);
-        fItem.appendChild(fHigh);
-        fItem.appendChild(fLow);
-        this.forecastEl.appendChild(fItem);
-      }
-
-      this.forecastEl.classList.add('show');
-    }.bind(this)).catch(function(error) {
-      console.error('getForecast: ' + error.message);
-    }.bind(this));
+    return fetch(`https://api.openweathermap.org/data/2.5/forecast?${searchQuery}&appid=${this.API_KEY}&units=metric&lang=kr&cnt=${cnt}`)
+      .then(response => response.json())
+      .then(json => {
+        if (json.cod === '404') return false;
+        return json.list
+          .map(f => this.parseWeatherData(f))
+          .reduce((acc, f) => {
+            let item = acc[f.date] || f;
+            if (f.hours >= 12 && f.hours <= 15) {
+              item = f;
+            }
+            item.temp_max = Math.max(item.temp_max, f.temp_max);
+            item.temp_min = Math.min(item.temp_min, f.temp_min);
+            acc[f.date] = item;
+            return acc;
+          }, {});
+      })
+      .catch(err => console.error(err));
   }
-  
-  _handleSearchInput() {
-    const currentValue = this.currentLocationEl.innerText.replace(/\s/gi, '');
-    const weatherObj = {
-      key: this.API_TYPE_KEY.CITY,
-      data: {
-        name: currentValue
-      }
-    };
-  
-    if (currentValue === this.enterCity.replace(/\s/gi, '')) return;
 
-    this.currentLocationEl.inactiveContenteditable();
-  
-    if (currentValue.length) {
-      this._getCurrentWeather(weatherObj);
-      this._getForecast(weatherObj);
+  isTodayWeather = () => {
+    return this.state.selectedDate === -1
+      || this.state.selectedDate === this.state.currentWeather.date;
+  }
+
+  getWeatherDataToPrint = () => {
+    return this.state.selectedDate === -1 ? 
+      this.state.currentWeather : this.state.forecast[this.state.selectedDate];
+  }
+
+  handleTogglePopup = () => {
+    this.setState({
+      isShownPopup: this.state.isShownPopup ? false : true
+    });
+  }
+
+  handleSubmitLocationName = (isVerified) => {
+    if (isVerified) {
+      const searchReq = {
+        key: this.SEARCH_KEY.CITY,
+        locationName: this.state.locationName
+      };
+      this.searchWeather(searchReq);
     } else {
-      this.currentLocationEl.innerText = this.enterCity;
+      this.setState({
+        locationName: this.state.foundLocationName
+      });
     }
   }
 
-  _askForCoords() {
-    navigator.geolocation.getCurrentPosition(
-      function (position) {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        const weatherObj = {
-          key: this.API_TYPE_KEY.COORDS,
-          data: {
-            lat,
-            lng
-          }
-        };
-      
-        this._saveLS(weatherObj);
-        this._getCurrentWeather(weatherObj);
-        this._getForecast(weatherObj);
-      }.bind(this),
-      function () {
-        console.error('Cant access geo location');
-      }
-    );
+  handleChangeLocationName = (e) => {
+    this.setState({
+      locationName: e.target.value
+    });
   }
 
-  _loadLS() {
-    const loadedCoords= localStorage.getItem(this.LS_KEY);
-
-    if (loadedCoords === null) {
-      this._askForCoords();
-    } else {
-      const parseData = JSON.parse(loadedCoords);
-      this._getCurrentWeather(parseData);
-      this._getForecast(parseData);
-    }
+  handleClickForecastedDay = (selectedDate) => {
+    const isSelected = this.state.selectedDate === selectedDate;
+    this.setState({
+      selectedDate: isSelected ? -1 : selectedDate
+    });
   }
 
-  _saveLS(weatherObj) {
-    localStorage.setItem(this.LS_KEY, JSON.stringify(weatherObj));
+  render() {
+    return (
+      <div id="weather" className={"widget-container weather " +  (this.state.isShownPopup ? "show" : "")}>
+        {this.state.currentWeather ?
+        (<div>
+          <Dashboard
+            isShownPopup={this.state.isShownPopup}
+            currentWeather={this.state.currentWeather}
+            clickVerifier={(el) => { return !!this.popupWrapperRef.contains(el); }}
+            onTogglePopup={this.handleTogglePopup}
+          /> 
+          <div
+            ref={node => this.popupWrapperRef = node}
+            className={"widget-wrapper nipple-top-right " + (this.state.isShownPopup ? "show-fade-in" : "")}>
+            <div className="widget-popup">
+              <div className="weather-current">
+                <div className="weather-header">
+                  <span className="weather-location">
+                    <LocationNameInput
+                      locationName={this.state.locationName}
+                      foundLocationName={this.state.foundLocationName}
+                      onSubmit={this.handleSubmitLocationName}
+                      onChange={this.handleChangeLocationName}
+                    />
+                    <span className="day">
+                      {this.isTodayWeather() ? "" : this.getWeatherDataToPrint().day}
+                    </span>
+                  </span>
+                </div>
+                <WeatherDetails
+                  isTodayWeather={this.isTodayWeather()}
+                  weatherData={this.getWeatherDataToPrint()} 
+                />
+              </div>
+              <Forecast
+                selectedDate={this.state.selectedDate}
+                onClick={this.handleClickForecastedDay}
+                forecast={this.state.forecast}
+              />
+            </div>
+          </div>
+        </div>) : null}
+      </div>
+    )
   }
 }

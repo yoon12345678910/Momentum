@@ -136,6 +136,14 @@ String.prototype.capitalizeFirstLetter = function () {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
+// Object.prototype.isEmpty = function() {
+//   for(var key in this) {
+//       if(this.hasOwnProperty(key))
+//           return false;
+//   }
+//   return true;
+// }
+
 
 window.getToday = function (date) {
   // const date = new Date();

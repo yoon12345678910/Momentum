@@ -1,23 +1,52 @@
-export default class {
-  constructor(imgNumber = 40) {
-    this.imgNumber = imgNumber;
-  }
+import React from 'react';
+import ImageLoader from './ImageLoader';
+import './Background.css';
 
-  init() {
-    this._paintImage(Math.floor(Math.random() * this.imgNumber));
-  }
+export default class Background extends React.Component {
+  constructor() {
+    super()
 
-  _paintImage(imgNumber) {
-    const image = new Image();
-    const li = document.createElement('li');
-    const imgSrc = `/asset/images/${imgNumber + 1}.jpg`;
-  
-    image.onload = function () {
-      li.style.backgroundImage = `url('${imgSrc}')`;
-      li.classList.add('fadeIn');
-      document.querySelector('#background').appendChild(li);
+    this.IMG_MAX = 40
+    this.state = {
+      loaded: false
     }
-    image.src = imgSrc;
+    this._handleLoadedImage = this._handleLoadedImage.bind(this)
   }
 
+  componentWillMount() {
+    this._changeImage(Math.floor(Math.random() * this.IMG_MAX) + 1)
+  }
+
+  _handleLoadedImage = () => {
+    this.setState({
+      loaded: true
+    })
+  }
+
+  _changeImage = (image) => {
+    this.setState({
+      loaded: false,
+      image
+    })
+  }
+
+  _imageUrl = () => `/asset/images/${this.state.image}.jpg`
+
+  render() {
+    return (
+      <ul id="background" 
+        className="background">
+        {
+          this.state.loaded ?
+          <li className="fadeIn"
+            style={{backgroundImage: 'url(' + this._imageUrl() + ')'}}>
+          </li>
+         : <ImageLoader 
+              imageUrl={this._imageUrl()} 
+              onLoad={this._handleLoadedImage} 
+            />
+          }
+      </ul>
+    )
+  }
 }
