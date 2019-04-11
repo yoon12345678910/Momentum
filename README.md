@@ -10,5 +10,5 @@
 - [x] Greeting
 - [x] Weather
 - [x] Todo
-- [] Main Focus
-- [] Search
+- [ ] Main Focus
+- [ ] Search
